@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.WeatherApi;
+package com.vkochenkov.weatherfromopenapis.retrofit;
 
 import android.app.Application;
 
