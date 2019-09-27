@@ -1,7 +1,9 @@
 package com.vkochenkov.weatherfromopenapis.entities.response;
 
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 public class DetailInformation {
     private String time;
