@@ -6,11 +6,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.vkochenkov.weatherfromopenapis.entities.response.DetailInformation;
 import com.vkochenkov.weatherfromopenapis.entities.response.MainResponseObject;
 import com.vkochenkov.weatherfromopenapis.retrofit.WeatherApiManager;
 
 import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText latitudeField;
     private EditText longitudeField;
 
-    // параметры в урл
+    // параметры, проставляемые в урл
     private String KEY = "f5483d10bb2fca550ed960234826950f"; //ключ доступа аккаунта к АПИ
     private String LATITUDE = "1"; //широта
     private String LONGITUDE = "1"; //долгота
@@ -31,12 +31,15 @@ public class MainActivity extends AppCompatActivity {
     // сообщение, отображаемое на экране
     private String message = "";
 
+    // главный объект, куда подставятся данные ответа от апишки
     MainResponseObject mainResponseObject;
 
     // локальные переменные для параметров
     private String localTime;
     private String temperatureCel;
     private String pressure;
+    private String humidity;
+    private Double humidityPercent;
     private Double pressurePa;
     private Double pressureMm;
 
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         //todo add parser for change "," to "."
     }
 
+    // основной метод отправки запроса и приема ответа
     public void getWeatherFromApi() {
         WeatherApiManager
             .getRequest()
@@ -73,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
                     localTime = getLocalTime();
                     temperatureCel = mainResponseObject.getCurrently().getTemperature();
+                    humidity = mainResponseObject.getCurrently().getHumidity();
+                    humidityPercent = Double.parseDouble(humidity)*100;
                     pressure = mainResponseObject.getCurrently().getPressure();
                     pressurePa = Double.parseDouble(pressure)*100; //переводим из строки и из гекто-Паскалей в Паскили
                     pressureMm = Math.ceil(pressurePa/133.3); //переводим в мм.рт.ст.
@@ -82,13 +88,32 @@ public class MainActivity extends AppCompatActivity {
                             "Долгота: " + mainResponseObject.getLongitude() + "°" + "\n" +
                             "Тайм-зона: " + mainResponseObject.getTimezone() + "\n" +
                             "Дата и время: " + localTime + "\n" +
-                            "Температура: " + temperatureCel + " °C" + "\n" +
-                            "Давление: " + pressurePa + "  Па" + "\n" +
+                            "Температура: " + temperatureCel + "°C" + "\n" +
+                            "Влажность: " + humidityPercent + "%" + "\n" +
                             "Давление: " + pressureMm + "  мм.рт.ст." + "\n" +
                             "Скорость ветра: " + response.body().getCurrently().getWindSpeed() + " м/с" + "\n" +
                             "Общий прогноз: " + response.body().getCurrently().getSummary()  + "\n" +
                             "ICON: " + response.body().getCurrently().getIcon()  + "\n";
                     showMessage();
+
+                    /*
+                    for icon:
+                     clear-day,
+                     clear-night,
+                     rain,
+                     snow,
+                     sleet,
+                     wind,
+                     fog,
+                     cloudy,
+                     partly-cloudy-day,
+                     partly-cloudy-night
+                     */
+                    //todo добавить обработку иконок
+
+                    //todo добавить запрос местоположения девайса
+
+                    //todo добавить погоду на завтра
                 }
 
                 @Override
@@ -99,11 +124,13 @@ public class MainActivity extends AppCompatActivity {
             });
     }
 
+    // нажатие на кнопку
     public void getWeather(View view) throws InterruptedException {
         getParamsFromFields();
         getWeatherFromApi();
     }
 
+    // нажатие на кнопку
     public void setLocation(View view) {
         latitudeField.setText("59.939095");
         longitudeField.setText("30.315868");
