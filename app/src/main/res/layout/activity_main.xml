@@ -105,12 +105,12 @@
                 android:text="init text" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/img_view_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:includeFontPadding="false"
-                app:srcCompat="@android:drawable/ic_menu_search"
+                app:srcCompat="@drawable/clear_night"
                 tools:layout_editor_absoluteX="141dp"
                 tools:layout_editor_absoluteY="352dp" />
 

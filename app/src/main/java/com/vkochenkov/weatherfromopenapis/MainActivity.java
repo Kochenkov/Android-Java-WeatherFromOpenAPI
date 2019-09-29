@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vkochenkov.weatherfromopenapis.entities.response.MainResponseObject;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewResult;
     private EditText latitudeField;
     private EditText longitudeField;
+    private ImageView iconViewImage;
 
     // параметры, проставляемые в урл
     private String KEY = "f5483d10bb2fca550ed960234826950f"; //ключ доступа аккаунта к АПИ
@@ -39,9 +41,11 @@ public class MainActivity extends AppCompatActivity {
     private String temperatureCel;
     private String pressure;
     private String humidity;
+    private String icon;
     private Double humidityPercent;
     private Double pressurePa;
     private Double pressureMm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         textViewResult = findViewById(R.id.text_view_result);
         longitudeField = findViewById(R.id.edt_longitude);
         latitudeField = findViewById(R.id.edt_latitude);
+        iconViewImage = findViewById(R.id.img_view_icon);
     }
 
     public void getParamsFromFields() {
@@ -75,40 +80,69 @@ public class MainActivity extends AppCompatActivity {
 
                     mainResponseObject = response.body();
 
-                    localTime = getLocalTime();
+                    localTime = getLocalTime(); // не будет использоваться
                     temperatureCel = mainResponseObject.getCurrently().getTemperature();
                     humidity = mainResponseObject.getCurrently().getHumidity();
                     humidityPercent = Double.parseDouble(humidity)*100;
                     pressure = mainResponseObject.getCurrently().getPressure();
                     pressurePa = Double.parseDouble(pressure)*100; //переводим из строки и из гекто-Паскалей в Паскили
                     pressureMm = Math.ceil(pressurePa/133.3); //переводим в мм.рт.ст.
+                    icon = response.body().getCurrently().getIcon(); //для теста
 
                     message =
                             "Широта: " + mainResponseObject.getLatitude() + "°" + "\n" +
                             "Долгота: " + mainResponseObject.getLongitude() + "°" + "\n" +
                             "Тайм-зона: " + mainResponseObject.getTimezone() + "\n" +
-                            "Дата и время: " + localTime + "\n" +
                             "Температура: " + temperatureCel + "°C" + "\n" +
                             "Влажность: " + humidityPercent + "%" + "\n" +
                             "Давление: " + pressureMm + "  мм.рт.ст." + "\n" +
                             "Скорость ветра: " + response.body().getCurrently().getWindSpeed() + " м/с" + "\n" +
-                            "Общий прогноз: " + response.body().getCurrently().getSummary()  + "\n" +
-                            "ICON: " + response.body().getCurrently().getIcon()  + "\n";
+                            "Общий прогноз: " + response.body().getCurrently().getSummary()  + "\n";
                     showMessage();
 
-                    /*
-                    for icon:
-                     clear-day,
-                     clear-night,
-                     rain,
-                     snow,
-                     sleet,
-                     wind,
-                     fog,
-                     cloudy,
-                     partly-cloudy-day,
-                     partly-cloudy-night
-                     */
+                    switch (icon) {
+                        case ("clear-day"): {
+                            iconViewImage.setImageResource(R.drawable.clear_day);
+                            break;
+                        }
+                        case ("clear-night"): {
+                            iconViewImage.setImageResource(R.drawable.clear_night);
+                            break;
+                        }
+                        case ("rain"): {
+                            iconViewImage.setImageResource(R.drawable.rain);
+                            break;
+                        }
+                        case ("snow"): {
+                            iconViewImage.setImageResource(R.drawable.snow);
+                            break;
+                        }
+                        case ("sleet"): {
+                            iconViewImage.setImageResource(R.drawable.sleet);
+                            break;
+                        }
+                        case ("wind"): {
+                            iconViewImage.setImageResource(R.drawable.wind);
+                            break;
+                        }
+                        case ("fog"): {
+                            iconViewImage.setImageResource(R.drawable.fog);
+                            break;
+                        }
+                        case ("cloudy"): {
+                            iconViewImage.setImageResource(R.drawable.cloudy);
+                            break;
+                        }
+                        case ("partly-cloudy-day"): {
+                            iconViewImage.setImageResource(R.drawable.partly_cloudy_day);
+                            break;
+                        }
+                        case ("partly-cloudy-night"): {
+                            iconViewImage.setImageResource(R.drawable.partly_cloudy_night);
+                            break;
+                        }
+                    }
+
                     //todo добавить обработку иконок
 
                     //todo добавить запрос местоположения девайса
