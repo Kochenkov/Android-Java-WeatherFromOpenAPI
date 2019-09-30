@@ -74,13 +74,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<MainResponseObject> call, Response<MainResponseObject> response) {
                     if (!response.isSuccessful()) {
                         message = "Something went wrong. Response code: " + response.code();
-                        showMessage();
+                        showMessage(message);
                         return;
                     }
 
                     mainResponseObject = response.body();
 
-                    localTime = getLocalTime(); // не будет использоваться
+                    //localTime = getLocalTime(); - не будет использоваться
                     temperatureCel = mainResponseObject.getCurrently().getTemperature();
                     humidity = mainResponseObject.getCurrently().getHumidity();
                     humidityPercent = Double.parseDouble(humidity)*100;
@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     icon = response.body().getCurrently().getIcon(); //для теста
 
                     message =
+                            "Текущая погода в заданной области" + "\n" +
                             "Широта: " + mainResponseObject.getLatitude() + "°" + "\n" +
                             "Долгота: " + mainResponseObject.getLongitude() + "°" + "\n" +
                             "Тайм-зона: " + mainResponseObject.getTimezone() + "\n" +
@@ -98,52 +99,9 @@ public class MainActivity extends AppCompatActivity {
                             "Давление: " + pressureMm + "  мм.рт.ст." + "\n" +
                             "Скорость ветра: " + response.body().getCurrently().getWindSpeed() + " м/с" + "\n" +
                             "Общий прогноз: " + response.body().getCurrently().getSummary()  + "\n";
-                    showMessage();
+                    showMessage(message);
 
-                    switch (icon) {
-                        case ("clear-day"): {
-                            iconViewImage.setImageResource(R.drawable.clear_day);
-                            break;
-                        }
-                        case ("clear-night"): {
-                            iconViewImage.setImageResource(R.drawable.clear_night);
-                            break;
-                        }
-                        case ("rain"): {
-                            iconViewImage.setImageResource(R.drawable.rain);
-                            break;
-                        }
-                        case ("snow"): {
-                            iconViewImage.setImageResource(R.drawable.snow);
-                            break;
-                        }
-                        case ("sleet"): {
-                            iconViewImage.setImageResource(R.drawable.sleet);
-                            break;
-                        }
-                        case ("wind"): {
-                            iconViewImage.setImageResource(R.drawable.wind);
-                            break;
-                        }
-                        case ("fog"): {
-                            iconViewImage.setImageResource(R.drawable.fog);
-                            break;
-                        }
-                        case ("cloudy"): {
-                            iconViewImage.setImageResource(R.drawable.cloudy);
-                            break;
-                        }
-                        case ("partly-cloudy-day"): {
-                            iconViewImage.setImageResource(R.drawable.partly_cloudy_day);
-                            break;
-                        }
-                        case ("partly-cloudy-night"): {
-                            iconViewImage.setImageResource(R.drawable.partly_cloudy_night);
-                            break;
-                        }
-                    }
-
-                    //todo добавить обработку иконок
+                    showIcon(icon);
 
                     //todo добавить запрос местоположения девайса
 
@@ -153,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<MainResponseObject> call, Throwable t) {
                     message = t.getMessage();
-                    showMessage();
+                    showMessage(message);
                 }
             });
     }
@@ -165,17 +123,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // нажатие на кнопку
-    public void setLocation(View view) {
+    public void setSPbLocation(View view) {
         latitudeField.setText("59.939095");
         longitudeField.setText("30.315868");
     }
 
-    public void showMessage() {
+    public void showMessage(String message) {
         textViewResult.setText(message);
     }
 
-    public String getLocalTime() {
-        Date date = new Date();
-        return date.toString();
+//    public String getLocalTime() {
+//        Date date = new Date();
+//        return date.toString();
+//    }
+
+    public void showIcon(String icon) {
+        switch (icon) {
+            case ("clear-day"):
+                iconViewImage.setImageResource(R.drawable.clear_day);
+                break;
+            case ("clear-night"):
+                iconViewImage.setImageResource(R.drawable.clear_night);
+                break;
+            case ("rain"):
+                iconViewImage.setImageResource(R.drawable.rain);
+                break;
+            case ("snow"):
+                iconViewImage.setImageResource(R.drawable.snow);
+                break;
+            case ("sleet"):
+                iconViewImage.setImageResource(R.drawable.sleet);
+                break;
+            case ("wind"):
+                iconViewImage.setImageResource(R.drawable.wind);
+                break;
+            case ("fog"):
+                iconViewImage.setImageResource(R.drawable.fog);
+                break;
+            case ("cloudy"):
+                iconViewImage.setImageResource(R.drawable.cloudy);
+                break;
+            case ("partly-cloudy-day"):
+                iconViewImage.setImageResource(R.drawable.partly_cloudy_day);
+                break;
+            case ("partly-cloudy-night"):
+                iconViewImage.setImageResource(R.drawable.partly_cloudy_night);
+                break;
+            default:
+                //todo
+                break;
+        }
+    }
+
+    public void setLocation(View view) {
+
     }
 }

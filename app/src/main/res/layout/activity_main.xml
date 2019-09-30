@@ -17,6 +17,7 @@
         tools:layout_editor_absoluteY="0dp">
 
         <LinearLayout
+            android:id="@+id/leaner_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="#A0A0A0"
@@ -45,12 +46,12 @@
                 android:id="@+id/edt_longitude"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
                 android:ems="10"
                 android:hint="Долгота (от -180 до 180)"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -61,16 +62,16 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
-                android:id="@+id/btn_set_location"
+                android:id="@+id/btn_set_spb_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:onClick="setLocation"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="setSPbLocation"
                 android:text="Задать координаты Санкт-Петербурга"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -79,15 +80,32 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
+                android:id="@+id/btn_set_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="setLocation"
+                android:text="Задать координаты девайса"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Button
                 android:id="@+id/btn_get_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
                 android:onClick="getWeather"
                 android:text="Отправить запрос"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -101,18 +119,20 @@
                 android:id="@+id/text_view_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:text="init text" />
+                android:text="initial text" />
 
             <ImageView
                 android:id="@+id/img_view_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:includeFontPadding="false"
                 app:srcCompat="@drawable/clear_night"
-                tools:layout_editor_absoluteX="141dp"
-                tools:layout_editor_absoluteY="352dp" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp" />
 
         </LinearLayout>
 
