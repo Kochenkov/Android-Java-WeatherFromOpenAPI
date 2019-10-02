@@ -13,14 +13,12 @@
         android:layout_height="fill_parent"
         android:orientation="vertical"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:background="#00c3ff">
 
         <LinearLayout
             android:id="@+id/leaner_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#A0A0A0"
             android:orientation="vertical">
 
             <EditText
@@ -69,14 +67,13 @@
                 android:id="@+id/leaner_inner_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#A0A0A0"
                 android:orientation="horizontal"
                 android:layout_gravity="center_horizontal">
 
                 <Button
                     android:id="@+id/btn_set_spb_location"
-                    android:layout_width="135dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="140dp"
+                    android:layout_height="94dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
@@ -85,7 +82,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
                     android:onClick="setSPbLocation"
-                    android:text="Задать координаты Санкт-Петербурга"
+                    android:text="Задать координаты Санкт - Петербурга"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -94,8 +91,8 @@
 
                 <Button
                     android:id="@+id/btn_set_location"
-                    android:layout_width="135dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="140dp"
+                    android:layout_height="94dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
@@ -104,7 +101,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
                     android:onClick="setLocation"
-                    android:text="Задать координаты девайса \n"
+                    android:text="Задать координаты девайса"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

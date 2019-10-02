@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,6 +20,8 @@ import com.vkochenkov.weatherfromopenapis.entities.response.MainResponseObject;
 import com.vkochenkov.weatherfromopenapis.retrofit.WeatherApiManager;
 
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,25 +29,25 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    // вьюхи
+    //вьюхи
     private TextView textViewResult;
     private EditText latitudeField;
     private EditText longitudeField;
     private ImageView iconViewImage;
 
-    // параметры, проставляемые в урл
+    //параметры, проставляемые в урл
     private String KEY = "f5483d10bb2fca550ed960234826950f"; //ключ доступа аккаунта к АПИ
     private String LATITUDE = "1"; //широта
     private String LONGITUDE = "1"; //долгота
     private String UNITS = "si"; //параметр для получения данных в системе СИ
 
-    // сообщение, отображаемое на экране
+    //сообщение, отображаемое на экране
     private String message = "";
 
-    // главный объект, куда подставятся данные ответа от апишки
+    //главный объект, куда подставятся данные ответа от апишки
     MainResponseObject mainResponseObject;
 
-    // локальные переменные для параметров
+    //локальные переменные для параметров
     private String temperatureCel;
     private String pressure;
     private String humidity;
@@ -53,9 +56,11 @@ public class MainActivity extends AppCompatActivity {
     private Double pressurePa;
     private Double pressureMm;
 
-
+    //менеджер геолокации
     LocationManager locationManager;
 
+    //флаг на таймер
+    private Boolean locationListenerFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         latitudeField = findViewById(R.id.edt_latitude);
         iconViewImage = findViewById(R.id.img_view_icon);
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
     public void getParamsFromFields() {
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         LONGITUDE = longitudeField.getText().toString();
     }
 
-    // основной метод отправки запроса и приема ответа
+    //основной метод отправки запроса и приема ответа
     public void getWeatherFromApi() {
         WeatherApiManager
                 .getRequest()
@@ -86,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                         if (!response.isSuccessful()) {
                             message = "Something went wrong. Response code: " + response.code();
                             showMessage(message);
-                            hideIcon(icon);
                             return;
                         }
 
@@ -123,18 +126,24 @@ public class MainActivity extends AppCompatActivity {
                     public void onFailure(Call<MainResponseObject> call, Throwable t) {
                         message = t.getMessage();
                         showMessage(message);
-                        hideIcon(icon);
                     }
                 });
     }
 
-    public void getWeather(View view) throws InterruptedException {
+    public void getWeather(View view) {
+        //скрыть стырые сообщения
+        hideMessage();
+        hideIcon();
+
         getParamsFromFields();
         getWeatherFromApi();
-
     }
 
     public void setSPbLocation(View view) {
+        //скрыть стырые сообщения
+        hideMessage();
+        hideIcon();
+
         latitudeField.setText("59.939095");
         longitudeField.setText("30.315868");
     }
@@ -142,6 +151,11 @@ public class MainActivity extends AppCompatActivity {
     public void showMessage(String message) {
         textViewResult.setText(message);
         textViewResult.setVisibility(textViewResult.VISIBLE);
+    }
+
+    public void hideMessage() {
+        textViewResult.setText("");
+        textViewResult.setVisibility(textViewResult.INVISIBLE);
     }
 
     public void showIcon(String icon) {
@@ -177,53 +191,77 @@ public class MainActivity extends AppCompatActivity {
                 iconViewImage.setImageResource(R.drawable.partly_cloudy_night);
                 break;
             default:
-                //todo
+                //todo дефолтную иконку, если пришло что-то иное
                 break;
         }
         iconViewImage.setVisibility(iconViewImage.VISIBLE);
     }
 
-    public void hideIcon(String icon) {
+    public void hideIcon() {
         iconViewImage.setVisibility(iconViewImage.INVISIBLE);
     }
 
-    //код для получения локации
-    //todo понять почему лос-анжелес >__<
+    //запрос на получение локации
     public void setLocation(View view) {
+        //скрыть стырые сообщения
+        hideMessage();
+        hideIcon();
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Проверка наличия разрешений
-            // Если нет разрешения на использование соответсвующих разркешений выполняем какие-то действия
+            message = "Пожалуйста, зайдите в настройки телефона, и включите разрешение геолокации для этого приложения";
+            showMessage(message);
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,listener);
 
-        locationManager.requestSingleUpdate (LocationManager.GPS_PROVIDER, listener, null);
+        //запускаем получение геолокации
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, locationListener);
 
+        //выставляем флаг и запускаем таймер, что бы геолокация не жрала батарею вечно
+        locationListenerFlag = true;
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (locationListenerFlag) {
+                    locationManager.removeUpdates(locationListener);
+                    message = "Сейчас установить вашу локацию невозможно. Попробуйте, пожалуйста, позже";
+                    //todo нужно показывать сообщение выше. Проблема в том, что если засунуть showMessage() сюда,
+                    // то происходит крэш, т.к. в этом треде нельзя обращаться ко вьюхам
+                }
+            }
+        }, 20000);
     }
 
-    private LocationListener listener = new LocationListener() {
+    //лисенер геолокации
+    private LocationListener locationListener = new LocationListener() {
+        //получили ответ о локации
         @Override
         public void onLocationChanged(Location location) {
             if (location!=null) {
+                //попадаем сюда, когда получаем ответ о местоположении
                 latitudeField.setText(String.valueOf(location.getLatitude()));
                 longitudeField.setText(String.valueOf(location.getLongitude()));
+            } else {
+                //попадаем сюда, когда приходит невалидный ответ
+                message = "Некорректный ответ от сервиса. Попробуйте, пожалуйста, позже";
+                showMessage(message);
             }
-            else{
-                latitudeField.setText("Sorry, location");
-                longitudeField.setText("unavailable");
-            }
+            //убираем флаг таймера
+            locationListenerFlag = false;
+            //останавливаем работу requestLocationUpdates
+            locationManager.removeUpdates(locationListener);
         }
 
+        //хз для чего нужны эти методы, но без них лисенера не будет
         @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
+        public void onStatusChanged(String provider, int status, Bundle extras) { }
 
         @Override
-        public void onProviderEnabled(String provider) {
-        }
+        public void onProviderEnabled(String provider) { }
 
         @Override
-        public void onProviderDisabled(String provider) {
-        }
+        public void onProviderDisabled(String provider) { }
     };
 }
