@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
     tools:context=".MainActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar">
+    </include>
 
     <ScrollView
         android:id="@+id/myview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_alignTop="@+id/toolbar"
+        android:layout_marginTop="0dp"
+        android:background="@color/colorPrimary"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints"
-        android:background="#00c3ff">
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:id="@+id/leaner_layout"
@@ -28,10 +34,11 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
+                android:digits="1234567890.-"
                 android:ems="10"
                 android:hint="Широта (от -90 до 90)"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -39,8 +46,7 @@
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.012"
-                android:digits="1234567890.-"/>
+                app:layout_constraintVertical_bias="0.012" />
 
             <EditText
                 android:id="@+id/edt_longitude"
@@ -53,6 +59,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
+                android:digits="1234567890.-"
                 android:ems="10"
                 android:hint="Долгота (от -180 до 180)"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -60,15 +67,14 @@
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edt_latitude"
-                app:layout_constraintVertical_bias="0.0"
-                android:digits="1234567890.-"/>
+                app:layout_constraintVertical_bias="0.0" />
 
             <LinearLayout
                 android:id="@+id/leaner_inner_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_set_spb_location"
@@ -154,6 +160,4 @@
 
     </ScrollView>
 
-
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

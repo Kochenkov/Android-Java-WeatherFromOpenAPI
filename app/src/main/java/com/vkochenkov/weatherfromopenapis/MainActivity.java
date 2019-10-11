@@ -2,6 +2,7 @@ package com.vkochenkov.weatherfromopenapis;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -9,7 +10,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText latitudeField;
     private EditText longitudeField;
     private ImageView iconViewImage;
+    private Toolbar toolbar;
 
     //параметры, проставляемые в урл
     private String KEY = "f5483d10bb2fca550ed960234826950f"; //ключ доступа аккаунта к АПИ
@@ -71,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
         longitudeField = findViewById(R.id.edt_longitude);
         latitudeField = findViewById(R.id.edt_latitude);
         iconViewImage = findViewById(R.id.img_view_icon);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
     }
 
@@ -264,4 +271,20 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onProviderDisabled(String provider) { }
     };
+
+    public void showProgramInfo(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Важное сообщение!")
+                .setMessage("тест!")
+                //.setIcon(R.drawable.ic_android_cat)
+                .setCancelable(false)
+                .setNegativeButton("ок, тест",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 }
