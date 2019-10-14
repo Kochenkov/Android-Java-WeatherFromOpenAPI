@@ -3,17 +3,16 @@ package com.vkochenkov.weatherfromopenapis;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.vkochenkov.weatherfromopenapis.entities.response.MainResponseObject;
 import com.vkochenkov.weatherfromopenapis.retrofit.WeatherApiManager;
 
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,9 +31,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     //вьюхи
+    public static EditText latitudeField;
+    public static EditText longitudeField;
     private TextView textViewResult;
-    private EditText latitudeField;
-    private EditText longitudeField;
     private ImageView iconViewImage;
     private Toolbar toolbar;
 
@@ -45,8 +43,13 @@ public class MainActivity extends AppCompatActivity {
     private String LONGITUDE = "1"; //долгота
     private String UNITS = "si"; //параметр для получения данных в системе СИ
 
-    //сообщение, отображаемое на экране
+    //сообщения, отображаемое на экране
     private String message = "";
+
+    private String alertMessage;
+    private String alertButtonText;
+    private String alertTitle;
+    private int alertIcon;
 
     //главный объект, куда подставятся данные ответа от апишки
     MainResponseObject mainResponseObject;
@@ -76,9 +79,8 @@ public class MainActivity extends AppCompatActivity {
         latitudeField = findViewById(R.id.edt_latitude);
         iconViewImage = findViewById(R.id.img_view_icon);
 
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-
     }
 
     public void getParamsFromFields() {
@@ -95,8 +97,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<MainResponseObject> call, Response<MainResponseObject> response) {
                         if (!response.isSuccessful()) {
-                            message = "Something went wrong. Response code: " + response.code();
-                            showMessage(message);
+                            alertTitle = "Что-то пошло не так";
+                            alertMessage = "Код ответа от сервера: " + response.code();
+                            alertButtonText = "Понятно";
+                            showAlert(alertTitle, alertMessage, alertButtonText);
                             return;
                         }
 
@@ -126,43 +130,27 @@ public class MainActivity extends AppCompatActivity {
                         showMessage(message);
                         showIcon(icon);
 
-                        //todo добавить погоду на завтра
+                        //todo фича: добавить погоду на завтра
                     }
 
                     @Override
                     public void onFailure(Call<MainResponseObject> call, Throwable t) {
-                        message = t.getMessage();
-                        showMessage(message);
+                        alertTitle = "Что-то пошло не так";
+                        alertMessage = t.getMessage();
+                        alertButtonText = "Понятно";
+                        showAlert(alertTitle, alertMessage, alertButtonText);
                     }
                 });
     }
 
     public void getWeather(View view) {
-        //скрыть стырые сообщения
-        hideMessage();
-        hideIcon();
-
         getParamsFromFields();
         getWeatherFromApi();
-    }
-
-    public void setSPbLocation(View view) {
-        //скрыть стырые сообщения
-        hideMessage();
-        hideIcon();
-
-        latitudeField.setText("59.939095");
-        longitudeField.setText("30.315868");
     }
 
     public void showMessage(String message) {
         textViewResult.setText(message);
         textViewResult.setVisibility(textViewResult.VISIBLE);
-    }
-
-    public void hideMessage() {
-        textViewResult.setText("");
-        textViewResult.setVisibility(textViewResult.INVISIBLE);
     }
 
     public void showIcon(String icon) {
@@ -198,27 +186,23 @@ public class MainActivity extends AppCompatActivity {
                 iconViewImage.setImageResource(R.drawable.partly_cloudy_night);
                 break;
             default:
-                //todo дефолтную иконку, если пришло что-то иное
+                //todo добавить дефолтную иконку, если пришло что-то иное
                 break;
         }
         iconViewImage.setVisibility(iconViewImage.VISIBLE);
     }
 
-    public void hideIcon() {
-        iconViewImage.setVisibility(iconViewImage.INVISIBLE);
-    }
 
     //запрос на получение локации
-    public void setLocation(View view) {
-        //скрыть стырые сообщения
-        hideMessage();
-        hideIcon();
+    public void setDeviceLocation(View view) {
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            message = "Пожалуйста, зайдите в настройки телефона, и включите разрешение геолокации для этого приложения";
-            showMessage(message);
+            alertTitle = "Системное сообщение";
+            alertMessage = "Пожалуйста, зайдите в настройки телефона, и включите разрешение геолокации для этого приложения.";
+            alertButtonText = "Понятно";
+            showAlert(alertTitle, alertMessage, alertButtonText);
             return;
         }
 
@@ -233,12 +217,15 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 if (locationListenerFlag) {
                     locationManager.removeUpdates(locationListener);
-                    message = "Сейчас установить вашу локацию невозможно. Попробуйте, пожалуйста, позже";
-                    //todo нужно показывать сообщение выше. Проблема в том, что если засунуть showMessage() сюда,
-                    // то происходит крэш, т.к. в этом треде нельзя обращаться ко вьюхам
+
+                    alertTitle = "Системное сообщение";
+                    alertMessage = "Сейчас установить вашу локацию невозможно. Попробуйте, пожалуйста, позже";
+                    alertButtonText = "Понятно";
+                    showAlert(alertTitle, alertMessage, alertButtonText);
+                    //todo код выше не работает по непонятной причине. Возможно по таймеру нельзя вызвать алерт
                 }
             }
-        }, 20000);
+        }, 15000);
     }
 
     //лисенер геолокации
@@ -252,8 +239,10 @@ public class MainActivity extends AppCompatActivity {
                 longitudeField.setText(String.valueOf(location.getLongitude()));
             } else {
                 //попадаем сюда, когда приходит невалидный ответ
-                message = "Некорректный ответ от сервиса. Попробуйте, пожалуйста, позже";
-                showMessage(message);
+                alertTitle = "Что-то пошло не так";
+                alertMessage = "Некорректный ответ от сервиса. Попробуйте пожалуйста позже.";
+                alertButtonText = "Понятно";
+                showAlert(alertTitle, alertMessage, alertButtonText);
             }
             //убираем флаг таймера
             locationListenerFlag = false;
@@ -273,12 +262,25 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void showProgramInfo(View view) {
+        alertTitle = "О программе";
+        alertMessage = "Программа позволяет получить погоду в заданном регионе по координатам широты и долготы. " +
+                "Координаты можно задать одним из трёх способов: \n" +
+                " - выбрать город из списка, \n" +
+                " - задать текущие координаты местонахождения девайса, \n" +
+                " - прописать координаты вручную.";
+        alertButtonText = "Понятно";
+        alertIcon = R.drawable.clear_day;
+        showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
+    }
+
+    //показать алерт
+    public void showAlert(String alertTitle, String alertMessage, String alertButtonText, int alertIcon) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Важное сообщение!")
-                .setMessage("тест!")
-                //.setIcon(R.drawable.ic_android_cat)
+        builder.setTitle(alertTitle)
+                .setMessage(alertMessage)
+                .setIcon(alertIcon)
                 .setCancelable(false)
-                .setNegativeButton("ок, тест",
+                .setNegativeButton(alertButtonText,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
@@ -286,5 +288,32 @@ public class MainActivity extends AppCompatActivity {
                         });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    //переопределение метода без иконки
+    public void showAlert(String alertTitle, String alertMessage, String alertButtonText) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(alertTitle)
+                .setMessage(alertMessage)
+                .setCancelable(false)
+                .setNegativeButton(alertButtonText,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void cleanFields(View view) {
+        latitudeField.setText("");
+        longitudeField.setText("");
+    }
+
+    public void openCitiesListActivity(View view) {
+        //todo добавить открытие экрана
+        Intent intent = new Intent(MainActivity.this, CitiesListActivity.class);
+        startActivity(intent);
     }
 }
