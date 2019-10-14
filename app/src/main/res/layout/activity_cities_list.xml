@@ -33,7 +33,7 @@
                 android:id="@+id/list_city_item_2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="2"
+                android:text="город 2"
                 android:onClick="setCityLocation"/>
 
         </LinearLayout>
