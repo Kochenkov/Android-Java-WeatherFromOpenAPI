@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
                             alertTitle = "Что-то пошло не так";
                             alertMessage = "Код ответа от сервера: " + response.code();
                             alertButtonText = "Понятно";
-                            showAlert(alertTitle, alertMessage, alertButtonText);
+                            alertIcon = R.drawable.eclipse;
+                            showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
                             return;
                         }
 
@@ -138,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
                         alertTitle = "Что-то пошло не так";
                         alertMessage = t.getMessage();
                         alertButtonText = "Понятно";
-                        showAlert(alertTitle, alertMessage, alertButtonText);
+                        alertIcon = R.drawable.eclipse;
+                        showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
                     }
                 });
     }
@@ -202,7 +204,8 @@ public class MainActivity extends AppCompatActivity {
             alertTitle = "Системное сообщение";
             alertMessage = "Пожалуйста, зайдите в настройки телефона, и включите разрешение геолокации для этого приложения.";
             alertButtonText = "Понятно";
-            showAlert(alertTitle, alertMessage, alertButtonText);
+            alertIcon = R.drawable.flag;
+            showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
             return;
         }
 
@@ -221,7 +224,8 @@ public class MainActivity extends AppCompatActivity {
                     alertTitle = "Системное сообщение";
                     alertMessage = "Сейчас установить вашу локацию невозможно. Попробуйте, пожалуйста, позже";
                     alertButtonText = "Понятно";
-                    showAlert(alertTitle, alertMessage, alertButtonText);
+                    alertIcon = R.drawable.flag;
+                    showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
                     //todo код выше не работает по непонятной причине. Возможно по таймеру нельзя вызвать алерт
                 }
             }
@@ -242,7 +246,8 @@ public class MainActivity extends AppCompatActivity {
                 alertTitle = "Что-то пошло не так";
                 alertMessage = "Некорректный ответ от сервиса. Попробуйте пожалуйста позже.";
                 alertButtonText = "Понятно";
-                showAlert(alertTitle, alertMessage, alertButtonText);
+                alertIcon = R.drawable.eclipse;
+                showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
             }
             //убираем флаг таймера
             locationListenerFlag = false;
