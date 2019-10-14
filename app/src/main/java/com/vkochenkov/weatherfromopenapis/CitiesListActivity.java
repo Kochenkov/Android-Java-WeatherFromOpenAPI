@@ -29,6 +29,5 @@ public class CitiesListActivity extends AppCompatActivity {
         MainActivity.latitudeField.setText("59.939095");
         MainActivity.longitudeField.setText("30.315868");
         super.onBackPressed();
-        //test
     }
 }
