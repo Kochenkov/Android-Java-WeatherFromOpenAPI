@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
-    //переопределение метода без иконки
+    //перегрузка метода без иконки
     public void showAlert(String alertTitle, String alertMessage, String alertButtonText) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(alertTitle)
@@ -317,7 +317,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openCitiesListActivity(View view) {
-        //todo добавить открытие экрана
         Intent intent = new Intent(MainActivity.this, CitiesListActivity.class);
         startActivity(intent);
     }
