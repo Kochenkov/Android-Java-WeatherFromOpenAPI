@@ -130,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
                         showMessage(message);
                         showIcon(icon);
-
-                        //todo фича: добавить погоду на завтра
                     }
 
                     @Override
