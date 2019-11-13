@@ -15,8 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vkochenkov.weatherfromopenapis.entities.response.MainResponseObject;
 import com.vkochenkov.weatherfromopenapis.retrofit.WeatherApiManager;
@@ -30,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
     //вьюхи
     public static EditText latitudeField;
     public static EditText longitudeField;
-    private TextView textViewResult;
-    private ImageView iconViewImage;
     private Toolbar toolbar;
 
     //параметры, проставляемые в урл
@@ -72,10 +69,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textViewResult = findViewById(R.id.text_view_result);
         longitudeField = findViewById(R.id.edt_longitude);
         latitudeField = findViewById(R.id.edt_latitude);
-        iconViewImage = findViewById(R.id.img_view_icon);
 
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -95,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<MainResponseObject> call, Response<MainResponseObject> response) {
                         if (!response.isSuccessful()) {
-                            alertTitle = "Что-то пошло не так";
+                            alertTitle = "Похоже, что-то пошло не так";
                             alertMessage = "Код ответа от сервера: " + response.code();
                             alertButtonText = "Понятно";
                             alertIcon = R.drawable.eclipse;
@@ -126,13 +121,16 @@ public class MainActivity extends AppCompatActivity {
                                         "скорость ветра: " + response.body().getCurrently().getWindSpeed() + " м/с;" + "\n" +
                                         "общий прогноз: " + response.body().getCurrently().getSummary() + "." + "\n";
 
-                        showMessage(message);
-                        showIcon(icon);
+                        alertTitle = "Такие дела";
+                        alertMessage = message;
+                        alertButtonText = "Понятно";
+                        alertIcon = setIcon(icon);
+                        showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
                     }
 
                     @Override
                     public void onFailure(Call<MainResponseObject> call, Throwable t) {
-                        alertTitle = "Что-то пошло не так";
+                        alertTitle = "Похоже, что-то пошло не так";
                         alertMessage = t.getMessage();
                         alertButtonText = "Понятно";
                         alertIcon = R.drawable.eclipse;
@@ -146,50 +144,32 @@ public class MainActivity extends AppCompatActivity {
         getWeatherFromApi();
     }
 
-    public void showMessage(String message) {
-        textViewResult.setText(message);
-        textViewResult.setVisibility(textViewResult.VISIBLE);
-    }
-
-    public void showIcon(String icon) {
+    public int setIcon(String icon) {
         switch (icon) {
             case ("clear-day"):
-                iconViewImage.setImageResource(R.drawable.clear_day);
-                break;
+                return R.drawable.clear_day;
             case ("clear-night"):
-                iconViewImage.setImageResource(R.drawable.clear_night);
-                break;
+                return R.drawable.clear_night;
             case ("rain"):
-                iconViewImage.setImageResource(R.drawable.rain);
-                break;
+                return R.drawable.rain;
             case ("snow"):
-                iconViewImage.setImageResource(R.drawable.snow);
-                break;
+                return R.drawable.snow;
             case ("sleet"):
-                iconViewImage.setImageResource(R.drawable.sleet);
-                break;
+                return R.drawable.sleet;
             case ("wind"):
-                iconViewImage.setImageResource(R.drawable.wind);
-                break;
+                return R.drawable.wind;
             case ("fog"):
-                iconViewImage.setImageResource(R.drawable.fog);
-                break;
+                return R.drawable.fog;
             case ("cloudy"):
-                iconViewImage.setImageResource(R.drawable.cloudy);
-                break;
+                return R.drawable.cloudy;
             case ("partly-cloudy-day"):
-                iconViewImage.setImageResource(R.drawable.partly_cloudy_day);
-                break;
+                return R.drawable.partly_cloudy_day;
             case ("partly-cloudy-night"):
-                iconViewImage.setImageResource(R.drawable.partly_cloudy_night);
-                break;
+                return R.drawable.partly_cloudy_night;
             default:
-                //todo добавить дефолтную иконку, если пришло что-то иное
-                break;
+                return R.drawable.eclipse;
         }
-        iconViewImage.setVisibility(iconViewImage.VISIBLE);
     }
-
 
     //запрос на получение локации
     public void setDeviceLocation(View view) {
@@ -219,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 //попадаем сюда, когда получаем ответ о местоположении
                 latitudeField.setText(String.valueOf(location.getLatitude()));
                 longitudeField.setText(String.valueOf(location.getLongitude()));
+                Toast.makeText(getApplicationContext(), "Координаты девайса получены", Toast.LENGTH_SHORT).show();
             } else {
                 //попадаем сюда, когда приходит невалидный ответ
                 alertTitle = "Что-то пошло не так";
