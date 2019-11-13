@@ -21,9 +21,6 @@ import android.widget.TextView;
 import com.vkochenkov.weatherfromopenapis.entities.response.MainResponseObject;
 import com.vkochenkov.weatherfromopenapis.retrofit.WeatherApiManager;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,9 +61,10 @@ public class MainActivity extends AppCompatActivity {
     private Double pressureMm;
 
     //менеджер геолокации
-    LocationManager locationManager;
+    private LocationManager locationManager;
 
-    //флаг на таймер
+    //флаг на загрузку геолокации
+    //todo добавить анимацию на загрузку
     private Boolean locationListenerFlag = false;
 
     @Override
@@ -198,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+        //запускаем получение геолокации
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             alertTitle = "Системное сообщение";
             alertMessage = "Пожалуйста, зайдите в настройки телефона, и включите разрешение геолокации для этого приложения.";
@@ -206,28 +205,9 @@ public class MainActivity extends AppCompatActivity {
             showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
             return;
         }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
 
-        //запускаем получение геолокации
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, locationListener);
-
-        //выставляем флаг и запускаем таймер, что бы геолокация не жрала батарею вечно
         locationListenerFlag = true;
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (locationListenerFlag) {
-                    locationManager.removeUpdates(locationListener);
-
-                    alertTitle = "Системное сообщение";
-                    alertMessage = "Сейчас установить вашу локацию невозможно. Попробуйте, пожалуйста, позже";
-                    alertButtonText = "Понятно";
-                    alertIcon = R.drawable.flag;
-                    showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
-                    //todo код выше не работает по непонятной причине. Возможно по таймеру нельзя вызвать алерт
-                }
-            }
-        }, 15000);
     }
 
     //лисенер геолокации
@@ -247,29 +227,34 @@ public class MainActivity extends AppCompatActivity {
                 alertIcon = R.drawable.eclipse;
                 showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
             }
-            //убираем флаг таймера
-            locationListenerFlag = false;
             //останавливаем работу requestLocationUpdates
             locationManager.removeUpdates(locationListener);
+            //выключаем флаг
+            locationListenerFlag = false;
         }
 
-        //хз для чего нужны эти методы, но без них лисенера не будет
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) { }
 
         @Override
-        public void onProviderEnabled(String provider) { }
+        public void onProviderEnabled(String provider) {
+//            Toast.makeText(getBaseContext(), "Gps is turned on!! ",
+//                    Toast.LENGTH_SHORT).show();
+        }
 
         @Override
-        public void onProviderDisabled(String provider) { }
+        public void onProviderDisabled(String provider) {
+//            Toast.makeText(getBaseContext(), "Gps is turned off!! ",
+//                    Toast.LENGTH_SHORT).show();
+        }
     };
 
     public void showProgramInfo(View view) {
         alertTitle = "О программе";
-        alertMessage = "Программа позволяет получить погоду в заданном регионе по координатам широты и долготы. " +
-                "Координаты можно ввести одним из трёх способов: \n" +
-                " - выбрать город из списка, \n" +
-                " - получить текущие координаты местонахождения девайса по gps, \n" +
+        alertMessage = "Программа позволяет получить текущую погоду для любого места, нужно только указать координаты широты и долготы. " +
+                "Это можно сделать одним из трёх способов: \n" +
+                " - выбрать город из списка; \n" +
+                " - получить текущие координаты телефона; \n" +
                 " - прописать координаты вручную.";
         alertButtonText = "Понятно";
         alertIcon = R.drawable.clear_day;
