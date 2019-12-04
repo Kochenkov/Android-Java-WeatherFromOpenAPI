@@ -22,12 +22,9 @@ public class CitiesListActivity extends ListActivity {
     private ArrayAdapter<String> mAdapter;
 
     private CitiesArrayList objectCitiesArrayLists = new CitiesArrayList();
-
-   // private CitiesArray citiesArrayObject = new CitiesArray();
-
     private ArrayList<City> citiesArrayList = objectCitiesArrayLists.createCitiesArrayList();
-
-    private String[] cityNamesArray = new String[citiesArrayList.size()];
+    private ArrayList<String> cityNamesArrayList = new ArrayList<>();
+    private ArrayList<String> cityNamesFilteredArrayList = new ArrayList<>();
 
     private EditText citiesSearchField;
 
@@ -48,36 +45,16 @@ public class CitiesListActivity extends ListActivity {
 
         //делаю массив только с названиями городов, что бы передать его в адаптер
         for (int i = 0; i < citiesArrayList.size(); i++) {
-            cityNamesArray[i] = citiesArrayList.get(i).getName();
+            cityNamesArrayList.add(citiesArrayList.get(i).getName());
         }
+        cityNamesFilteredArrayList = cityNamesArrayList;
 
-        //todo переделать массив на аррей лист
-        //передаю массив в адаптер
-        mAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1,
-                cityNamesArray);
-        setListAdapter(mAdapter);
-
-        //лисенер для поля поиска в тулбаре
-        citiesSearchField.addTextChangedListener(watchForCitiesSearchField);
-    }
-
-    public void createArrayForAdapter() {
-
-    }
-
-    public void findAndShowCity(String string) {
-        ArrayList<String> cityNamesArrayList = new ArrayList<>();
-
-        for (int i = 0; i < citiesArrayList.size(); i++) {
-            if (cityNamesArray[i].toLowerCase().contains(string.toLowerCase())) {
-                cityNamesArrayList.add(cityNamesArray[i]);
-            }
-        }
         mAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,
                 cityNamesArrayList);
         setListAdapter(mAdapter);
+
+        citiesSearchField.addTextChangedListener(watchForCitiesSearchField);
     }
 
     @Override
@@ -85,19 +62,38 @@ public class CitiesListActivity extends ListActivity {
         super.onBackPressed();
         super.onListItemClick(l, v, position, id);
 
+        String cityName = cityNamesFilteredArrayList.get(position);
 
+        for(int i=0; i<citiesArrayList.size(); i++) {
+            if (citiesArrayList.get(i).getName().equals(cityName)) {
+                MainActivity.latitudeField.setText(citiesArrayList.get(i).getLatitude());
+                MainActivity.longitudeField.setText(citiesArrayList.get(i).getLongitude());
+            }
+        }
 
-
-        Toast.makeText(getApplicationContext(), "Вы выбрали город " + (cityNamesArray[position]), Toast.LENGTH_SHORT).show();
-        MainActivity.latitudeField.setText(citiesArrayList.get(position).getLatitude());
-        MainActivity.longitudeField.setText(citiesArrayList.get(position).getLongitude());
+        Toast.makeText(getApplicationContext(),
+                "Вы выбрали город " + (cityNamesFilteredArrayList.get(position)),
+                Toast.LENGTH_SHORT).show();
     }
 
+    public void findAndShowCity(String string) {
+        for (int i = 0; i < citiesArrayList.size(); i++) {
+            cityNamesFilteredArrayList.clear();
+            if (cityNamesArrayList.get(i).toLowerCase().contains(string.toLowerCase())) {
+                cityNamesFilteredArrayList.add(cityNamesArrayList.get(i));
+            }
+        }
+        mAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
+                cityNamesFilteredArrayList);
+        setListAdapter(mAdapter);
+    }
 
     private TextWatcher watchForCitiesSearchField = new TextWatcher() {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
         }
 
         @Override
@@ -111,3 +107,5 @@ public class CitiesListActivity extends ListActivity {
         }
     };
 }
+
+
