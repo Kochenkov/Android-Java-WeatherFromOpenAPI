@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.entities.response;
+package com.vkochenkov.weatherfromopenapis.entities.responsefromweatherapi;
 
 import lombok.Getter;
 import lombok.Setter;

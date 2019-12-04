@@ -1,6 +1,6 @@
 package com.vkochenkov.weatherfromopenapis.retrofit;
 
-import com.vkochenkov.weatherfromopenapis.entities.response.MainResponseObject;
+import com.vkochenkov.weatherfromopenapis.entities.responsefromweatherapi.MainResponseObject;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

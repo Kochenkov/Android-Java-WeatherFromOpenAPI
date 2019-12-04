@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.vkochenkov.weatherfromopenapis.entities.response.MainResponseObject;
+import com.vkochenkov.weatherfromopenapis.entities.responsefromweatherapi.MainResponseObject;
 import com.vkochenkov.weatherfromopenapis.retrofit.WeatherApiManager;
 
 import retrofit2.Call;

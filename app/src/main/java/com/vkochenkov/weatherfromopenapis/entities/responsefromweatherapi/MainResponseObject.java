@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.entities.response;
+package com.vkochenkov.weatherfromopenapis.entities.responsefromweatherapi;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,11 +6,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class MainResponseObject {
-
     private String latitude;
     private String longitude;
     private String timezone;
     private DetailInformation currently;
+// то что ниже - есть в доке, но я не использую
 //    private minutely;
 //    private hourly;
 //    private daily;
