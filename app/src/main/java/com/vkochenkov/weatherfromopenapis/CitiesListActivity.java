@@ -64,7 +64,7 @@ public class CitiesListActivity extends ListActivity {
         String cityName = cityNamesFilteredArrayList.get(position);
 
         //ищем нужную ячейку по имени выбранного города
-        for(int i=0; i<citiesArrayList.size(); i++) {
+        for (int i = 0; i < citiesArrayList.size(); i++) {
             if (citiesArrayList.get(i).getName().equals(cityName)) {
                 MainActivity.latitudeField.setText(citiesArrayList.get(i).getLatitude());
                 MainActivity.longitudeField.setText(citiesArrayList.get(i).getLongitude());
@@ -94,7 +94,8 @@ public class CitiesListActivity extends ListActivity {
     private TextWatcher watchForCitiesSearchField = new TextWatcher() {
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -102,7 +103,8 @@ public class CitiesListActivity extends ListActivity {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(Editable s) {
+        }
     };
 }
 

@@ -10,7 +10,7 @@ public class MainResponseObject {
     private String longitude;
     private String timezone;
     private DetailInformation currently;
-// то что ниже - есть в доке, но я не использую
+    // то что ниже - есть в доке, но я не использую
 //    private minutely;
 //    private hourly;
 //    private daily;

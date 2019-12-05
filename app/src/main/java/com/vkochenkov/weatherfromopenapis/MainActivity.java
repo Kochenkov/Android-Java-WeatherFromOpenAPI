@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         //получили ответ о локации
         @Override
         public void onLocationChanged(Location location) {
-            if (location!=null) {
+            if (location != null) {
                 //попадаем сюда, когда получаем ответ о местоположении
                 latitudeField.setText(String.valueOf(location.getLatitude()));
                 longitudeField.setText(String.valueOf(location.getLongitude()));
@@ -207,13 +207,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) { }
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
 
         @Override
-        public void onProviderEnabled(String provider) {}
+        public void onProviderEnabled(String provider) {
+        }
 
         @Override
-        public void onProviderDisabled(String provider) {}
+        public void onProviderDisabled(String provider) {
+        }
     };
 
     public void showProgramInfo(View view) {

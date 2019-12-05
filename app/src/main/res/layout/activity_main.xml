@@ -8,8 +8,7 @@
 
     <include
         android:id="@+id/toolbar_main"
-        layout="@layout/toolbar_main">
-    </include>
+        layout="@layout/toolbar_main"></include>
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -30,8 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:layout_marginTop="75dp">
+                android:layout_marginTop="75dp"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_set_city_location"
@@ -42,6 +41,8 @@
                     android:layout_marginBottom="5dp"
                     android:onClick="openCitiesListActivity"
                     android:text="Выбрать город из списка"
+                    android:textColor="#000000"
+                    app:backgroundTint="@color/colorPrimaryDark"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -57,11 +58,12 @@
                     android:layout_marginBottom="5dp"
                     android:onClick="setDeviceLocation"
                     android:text="Получить координаты телефона"
+                    android:textColor="#000000"
+                    app:backgroundTint="@color/colorPrimaryDark"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
-
             </LinearLayout>
 
             <EditText
@@ -71,15 +73,14 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:digits="1234567890.-"
                 android:ems="10"
                 android:hint="Широта (от -90 до 90)"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.012" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/edt_longitude"
@@ -88,15 +89,14 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:digits="1234567890.-"
                 android:ems="10"
                 android:hint="Долгота (от -180 до 180)"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edt_latitude"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/edt_latitude" />
 
             <Button
                 android:id="@+id/btn_clean_fields"
@@ -107,10 +107,12 @@
                 android:layout_marginBottom="5dp"
                 android:onClick="cleanFields"
                 android:text="Сбросить координаты"
+                android:textColor="#000000"
+                app:backgroundTint="#ff6347"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_set_location"/>
+                app:layout_constraintTop_toBottomOf="@+id/btn_set_location" />
 
             <Button
                 android:id="@+id/btn_get_weather"
@@ -121,10 +123,12 @@
                 android:layout_marginBottom="5dp"
                 android:onClick="getWeather"
                 android:text="Отправить запрос на получение погоды"
+                android:textColor="#000000"
+                app:backgroundTint="#0bda51"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_set_location"/>
+                app:layout_constraintTop_toBottomOf="@+id/btn_set_location" />
 
         </LinearLayout>
 

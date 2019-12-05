@@ -13,6 +13,6 @@ public class City {
     public City(String name, String latitude, String longitude) {
         this.name = name;
         this.latitude = latitude;
-        this. longitude = longitude;
+        this.longitude = longitude;
     }
 }
