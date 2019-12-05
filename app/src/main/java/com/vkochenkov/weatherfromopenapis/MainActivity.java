@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     //сообщения, отображаемое на экране
     private String message = "";
 
+    //прочие сущности
     private String alertMessage;
     private String alertButtonText;
     private String alertTitle;
@@ -59,10 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
     //менеджер геолокации
     private LocationManager locationManager;
-
-    //флаг на загрузку геолокации
-    //todo добавить анимацию на загрузку
-    private Boolean locationListenerFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
 
     //запрос на получение локации
     public void setDeviceLocation(View view) {
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         //запускаем получение геолокации
@@ -186,8 +182,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
-
-        locationListenerFlag = true;
     }
 
     //лисенер геолокации
@@ -210,24 +204,16 @@ public class MainActivity extends AppCompatActivity {
             }
             //останавливаем работу requestLocationUpdates
             locationManager.removeUpdates(locationListener);
-            //выключаем флаг
-            locationListenerFlag = false;
         }
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) { }
 
         @Override
-        public void onProviderEnabled(String provider) {
-//            Toast.makeText(getBaseContext(), "Gps is turned on!! ",
-//                    Toast.LENGTH_SHORT).show();
-        }
+        public void onProviderEnabled(String provider) {}
 
         @Override
-        public void onProviderDisabled(String provider) {
-//            Toast.makeText(getBaseContext(), "Gps is turned off!! ",
-//                    Toast.LENGTH_SHORT).show();
-        }
+        public void onProviderDisabled(String provider) {}
     };
 
     public void showProgramInfo(View view) {
@@ -242,7 +228,6 @@ public class MainActivity extends AppCompatActivity {
         showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
     }
 
-    //показать алерт
     public void showAlert(String alertTitle, String alertMessage, String alertButtonText, int alertIcon) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(alertTitle)
@@ -259,21 +244,21 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
-    //перегрузка метода без иконки
-    public void showAlert(String alertTitle, String alertMessage, String alertButtonText) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(alertTitle)
-                .setMessage(alertMessage)
-                .setCancelable(false)
-                .setNegativeButton(alertButtonText,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+//    //перегрузка метода без иконки
+//    public void showAlert(String alertTitle, String alertMessage, String alertButtonText) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//        builder.setTitle(alertTitle)
+//                .setMessage(alertMessage)
+//                .setCancelable(false)
+//                .setNegativeButton(alertButtonText,
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
 
     public void cleanFields(View view) {
         latitudeField.setText("");
