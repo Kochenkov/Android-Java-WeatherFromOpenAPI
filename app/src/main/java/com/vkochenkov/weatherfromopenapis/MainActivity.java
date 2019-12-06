@@ -136,9 +136,17 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    public void validationFieldsAndGetWeatherFromApi() {
+        if (LATITUDE.equals("") || LONGITUDE.equals("")) {
+            Toast.makeText(getApplicationContext(), "Поля с координатами не заполнены", Toast.LENGTH_SHORT).show();
+        } else {
+            getWeatherFromApi();
+        }
+    }
+
     public void getWeather(View view) {
         getParamsFromFields();
-        getWeatherFromApi();
+        validationFieldsAndGetWeatherFromApi();
     }
 
     public int setIcon(String icon) {
