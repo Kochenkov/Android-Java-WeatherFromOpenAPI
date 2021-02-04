@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -32,12 +33,13 @@ public class MainActivity extends AppCompatActivity {
     public static EditText latitudeField;
     public static EditText longitudeField;
     private Toolbar toolbar;
+    private ProgressBar progressBar;
 
     //параметры, проставляемые в урл
-    private String KEY = "f5483d10bb2fca550ed960234826950f"; //ключ доступа аккаунта к АПИ
+    private static final String KEY = "f5483d10bb2fca550ed960234826950f"; //ключ доступа аккаунта к АПИ
     private String LATITUDE = "1"; //широта
     private String LONGITUDE = "1"; //долгота
-    private String UNITS = "si"; //параметр для получения данных в системе СИ
+    private static final String UNITS = "si"; //параметр для получения данных в системе СИ
 
     //сообщения, отображаемое на экране
     private String message = "";
@@ -67,12 +69,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initFields();
+        setSupportActionBar(toolbar);
+    }
 
+    private void initFields() {
         longitudeField = findViewById(R.id.edt_longitude);
         latitudeField = findViewById(R.id.edt_latitude);
-
+        progressBar = findViewById(R.id.progress_bar);
         toolbar = findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
     }
 
     public void getParamsFromFields() {
@@ -94,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                             alertButtonText = "Понятно";
                             alertIcon = R.drawable.eclipse;
                             showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
+                            progressBar.setVisibility(View.GONE);
                             return;
                         }
 
@@ -125,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         alertButtonText = "Понятно";
                         alertIcon = setIcon(icon);
                         showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
+                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -134,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
                         alertButtonText = "Понятно";
                         alertIcon = R.drawable.eclipse;
                         showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
     }
@@ -142,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         if (LATITUDE.equals("") || LONGITUDE.equals("")) {
             Toast.makeText(getApplicationContext(), "Поля с координатами не заполнены", Toast.LENGTH_SHORT).show();
         } else {
+            progressBar.setVisibility(View.VISIBLE);
             getWeatherFromApi();
         }
     }
@@ -256,22 +265,6 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
-
-//    //перегрузка метода без иконки
-//    public void showAlert(String alertTitle, String alertMessage, String alertButtonText) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//        builder.setTitle(alertTitle)
-//                .setMessage(alertMessage)
-//                .setCancelable(false)
-//                .setNegativeButton(alertButtonText,
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                dialog.cancel();
-//                            }
-//                        });
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
 
     public void cleanFields(View view) {
         latitudeField.setText("");

@@ -33,23 +33,10 @@ public class CitiesListActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed(); // Implemented by activity
+                onBackPressed();
             }
         });
 
-
-//        //делаю массив только с названиями городов, что бы передать его в адаптер
-//        for (int i = 0; i < citiesArrayList.size(); i++) {
-//            cityNamesArrayList.add(citiesArrayList.get(i).getName());
-//        }
-//        cityNamesFilteredArrayList = cityNamesArrayList;
-//
-//        mAdapter = new ArrayAdapter<>(this,
-//                android.R.layout.simple_list_item_1,
-//                cityNamesArrayList);
-//        setListAdapter(mAdapter);
-//
-//        citiesSearchField.addTextChangedListener(watchForCitiesSearchField);
     }
 
     private void initRecycler() {
