@@ -1,137 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
     <include
-        android:id="@+id/toolbar_main"
-        layout="@layout/toolbar_main"></include>
+            android:id="@+id/toolbar_main"
+            layout="@layout/toolbar_main" />
 
     <ScrollView
-        android:id="@+id/scroll_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical"
-        tools:ignore="MissingConstraints">
+            android:id="@+id/scroll_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
 
         <LinearLayout
-            android:id="@+id/leaner_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/leaner_inner_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="75dp"
-                android:orientation="horizontal">
+                    android:id="@+id/leaner_inner_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btn_set_city_location"
-                    android:layout_width="140dp"
-                    android:layout_height="94dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:onClick="openCitiesListActivity"
-                    android:text="Выбрать город из списка"
-                    android:textColor="#000000"
-                    app:backgroundTint="@color/colorPrimaryDark"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_longitude"
-                    app:layout_constraintVertical_bias="0.0" />
+                        android:id="@+id/btn_set_city_location"
+                        android:layout_width="140dp"
+                        android:layout_height="94dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:onClick="openCitiesListActivity"
+                        android:text="Выбрать город из списка"
+                        android:textColor="#000000"
+                        app:backgroundTint="@color/colorPrimaryDark"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/edt_longitude"
+                        app:layout_constraintVertical_bias="0.0" />
 
                 <Button
-                    android:id="@+id/btn_set_location"
-                    android:layout_width="140dp"
-                    android:layout_height="94dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:onClick="setDeviceLocation"
-                    android:text="Получить координаты телефона"
-                    android:textColor="#000000"
-                    app:backgroundTint="@color/colorPrimaryDark"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                        android:id="@+id/btn_set_location"
+                        android:layout_width="140dp"
+                        android:layout_height="94dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:onClick="setDeviceLocation"
+                        android:text="Получить координаты телефона"
+                        android:textColor="#000000"
+                        app:backgroundTint="@color/colorPrimaryDark"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
             </LinearLayout>
 
             <EditText
-                android:id="@+id/edt_latitude"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:digits="1234567890.-"
-                android:ems="10"
-                android:hint="Широта (от -90 до 90)"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                    android:id="@+id/edt_latitude"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:digits="1234567890.-"
+                    android:ems="10"
+                    android:hint="Широта (от -90 до 90)"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/edt_longitude"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:digits="1234567890.-"
-                android:ems="10"
-                android:hint="Долгота (от -180 до 180)"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edt_latitude" />
+                    android:id="@+id/edt_longitude"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:digits="1234567890.-"
+                    android:ems="10"
+                    android:hint="Долгота (от -180 до 180)"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_latitude" />
 
             <Button
-                android:id="@+id/btn_clean_fields"
-                android:layout_width="271dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:onClick="cleanFields"
-                android:text="Сбросить координаты"
-                android:textColor="#000000"
-                app:backgroundTint="#ff6347"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_set_location" />
+                    android:id="@+id/btn_clean_fields"
+                    android:layout_width="271dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:onClick="cleanFields"
+                    android:text="Сбросить координаты"
+                    android:textColor="#000000"
+                    app:backgroundTint="#ff6347"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_set_location" />
 
             <Button
-                android:id="@+id/btn_get_weather"
-                android:layout_width="271dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:onClick="getWeather"
-                android:text="Отправить запрос на получение погоды"
-                android:textColor="#000000"
-                app:backgroundTint="#0bda51"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_set_location" />
+                    android:id="@+id/btn_get_weather"
+                    android:layout_width="271dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:onClick="getWeather"
+                    android:text="Отправить запрос на получение погоды"
+                    android:textColor="#000000"
+                    app:backgroundTint="#0bda51"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_set_location" />
+
+            <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
         </LinearLayout>
 
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>
