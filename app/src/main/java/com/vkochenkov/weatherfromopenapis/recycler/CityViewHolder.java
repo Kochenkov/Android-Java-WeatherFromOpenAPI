@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.vkochenkov.weatherfromopenapis.CityClickListener;
 import com.vkochenkov.weatherfromopenapis.R;
 import com.vkochenkov.weatherfromopenapis.entities.cities.City;
 
@@ -18,7 +19,8 @@ public class CityViewHolder extends RecyclerView.ViewHolder {
         cityName = itemView.findViewById(R.id.item_city_name);
     }
 
-    public void bind(City city) {
+    public void bind(View itemView, City city, CityClickListener cityClickListener) {
         cityName.setText(city.getName());
+        itemView.setOnClickListener(cityClickListener.onCityClickListener(city));
     }
 }

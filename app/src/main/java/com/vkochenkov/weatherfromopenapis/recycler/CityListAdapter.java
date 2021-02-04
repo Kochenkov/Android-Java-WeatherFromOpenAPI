@@ -1,10 +1,14 @@
 package com.vkochenkov.weatherfromopenapis.recycler;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.vkochenkov.weatherfromopenapis.CityClickListener;
+import com.vkochenkov.weatherfromopenapis.MainActivity;
 import com.vkochenkov.weatherfromopenapis.R;
 import com.vkochenkov.weatherfromopenapis.entities.cities.City;
 
@@ -15,9 +19,11 @@ import java.util.List;
 public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
     List<City> cityList;
+    CityClickListener cityClickListener;
 
-    public CityListAdapter(List<City> cityList){
+    public CityListAdapter(List<City> cityList, CityClickListener cityClickListener){
         this.cityList = cityList;
+        this.cityClickListener = cityClickListener;
     }
 
     @NotNull
@@ -28,8 +34,8 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
     @Override
     public void onBindViewHolder(CityViewHolder cityViewHolder, int i) {
-        City cityItem = cityList.get(i);
-        cityViewHolder.bind(cityItem);
+        final City cityItem = cityList.get(i);
+        cityViewHolder.bind(cityViewHolder.itemView, cityItem, cityClickListener);
     }
 
     @Override

@@ -12,9 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vkochenkov.weatherfromopenapis.entities.cities.CitiesArrayList;
+import com.vkochenkov.weatherfromopenapis.entities.cities.City;
 import com.vkochenkov.weatherfromopenapis.recycler.CityListAdapter;
-
-import java.util.ArrayList;
 
 public class CitiesListActivity extends AppCompatActivity {
 
@@ -22,11 +21,6 @@ public class CitiesListActivity extends AppCompatActivity {
     private EditText citiesSearchField;
     private ArrayAdapter<String> mAdapter;
     private RecyclerView cityListRecycler;
-
-    //private CitiesArrayList objectCitiesArrayLists = new CitiesArrayList();
-    //private ArrayList<City> citiesArrayList = new CitiesArrayList().createCitiesArrayList();
-    private ArrayList<String> cityNamesArrayList = new ArrayList<>();
-    private ArrayList<String> cityNamesFilteredArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +54,20 @@ public class CitiesListActivity extends AppCompatActivity {
 
     private void initRecycler() {
         cityListRecycler.setLayoutManager(new LinearLayoutManager(this));
-        cityListRecycler.setAdapter(new CityListAdapter(CitiesArrayList.createCitiesArrayList()));
+        CityClickListener cityClickListener = new CityClickListener() {
+            @Override
+            public View.OnClickListener onCityClickListener(final City city) {
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MainActivity.latitudeField.setText(city.getLatitude());
+                        MainActivity.longitudeField.setText(city.getLongitude());
+                        onBackPressed();
+                    }
+                };
+            }
+        };
+        cityListRecycler.setAdapter(new CityListAdapter(CitiesArrayList.createCitiesArrayList(), cityClickListener));
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
                                                                                 this.getResources().getConfiguration().orientation);
