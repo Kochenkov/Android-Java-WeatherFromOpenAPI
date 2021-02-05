@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.vkochenkov.weatherfromopenapis.db.DBHelper;
 import com.vkochenkov.weatherfromopenapis.R;
+import com.vkochenkov.weatherfromopenapis.db.DBHelper;
 import com.vkochenkov.weatherfromopenapis.entities.City;
 import com.vkochenkov.weatherfromopenapis.entities.CityClickListener;
 
@@ -33,7 +33,13 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
     public void updateDataList() {
         cityList = new ArrayList<>();
 
-        Cursor cursor = database.query(DBHelper.CITIES_TABLE, null, null, null, null, null, null);
+        Cursor cursor = database.query(DBHelper.CITIES_TABLE,
+                                       null,
+                                       null,
+                                       null,
+                                       null,
+                                       null,
+                                       null);
 
         if (cursor.moveToFirst()) {
             int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
@@ -63,12 +69,6 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
     @Override
     public int getItemCount() {
-//        if (cityList==null) {
-//            return 0;
-//        } else {
-        Log.d("cityList.size(): ", Integer.toString(cityList.size()));
-
         return cityList.size();
-       // }
     }
 }
