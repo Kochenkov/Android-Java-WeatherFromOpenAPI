@@ -1,8 +1,10 @@
 package com.vkochenkov.weatherfromopenapis;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +24,7 @@ public class CitiesListActivity extends AppCompatActivity {
     private EditText citiesSearchField;
     private ArrayAdapter<String> mAdapter;
     private RecyclerView cityListRecycler;
+    private Button addCityBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,17 @@ public class CitiesListActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_cities_list);
         citiesSearchField = findViewById(R.id.edt_city_search_field);
         cityListRecycler = findViewById(R.id.recycler_city_list);
+        addCityBtn = findViewById(R.id.add_city_btn);
+        addCityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog dialog = new AddCityDialog(CitiesListActivity.this);
+                dialog.show();
+            }
+        });
     }
+
+
 
 //    @Override
 //    protected void onListItemClick(ListView l, View v, int position, long id) {
