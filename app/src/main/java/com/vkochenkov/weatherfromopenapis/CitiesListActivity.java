@@ -52,8 +52,6 @@ public class CitiesListActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
     private void initRecycler(SQLiteDatabase database) {
