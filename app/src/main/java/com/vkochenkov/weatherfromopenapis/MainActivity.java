@@ -20,8 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
-import com.vkochenkov.weatherfromopenapis.entities.responsefromweatherapi.MainResponseObject;
-import com.vkochenkov.weatherfromopenapis.retrofit.WeatherApiManager;
+import com.vkochenkov.weatherfromopenapis.retrofit.responsefromweatherapi.MainResponseObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,17 +28,17 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    //параметры, проставляемые в урл
+    private static final String KEY = "f5483d10bb2fca550ed960234826950f"; //ключ доступа аккаунта к АПИ
+    private static final String UNITS = "si"; //параметр для получения данных в системе СИ
+    private String LATITUDE = "1"; //широта
+    private String LONGITUDE = "1"; //долгота
+
     //вьюхи
     public static EditText latitudeField;
     public static EditText longitudeField;
     private Toolbar toolbar;
     private ProgressBar progressBar;
-
-    //параметры, проставляемые в урл
-    private static final String KEY = "f5483d10bb2fca550ed960234826950f"; //ключ доступа аккаунта к АПИ
-    private String LATITUDE = "1"; //широта
-    private String LONGITUDE = "1"; //долгота
-    private static final String UNITS = "si"; //параметр для получения данных в системе СИ
 
     //сообщения, отображаемое на экране
     private String message = "";
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     //основной метод отправки запроса и приема ответа
     public void getWeatherFromApi() {
-        WeatherApiManager
+        App
                 .getRequest()
                 .getWeather(KEY, LATITUDE, LONGITUDE, UNITS)
                 .enqueue(new Callback<MainResponseObject>() {

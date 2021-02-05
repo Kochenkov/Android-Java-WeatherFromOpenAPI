@@ -1,16 +1,13 @@
 package com.vkochenkov.weatherfromopenapis.recycler;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.vkochenkov.weatherfromopenapis.CityClickListener;
-import com.vkochenkov.weatherfromopenapis.MainActivity;
+import com.vkochenkov.weatherfromopenapis.entities.CityClickListener;
 import com.vkochenkov.weatherfromopenapis.R;
-import com.vkochenkov.weatherfromopenapis.entities.cities.City;
+import com.vkochenkov.weatherfromopenapis.entities.City;
 
 import org.jetbrains.annotations.NotNull;
 

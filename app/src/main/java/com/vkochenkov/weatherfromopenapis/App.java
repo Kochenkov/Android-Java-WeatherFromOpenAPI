@@ -1,12 +1,13 @@
-package com.vkochenkov.weatherfromopenapis.retrofit;
+package com.vkochenkov.weatherfromopenapis;
 
-import android.app.Application;
+import com.vkochenkov.weatherfromopenapis.retrofit.WeatherApiInterface;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class WeatherApiManager extends Application {
+public class App extends android.app.Application {
 
+    //инициализируем ретрофит в классе приложения
     private Retrofit retrofit;
     private static WeatherApiInterface weatherApiInterface;
     private final String BASE_URL = "https://api.darksky.net/forecast/";
