@@ -38,16 +38,17 @@ public class CityAddDialog extends Dialog {
 
         initFields();
 
-        final ContentValues contentValues = new ContentValues();
 
         findViewById(R.id.apply_add_city_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ContentValues contentValues = new ContentValues();
+
                 contentValues.put(DBHelper.KEY_NAME, cityNameEdt.getText().toString());
                 contentValues.put(DBHelper.KEY_LATITUDE, latitudeEdt.getText().toString());
                 contentValues.put(DBHelper.KEY_LONGITUDE, longitudeEdt.getText().toString());
 
-                database.insert(DBHelper.CITIES_TABLE, null, contentValues);
+                database.replace(DBHelper.CITIES_TABLE, DBHelper.DATABASE_NAME, contentValues);
 
                 if (cityListView.getAdapter()!=null) {
                     CityListAdapter adapter = (CityListAdapter) cityListView.getAdapter();

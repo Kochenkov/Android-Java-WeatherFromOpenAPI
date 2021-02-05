@@ -16,7 +16,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "CitiesDatabase";
     public static final String CITIES_TABLE = "CitiesTable";
 
-    public static final String KEY_ID = "_id";
     public static final String KEY_NAME = "name";
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
@@ -28,14 +27,9 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + CITIES_TABLE + "(" +
-                           KEY_ID + " integer primary key," +
-                           KEY_NAME + " text," +
+                           KEY_NAME + " text primary key," +
                            KEY_LATITUDE + " text," +
                            KEY_LONGITUDE + " text" + ")");
-
-//        db.execSQL("insert into " + CITIES_TABLE + "(" + KEY_NAME + "," + KEY_LATITUDE + "," + KEY_LONGITUDE + ")" +
-//                " values " + "(" + "Санкт-Петербург" + ","  + "59.939095" + "," + "30.315868" +")");
-
 
         for (int i=0; i< CitiesArrayData.getCitiesArrayList().size(); i++) {
             City city = CitiesArrayData.getCitiesArrayList().get(i);
