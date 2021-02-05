@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.vkochenkov.weatherfromopenapis.entities.cities.CitiesArrayList;
-import com.vkochenkov.weatherfromopenapis.entities.cities.City;
+import com.vkochenkov.weatherfromopenapis.entities.CitiesArrayList;
+import com.vkochenkov.weatherfromopenapis.entities.City;
+import com.vkochenkov.weatherfromopenapis.entities.CityClickListener;
 import com.vkochenkov.weatherfromopenapis.recycler.CityListAdapter;
 
 public class CitiesListActivity extends AppCompatActivity {
@@ -47,6 +48,7 @@ public class CitiesListActivity extends AppCompatActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        //todo нужно переписать
                         MainActivity.latitudeField.setText(city.getLatitude());
                         MainActivity.longitudeField.setText(city.getLongitude());
                         onBackPressed();

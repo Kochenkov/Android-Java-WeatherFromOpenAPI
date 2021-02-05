@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.entities.cities;
+package com.vkochenkov.weatherfromopenapis.entities;
 
 import lombok.Getter;
 import lombok.Setter;
