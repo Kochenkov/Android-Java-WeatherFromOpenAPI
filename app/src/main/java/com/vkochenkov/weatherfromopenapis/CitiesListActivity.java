@@ -1,9 +1,10 @@
 package com.vkochenkov.weatherfromopenapis;
 
 import android.app.Dialog;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -13,7 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.vkochenkov.weatherfromopenapis.entities.CitiesArrayList;
+import com.vkochenkov.weatherfromopenapis.db.DBHelper;
 import com.vkochenkov.weatherfromopenapis.entities.City;
 import com.vkochenkov.weatherfromopenapis.entities.CityClickListener;
 import com.vkochenkov.weatherfromopenapis.recycler.CityListAdapter;
@@ -22,9 +23,17 @@ public class CitiesListActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private EditText citiesSearchField;
-    private ArrayAdapter<String> mAdapter;
-    private RecyclerView cityListRecycler;
+    private RecyclerView cityListView;
     private Button addCityBtn;
+
+    private DBHelper dbHelper;
+    private SQLiteDatabase database;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("onResumed", "onResumed");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +41,9 @@ public class CitiesListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cities_list);
 
         initFields();
-        initRecycler();
+        initRecycler(database);
+
+        setAddCityBtnClickListener(database);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,10 +52,12 @@ public class CitiesListActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
-    private void initRecycler() {
-        cityListRecycler.setLayoutManager(new LinearLayoutManager(this));
+    private void initRecycler(SQLiteDatabase database) {
+        cityListView.setLayoutManager(new LinearLayoutManager(this));
         CityClickListener cityClickListener = new CityClickListener() {
             @Override
             public View.OnClickListener onCityClickListener(final City city) {
@@ -59,27 +72,32 @@ public class CitiesListActivity extends AppCompatActivity {
                 };
             }
         };
-        cityListRecycler.setAdapter(new CityListAdapter(CitiesArrayList.createCitiesArrayList(), cityClickListener));
+        cityListView.setAdapter(new CityListAdapter(database, cityClickListener));
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
                                                                                 this.getResources().getConfiguration().orientation);
-        cityListRecycler.addItemDecoration(dividerItemDecoration);
+        cityListView.addItemDecoration(dividerItemDecoration);
     }
 
     private void initFields() {
         toolbar = findViewById(R.id.toolbar_cities_list);
         citiesSearchField = findViewById(R.id.edt_city_search_field);
-        cityListRecycler = findViewById(R.id.recycler_city_list);
+        cityListView = findViewById(R.id.recycler_city_list);
         addCityBtn = findViewById(R.id.add_city_btn);
+
+        dbHelper = new DBHelper(this);
+        database = dbHelper.getWritableDatabase();
+    }
+
+    private void setAddCityBtnClickListener(final SQLiteDatabase database) {
         addCityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialog = new AddCityDialog(CitiesListActivity.this);
+                Dialog dialog = new CityAddDialog(CitiesListActivity.this, database, cityListView);
                 dialog.show();
             }
         });
     }
-
 
 
 //    @Override

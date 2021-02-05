@@ -1,26 +1,52 @@
 package com.vkochenkov.weatherfromopenapis.recycler;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.vkochenkov.weatherfromopenapis.entities.CityClickListener;
+import com.vkochenkov.weatherfromopenapis.db.DBHelper;
 import com.vkochenkov.weatherfromopenapis.R;
 import com.vkochenkov.weatherfromopenapis.entities.City;
+import com.vkochenkov.weatherfromopenapis.entities.CityClickListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
-    List<City> cityList;
+    SQLiteDatabase database;
+    List<City> cityList = new ArrayList<>();
     CityClickListener cityClickListener;
 
-    public CityListAdapter(List<City> cityList, CityClickListener cityClickListener){
-        this.cityList = cityList;
+    public CityListAdapter(SQLiteDatabase database, CityClickListener cityClickListener) {
         this.cityClickListener = cityClickListener;
+        this.database = database;
+        updateDataList();
+    }
+
+    public void updateDataList() {
+        cityList = new ArrayList<>();
+
+        Cursor cursor = database.query(DBHelper.CITIES_TABLE, null, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
+            int latitudeIndex = cursor.getColumnIndex(DBHelper.KEY_LATITUDE);
+            int longitudeIndex = cursor.getColumnIndex(DBHelper.KEY_LONGITUDE);
+
+            do {
+                cityList.add(new City(cursor.getString(nameIndex), cursor.getString(latitudeIndex), cursor.getString(longitudeIndex)));
+                Log.d("insideCursor", "");
+            } while (cursor.moveToNext());
+
+        }
+        cursor.close();
     }
 
     @NotNull
@@ -37,6 +63,12 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
     @Override
     public int getItemCount() {
+//        if (cityList==null) {
+//            return 0;
+//        } else {
+        Log.d("cityList.size(): ", Integer.toString(cityList.size()));
+
         return cityList.size();
+       // }
     }
 }
