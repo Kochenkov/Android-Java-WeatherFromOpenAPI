@@ -30,6 +30,23 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
         updateDataList();
     }
 
+    @NotNull
+    @Override
+    public CityViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        return new CityViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_city, viewGroup, false));
+    }
+
+    @Override
+    public void onBindViewHolder(CityViewHolder cityViewHolder, int i) {
+        final City cityItem = cityList.get(i);
+        cityViewHolder.bind(cityViewHolder.itemView, cityItem, cityClickListener, i);
+    }
+
+    @Override
+    public int getItemCount() {
+        return cityList.size();
+    }
+
     public void updateDataList() {
         cityList = new ArrayList<>();
 
@@ -48,27 +65,9 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
             do {
                 cityList.add(new City(cursor.getString(nameIndex), cursor.getString(latitudeIndex), cursor.getString(longitudeIndex)));
-                Log.d("insideCursor", "");
             } while (cursor.moveToNext());
 
         }
         cursor.close();
-    }
-
-    @NotNull
-    @Override
-    public CityViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        return new CityViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_city, viewGroup, false));
-    }
-
-    @Override
-    public void onBindViewHolder(CityViewHolder cityViewHolder, int i) {
-        final City cityItem = cityList.get(i);
-        cityViewHolder.bind(cityViewHolder.itemView, cityItem, cityClickListener);
-    }
-
-    @Override
-    public int getItemCount() {
-        return cityList.size();
     }
 }

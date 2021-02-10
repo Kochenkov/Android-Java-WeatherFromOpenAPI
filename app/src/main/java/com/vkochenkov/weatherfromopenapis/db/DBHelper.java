@@ -34,10 +34,10 @@ public class DBHelper extends SQLiteOpenHelper {
         for (int i=0; i< CitiesArrayData.getCitiesArrayList().size(); i++) {
             City city = CitiesArrayData.getCitiesArrayList().get(i);
             ContentValues contentValues = new ContentValues();
-            contentValues.put(DBHelper.KEY_NAME, city.getName());
-            contentValues.put(DBHelper.KEY_LATITUDE, city.getLatitude());
-            contentValues.put(DBHelper.KEY_LONGITUDE,city.getLongitude());
-            db.insert(DBHelper.CITIES_TABLE, null, contentValues);
+            contentValues.put(KEY_NAME, city.getName());
+            contentValues.put(KEY_LATITUDE, city.getLatitude());
+            contentValues.put(KEY_LONGITUDE,city.getLongitude());
+            db.insert(CITIES_TABLE, null, contentValues);
         }
     }
 
@@ -45,5 +45,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("drop table if exists " + CITIES_TABLE);
         onCreate(db);
+    }
+
+    public void deleteElement(SQLiteDatabase db, String name) {
+        db.execSQL("DELETE FROM " + CITIES_TABLE + " WHERE " +  KEY_NAME + " = \"" + name + "\"");
     }
 }

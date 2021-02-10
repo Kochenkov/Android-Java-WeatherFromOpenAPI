@@ -19,8 +19,9 @@ public class CityViewHolder extends RecyclerView.ViewHolder {
         cityName = itemView.findViewById(R.id.item_city_name);
     }
 
-    public void bind(View itemView, City city, CityClickListener cityClickListener) {
+    public void bind(View itemView, City city, CityClickListener cityClickListener, int position) {
         cityName.setText(city.getName());
         itemView.setOnClickListener(cityClickListener.onCityClickListener(city));
+        itemView.setOnLongClickListener(cityClickListener.onCityLongClickListener(position, city));
     }
 }

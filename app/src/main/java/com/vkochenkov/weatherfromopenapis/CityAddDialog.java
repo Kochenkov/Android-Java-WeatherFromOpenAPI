@@ -3,7 +3,6 @@ package com.vkochenkov.weatherfromopenapis;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -16,19 +15,17 @@ import com.vkochenkov.weatherfromopenapis.recycler.CityListAdapter;
 
 public class CityAddDialog extends Dialog {
 
-    private Context context;
-    private SQLiteDatabase database;
+    private DBHelper dbHelper;
     private RecyclerView cityListView;
 
     private EditText cityNameEdt;
     private EditText latitudeEdt;
     private EditText longitudeEdt;
 
-    public CityAddDialog(@NonNull Context context, SQLiteDatabase database, RecyclerView cityListView) {
+    public CityAddDialog(@NonNull Context context, DBHelper dbHelper, RecyclerView cityListView) {
         super(context);
-        this.context = context;
-        this.database = database;
         this.cityListView = cityListView;
+        this.dbHelper = dbHelper;
     }
 
     @Override
@@ -37,7 +34,6 @@ public class CityAddDialog extends Dialog {
         setContentView(R.layout.dialog_add_city);
 
         initFields();
-
 
         findViewById(R.id.apply_add_city_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +44,7 @@ public class CityAddDialog extends Dialog {
                 contentValues.put(DBHelper.KEY_LATITUDE, latitudeEdt.getText().toString());
                 contentValues.put(DBHelper.KEY_LONGITUDE, longitudeEdt.getText().toString());
 
-                database.replace(DBHelper.CITIES_TABLE, DBHelper.DATABASE_NAME, contentValues);
+                dbHelper.getWritableDatabase().replace(DBHelper.CITIES_TABLE, DBHelper.DATABASE_NAME, contentValues);
 
                 if (cityListView.getAdapter()!=null) {
                     CityListAdapter adapter = (CityListAdapter) cityListView.getAdapter();

@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -56,7 +57,7 @@ public class CitiesListActivity extends AppCompatActivity {
 
     }
 
-    private void initRecycler(SQLiteDatabase database) {
+    private void initRecycler(final SQLiteDatabase database) {
         cityListView.setLayoutManager(new LinearLayoutManager(this));
         CityClickListener cityClickListener = new CityClickListener() {
             @Override
@@ -65,12 +66,32 @@ public class CitiesListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         //todo нужно переписать
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("LATITUDE", city.getLatitude());
+//                        bundle.putString("LONGITUDE", city.getLongitude());
+//                        Intent intent = new Intent();
                         MainActivity.latitudeField.setText(city.getLatitude());
                         MainActivity.longitudeField.setText(city.getLongitude());
                         onBackPressed();
                     }
                 };
             }
+
+            @Override
+            public View.OnLongClickListener onCityLongClickListener(int position, final City city) {
+
+                return new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+
+                        Dialog dialog = new CityDeleteDialog(CitiesListActivity.this, dbHelper, cityListView, city);
+                        dialog.show();
+
+                        return true;
+                    }
+                };
+            }
+
         };
         cityListView.setAdapter(new CityListAdapter(database, cityClickListener));
 
@@ -93,7 +114,7 @@ public class CitiesListActivity extends AppCompatActivity {
         addCityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialog = new CityAddDialog(CitiesListActivity.this, database, cityListView);
+                Dialog dialog = new CityAddDialog(CitiesListActivity.this, dbHelper, cityListView);
                 dialog.show();
             }
         });
@@ -108,17 +129,16 @@ public class CitiesListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
     }
 
     public void findAndShowCity(String string) {
         //todo
     }
-
 }
-
-
