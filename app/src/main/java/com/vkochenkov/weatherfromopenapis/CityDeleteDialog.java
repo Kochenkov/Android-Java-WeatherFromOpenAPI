@@ -38,7 +38,7 @@ public class CityDeleteDialog extends Dialog {
 
                 if (cityListView.getAdapter()!=null) {
                     CityListAdapter adapter = (CityListAdapter) cityListView.getAdapter();
-                    adapter.updateDataList();
+                    adapter.updateDataListFromDb();
                     adapter.notifyDataSetChanged();
                 }
                 onBackPressed();

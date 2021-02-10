@@ -7,7 +7,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -65,11 +64,7 @@ public class CitiesListActivity extends AppCompatActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //todo нужно переписать
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("LATITUDE", city.getLatitude());
-//                        bundle.putString("LONGITUDE", city.getLongitude());
-//                        Intent intent = new Intent();
+                        //todo нужно переписать на старт активити фо резалт или бандл?
                         MainActivity.latitudeField.setText(city.getLatitude());
                         MainActivity.longitudeField.setText(city.getLongitude());
                         onBackPressed();
@@ -125,7 +120,10 @@ public class CitiesListActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                findAndShowCity(charSequence.toString());
+                CityListAdapter adapter = (CityListAdapter) cityListView.getAdapter();
+                if (adapter!=null) {
+                    adapter.findAndShowCityItems(charSequence.toString());
+                }
             }
 
             @Override
@@ -136,9 +134,5 @@ public class CitiesListActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
             }
         });
-    }
-
-    public void findAndShowCity(String string) {
-        //todo
     }
 }

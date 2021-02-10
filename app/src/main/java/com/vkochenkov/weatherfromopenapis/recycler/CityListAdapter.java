@@ -2,7 +2,6 @@ package com.vkochenkov.weatherfromopenapis.recycler;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -27,7 +26,7 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
     public CityListAdapter(SQLiteDatabase database, CityClickListener cityClickListener) {
         this.cityClickListener = cityClickListener;
         this.database = database;
-        updateDataList();
+        updateDataListFromDb();
     }
 
     @NotNull
@@ -47,7 +46,7 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
         return cityList.size();
     }
 
-    public void updateDataList() {
+    public void updateDataListFromDb() {
         cityList = new ArrayList<>();
 
         Cursor cursor = database.query(DBHelper.CITIES_TABLE,
@@ -69,5 +68,19 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
         }
         cursor.close();
+    }
+
+    public void findAndShowCityItems(String str) {
+        updateDataListFromDb();
+
+        List<City> newCityList = new ArrayList<>();
+            for (int i=0; i<cityList.size(); i++) {
+                if (cityList.get(i).getName().toLowerCase().contains(str.toLowerCase())) {
+                    newCityList.add(cityList.get(i));
+                }
+            }
+            cityList = newCityList;
+
+        notifyDataSetChanged();
     }
 }
