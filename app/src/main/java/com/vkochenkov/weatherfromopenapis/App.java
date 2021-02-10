@@ -7,24 +7,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class App extends android.app.Application {
 
-    //инициализируем ретрофит в классе приложения
-    private Retrofit retrofit;
     private static WeatherApiInterface weatherApiInterface;
-    private final String BASE_URL = "https://api.darksky.net/forecast/";
+    private static final String BASE_URL = "https://api.darksky.net/forecast/";
 
     @Override
     public void onCreate() {
         super.onCreate();
+        //инициализируем ретрофит в классе приложения
+        initRetrofit();
+    }
 
-        retrofit = new Retrofit.Builder()
+    public static WeatherApiInterface getRequest() {
+        return weatherApiInterface;
+    }
+
+    private void initRetrofit() {
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         weatherApiInterface = retrofit.create(WeatherApiInterface.class);
-    }
-
-    public static WeatherApiInterface getRequest() {
-        return weatherApiInterface;
     }
 }
