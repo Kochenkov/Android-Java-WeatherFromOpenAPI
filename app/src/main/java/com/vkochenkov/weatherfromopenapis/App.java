@@ -9,6 +9,7 @@ public class App extends android.app.Application {
 
     private static WeatherApiInterface weatherApiInterface;
     private static final String BASE_URL = "https://api.darksky.net/forecast/";
+    private static final String KEY = "f5483d10bb2fca550ed960234826950f"; //ключ доступа аккаунта к АПИ
 
     @Override
     public void onCreate() {
@@ -23,7 +24,7 @@ public class App extends android.app.Application {
 
     private void initRetrofit() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BASE_URL + KEY + "/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

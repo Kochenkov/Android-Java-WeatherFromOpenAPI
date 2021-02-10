@@ -28,7 +28,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     //параметры, проставляемые в урл
-    private static final String KEY = "f5483d10bb2fca550ed960234826950f"; //ключ доступа аккаунта к АПИ
     private static final String UNITS = "si"; //параметр для получения данных в системе СИ
     private String LATITUDE = "1"; //широта
     private String LONGITUDE = "1"; //долгота
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     //основной метод отправки запроса и приема ответа
     public void getWeatherFromApi() {
         App.getRequest()
-           .getWeather(KEY, LATITUDE, LONGITUDE, UNITS)
+           .getWeather(LATITUDE, LONGITUDE, UNITS)
            .enqueue(new Callback<MainResponseObject>() {
                @Override
                public void onResponse(Call<MainResponseObject> call, Response<MainResponseObject> response) {

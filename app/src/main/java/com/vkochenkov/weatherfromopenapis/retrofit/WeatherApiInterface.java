@@ -9,9 +9,8 @@ import retrofit2.http.Query;
 
 public interface WeatherApiInterface {
 
-    @GET("{key}/{latitude},{longitude}")
+    @GET("{latitude},{longitude}")
     Call<MainResponseObject> getWeather(
-            @Path("key") String key,
             @Path("latitude") String latitude,
             @Path("longitude") String longitude,
             @Query("units") String units
