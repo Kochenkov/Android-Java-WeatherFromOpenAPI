@@ -9,7 +9,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -29,7 +28,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     //параметры, проставляемые в урл
-    private static final String KEY = "f5483d10bb2fca550ed960234826950f"; //ключ доступа аккаунта к АПИ
     private static final String UNITS = "si"; //параметр для получения данных в системе СИ
     private String LATITUDE = "1"; //широта
     private String LONGITUDE = "1"; //долгота
@@ -86,63 +84,62 @@ public class MainActivity extends AppCompatActivity {
 
     //основной метод отправки запроса и приема ответа
     public void getWeatherFromApi() {
-        App
-                .getRequest()
-                .getWeather(KEY, LATITUDE, LONGITUDE, UNITS)
-                .enqueue(new Callback<MainResponseObject>() {
-                    @Override
-                    public void onResponse(Call<MainResponseObject> call, Response<MainResponseObject> response) {
-                        if (!response.isSuccessful()) {
-                            alertTitle = "Похоже, что-то пошло не так";
-                            alertMessage = "Код ответа от сервера: " + response.code();
-                            alertButtonText = "Понятно";
-                            alertIcon = R.drawable.eclipse;
-                            showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
-                            progressBar.setVisibility(View.GONE);
-                            return;
-                        }
+        App.getRequest()
+           .getWeather(LATITUDE, LONGITUDE, UNITS)
+           .enqueue(new Callback<MainResponseObject>() {
+               @Override
+               public void onResponse(Call<MainResponseObject> call, Response<MainResponseObject> response) {
+                   if (!response.isSuccessful()) {
+                       alertTitle = "Похоже, что-то пошло не так";
+                       alertMessage = "Код ответа от сервера: " + response.code();
+                       alertButtonText = "Понятно";
+                       alertIcon = R.drawable.eclipse;
+                       showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
+                       progressBar.setVisibility(View.GONE);
+                       return;
+                   }
 
-                        mainResponseObject = response.body();
+                   mainResponseObject = response.body();
 
-                        temperatureCel = mainResponseObject.getCurrently().getTemperature();
-                        humidity = mainResponseObject.getCurrently().getHumidity();
-                        humidityPercent = Double.parseDouble(humidity) * 100;
-                        pressure = mainResponseObject.getCurrently().getPressure();
-                        pressurePa = Double.parseDouble(pressure) * 100; //переводим из строки и из гекто-Паскалей в Паскили
-                        pressureMm = Math.ceil(pressurePa / 133.3); //переводим в мм.рт.ст.
-                        icon = response.body().getCurrently().getIcon(); //для теста
+                   temperatureCel = mainResponseObject.getCurrently().getTemperature();
+                   humidity = mainResponseObject.getCurrently().getHumidity();
+                   humidityPercent = Double.parseDouble(humidity) * 100;
+                   pressure = mainResponseObject.getCurrently().getPressure();
+                   pressurePa = Double.parseDouble(pressure) * 100; //переводим из строки и из гекто-Паскалей в Паскили
+                   pressureMm = Math.ceil(pressurePa / 133.3); //переводим в мм.рт.ст.
+                   icon = response.body().getCurrently().getIcon(); //для теста
 
-                        message =
-                                "Заданная область:" + "\n" +
-                                        "широта: " + mainResponseObject.getLatitude() + "°;" + "\n" +
-                                        "долгота: " + mainResponseObject.getLongitude() + "°;" + "\n" +
-                                        "тайм-зона: " + mainResponseObject.getTimezone() + "." + "\n" +
-                                        "\n" +
-                                        "Текущая погода в заданной области:" + "\n" +
-                                        "температура: " + temperatureCel + "°C;" + "\n" +
-                                        "влажность: " + humidityPercent + "%;" + "\n" +
-                                        "давление: " + pressureMm + "  мм.рт.ст.;" + "\n" +
-                                        "скорость ветра: " + response.body().getCurrently().getWindSpeed() + " м/с;" + "\n" +
-                                        "общий прогноз: " + response.body().getCurrently().getSummary() + "." + "\n";
+                   message =
+                           "Заданная область:" + "\n" +
+                                   "широта: " + mainResponseObject.getLatitude() + "°;" + "\n" +
+                                   "долгота: " + mainResponseObject.getLongitude() + "°;" + "\n" +
+                                   "тайм-зона: " + mainResponseObject.getTimezone() + "." + "\n" +
+                                   "\n" +
+                                   "Текущая погода в заданной области:" + "\n" +
+                                   "температура: " + temperatureCel + "°C;" + "\n" +
+                                   "влажность: " + humidityPercent + "%;" + "\n" +
+                                   "давление: " + pressureMm + "  мм.рт.ст.;" + "\n" +
+                                   "скорость ветра: " + response.body().getCurrently().getWindSpeed() + " м/с;" + "\n" +
+                                   "общий прогноз: " + response.body().getCurrently().getSummary() + "." + "\n";
 
-                        alertTitle = "Такие дела";
-                        alertMessage = message;
-                        alertButtonText = "Понятно";
-                        alertIcon = setIcon(icon);
-                        showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
-                        progressBar.setVisibility(View.GONE);
-                    }
+                   alertTitle = "Такие дела";
+                   alertMessage = message;
+                   alertButtonText = "Понятно";
+                   alertIcon = setIcon(icon);
+                   showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
+                   progressBar.setVisibility(View.GONE);
+               }
 
-                    @Override
-                    public void onFailure(Call<MainResponseObject> call, Throwable t) {
-                        alertTitle = "Похоже, что-то пошло не так";
-                        alertMessage = t.getMessage();
-                        alertButtonText = "Понятно";
-                        alertIcon = R.drawable.eclipse;
-                        showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
-                        progressBar.setVisibility(View.GONE);
-                    }
-                });
+               @Override
+               public void onFailure(Call<MainResponseObject> call, Throwable t) {
+                   alertTitle = "Похоже, что-то пошло не так";
+                   alertMessage = t.getMessage();
+                   alertButtonText = "Понятно";
+                   alertIcon = R.drawable.eclipse;
+                   showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
+                   progressBar.setVisibility(View.GONE);
+               }
+           });
     }
 
     public void validationFieldsAndGetWeatherFromApi() {
@@ -252,15 +249,15 @@ public class MainActivity extends AppCompatActivity {
     public void showAlert(String alertTitle, String alertMessage, String alertButtonText, int alertIcon) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(alertTitle)
-                .setMessage(alertMessage)
-                .setIcon(alertIcon)
-                .setCancelable(false)
-                .setNegativeButton(alertButtonText,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+               .setMessage(alertMessage)
+               .setIcon(alertIcon)
+               .setCancelable(false)
+               .setNegativeButton(alertButtonText,
+                                  new DialogInterface.OnClickListener() {
+                                      public void onClick(DialogInterface dialog, int id) {
+                                          dialog.cancel();
+                                      }
+                                  });
         AlertDialog alert = builder.create();
         alert.show();
     }
