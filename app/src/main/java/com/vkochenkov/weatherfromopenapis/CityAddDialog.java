@@ -44,7 +44,7 @@ public class CityAddDialog extends Dialog {
                 contentValues.put(DBHelper.KEY_LATITUDE, latitudeEdt.getText().toString());
                 contentValues.put(DBHelper.KEY_LONGITUDE, longitudeEdt.getText().toString());
 
-                dbHelper.getWritableDatabase().replace(DBHelper.CITIES_TABLE, DBHelper.DATABASE_NAME, contentValues);
+                dbHelper.getWritableDatabase().replace(DBHelper.CITIES_TABLE, null, contentValues);
 
                 if (cityListView.getAdapter()!=null) {
                     CityListAdapter adapter = (CityListAdapter) cityListView.getAdapter();
