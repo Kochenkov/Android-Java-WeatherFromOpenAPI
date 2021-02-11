@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.retrofit.responsefromweatherapi;
+package com.vkochenkov.weatherfromopenapis.retrofit.dto;
 
 import lombok.Getter;
 import lombok.Setter;

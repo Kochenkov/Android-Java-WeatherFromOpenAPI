@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis;
+package com.vkochenkov.weatherfromopenapis.dialogs;
 
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.vkochenkov.weatherfromopenapis.R;
 import com.vkochenkov.weatherfromopenapis.db.DBHelper;
 import com.vkochenkov.weatherfromopenapis.recycler.CityListAdapter;
 

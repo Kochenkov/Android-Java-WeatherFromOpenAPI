@@ -14,12 +14,13 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
-import com.vkochenkov.weatherfromopenapis.retrofit.responsefromweatherapi.MainResponseObject;
+import com.vkochenkov.weatherfromopenapis.retrofit.dto.MainResponseObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private String LONGITUDE = "1"; //долгота
 
     //вьюхи
-    public static EditText latitudeField;
-    public static EditText longitudeField;
+    public EditText latitudeField;
+    public EditText longitudeField;
     private Toolbar toolbar;
     private ProgressBar progressBar;
 
@@ -70,11 +71,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    private void initFields() {
-        longitudeField = findViewById(R.id.edt_longitude);
-        latitudeField = findViewById(R.id.edt_latitude);
-        progressBar = findViewById(R.id.progress_bar);
-        toolbar = findViewById(R.id.toolbar_main);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            latitudeField.setText(data.getExtras().getString("latitude"));
+            longitudeField.setText(data.getExtras().getString("longitude"));
+        }
     }
 
     public void getParamsFromFields() {
@@ -269,6 +272,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void openCitiesListActivity(View view) {
         Intent intent = new Intent(MainActivity.this, CitiesListActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 100);
+    }
+
+    private void initFields() {
+        longitudeField = findViewById(R.id.edt_longitude);
+        latitudeField = findViewById(R.id.edt_latitude);
+        progressBar = findViewById(R.id.progress_bar);
+        toolbar = findViewById(R.id.toolbar_main);
     }
 }

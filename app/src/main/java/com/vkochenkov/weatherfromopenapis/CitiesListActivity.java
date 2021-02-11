@@ -1,6 +1,7 @@
 package com.vkochenkov.weatherfromopenapis;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vkochenkov.weatherfromopenapis.db.DBHelper;
+import com.vkochenkov.weatherfromopenapis.dialogs.CityAddDialog;
+import com.vkochenkov.weatherfromopenapis.dialogs.CityDeleteDialog;
 import com.vkochenkov.weatherfromopenapis.entities.City;
 import com.vkochenkov.weatherfromopenapis.entities.CityClickListener;
 import com.vkochenkov.weatherfromopenapis.recycler.CityListAdapter;
@@ -43,8 +46,8 @@ public class CitiesListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cities_list);
 
         initFields();
-        initRecycler(database);
-        setAddCityBtnClickListener(database);
+        initRecycler();
+        setAddCityBtnClickListener();
         setTextWatcherForSearchCity();
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -53,10 +56,9 @@ public class CitiesListActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
     }
 
-    private void initRecycler(final SQLiteDatabase database) {
+    private void initRecycler() {
         cityListView.setLayoutManager(new LinearLayoutManager(this));
         CityClickListener cityClickListener = new CityClickListener() {
             @Override
@@ -64,10 +66,11 @@ public class CitiesListActivity extends AppCompatActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //todo нужно переписать на старт активити фо резалт или бандл?
-                        MainActivity.latitudeField.setText(city.getLatitude());
-                        MainActivity.longitudeField.setText(city.getLongitude());
-                        onBackPressed();
+                        Intent intent = new Intent();
+                        intent.putExtra("latitude", city.getLatitude());
+                        intent.putExtra("longitude", city.getLongitude());
+                        setResult(RESULT_OK, intent);
+                        finish();
                     }
                 };
             }
@@ -105,7 +108,7 @@ public class CitiesListActivity extends AppCompatActivity {
         database = dbHelper.getWritableDatabase();
     }
 
-    private void setAddCityBtnClickListener(final SQLiteDatabase database) {
+    private void setAddCityBtnClickListener() {
         addCityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,7 +124,7 @@ public class CitiesListActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 CityListAdapter adapter = (CityListAdapter) cityListView.getAdapter();
-                if (adapter!=null) {
+                if (adapter != null) {
                     adapter.findAndShowCityItems(charSequence.toString());
                 }
             }
