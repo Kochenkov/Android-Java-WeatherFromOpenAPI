@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.presentation;
+package com.vkochenkov.weatherfromopenapis.presentation.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,11 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vkochenkov.weatherfromopenapis.R;
-import com.vkochenkov.weatherfromopenapis.db.DBHelper;
+import com.vkochenkov.weatherfromopenapis.data.db.DBHelper;
 import com.vkochenkov.weatherfromopenapis.presentation.dialogs.CityAddDialog;
 import com.vkochenkov.weatherfromopenapis.presentation.dialogs.CityDeleteDialog;
-import com.vkochenkov.weatherfromopenapis.entities.City;
-import com.vkochenkov.weatherfromopenapis.entities.CityClickListener;
+import com.vkochenkov.weatherfromopenapis.data.City;
+import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityClickListener;
 import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityListAdapter;
 
 public class CitiesListActivity extends AppCompatActivity {

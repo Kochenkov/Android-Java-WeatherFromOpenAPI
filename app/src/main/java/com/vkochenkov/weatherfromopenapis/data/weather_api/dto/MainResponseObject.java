@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.retrofit.dto;
+package com.vkochenkov.weatherfromopenapis.data.weather_api.dto;
 
 
 public class MainResponseObject {

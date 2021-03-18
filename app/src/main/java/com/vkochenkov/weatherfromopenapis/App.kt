@@ -1,17 +1,16 @@
 package com.vkochenkov.weatherfromopenapis
 
 import android.app.Application
-import com.vkochenkov.weatherfromopenapis.retrofit.WeatherApiInterface
+import com.vkochenkov.weatherfromopenapis.data.weather_api.WeatherApiService
+import com.vkochenkov.weatherfromopenapis.data.weather_api.WeatherApiService.Companion.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class App : Application() {
 
-    lateinit var apiService: WeatherApiInterface
+    lateinit var apiService: WeatherApiService
 
     companion object {
-        private const val BASE_URL = "https://api.darksky.net/forecast/"
-
         var instance: App? = null
     }
 
@@ -26,7 +25,7 @@ class App : Application() {
             .baseUrl(BASE_URL + BuildConfig.API_ACCESS_KEY + "/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(WeatherApiInterface::class.java)
+            .create(WeatherApiService::class.java)
     }
 
 }

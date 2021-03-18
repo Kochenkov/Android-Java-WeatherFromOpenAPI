@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.entities;
+package com.vkochenkov.weatherfromopenapis.data;
 
 
 public class City {

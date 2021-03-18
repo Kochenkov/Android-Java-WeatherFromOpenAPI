@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.db;
+package com.vkochenkov.weatherfromopenapis.data.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.vkochenkov.weatherfromopenapis.entities.CitiesArrayData;
-import com.vkochenkov.weatherfromopenapis.entities.City;
+import com.vkochenkov.weatherfromopenapis.data.CitiesArrayData;
+import com.vkochenkov.weatherfromopenapis.data.City;
 
 public class DBHelper extends SQLiteOpenHelper {
 

@@ -1,6 +1,8 @@
-package com.vkochenkov.weatherfromopenapis.entities;
+package com.vkochenkov.weatherfromopenapis.presentation.recycler;
 
 import android.view.View;
+
+import com.vkochenkov.weatherfromopenapis.data.City;
 
 public interface CityClickListener {
     View.OnClickListener onCityClickListener(City city);

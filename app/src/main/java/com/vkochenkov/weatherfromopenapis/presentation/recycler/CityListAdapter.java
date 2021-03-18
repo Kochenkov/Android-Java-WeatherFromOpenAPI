@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vkochenkov.weatherfromopenapis.R;
-import com.vkochenkov.weatherfromopenapis.db.DBHelper;
-import com.vkochenkov.weatherfromopenapis.entities.City;
-import com.vkochenkov.weatherfromopenapis.entities.CityClickListener;
+import com.vkochenkov.weatherfromopenapis.data.db.DBHelper;
+import com.vkochenkov.weatherfromopenapis.data.City;
 
 import org.jetbrains.annotations.NotNull;
 

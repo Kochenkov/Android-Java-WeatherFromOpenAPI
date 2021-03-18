@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.presentation;
+package com.vkochenkov.weatherfromopenapis.presentation.activities;
 
 import android.Manifest;
 import android.content.Context;
@@ -22,7 +22,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.vkochenkov.weatherfromopenapis.App;
 import com.vkochenkov.weatherfromopenapis.R;
-import com.vkochenkov.weatherfromopenapis.retrofit.dto.MainResponseObject;
+import com.vkochenkov.weatherfromopenapis.data.weather_api.dto.MainResponseObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;

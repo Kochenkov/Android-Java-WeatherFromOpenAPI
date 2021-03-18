@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.entities;
+package com.vkochenkov.weatherfromopenapis.data;
 
 import java.util.ArrayList;
 
