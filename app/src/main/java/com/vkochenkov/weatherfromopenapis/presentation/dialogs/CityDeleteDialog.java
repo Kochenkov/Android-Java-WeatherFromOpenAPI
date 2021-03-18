@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.dialogs;
+package com.vkochenkov.weatherfromopenapis.presentation.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.vkochenkov.weatherfromopenapis.R;
 import com.vkochenkov.weatherfromopenapis.db.DBHelper;
 import com.vkochenkov.weatherfromopenapis.entities.City;
-import com.vkochenkov.weatherfromopenapis.recycler.CityListAdapter;
+import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityListAdapter;
 
 public class CityDeleteDialog extends Dialog {
 

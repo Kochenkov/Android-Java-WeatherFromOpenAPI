@@ -1,10 +1,6 @@
 package com.vkochenkov.weatherfromopenapis.retrofit.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
 public class MainResponseObject {
     private String latitude;
     private String longitude;
@@ -16,4 +12,44 @@ public class MainResponseObject {
 //    private daily;
 //    private flags;
     private String offset;
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public void setCurrently(DetailInformation currently) {
+        this.currently = currently;
+    }
+
+    public void setOffset(String offset) {
+        this.offset = offset;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public DetailInformation getCurrently() {
+        return currently;
+    }
+
+    public String getOffset() {
+        return offset;
+    }
 }

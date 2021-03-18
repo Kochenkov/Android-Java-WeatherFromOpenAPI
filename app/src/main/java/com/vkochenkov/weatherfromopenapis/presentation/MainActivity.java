@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis;
+package com.vkochenkov.weatherfromopenapis.presentation;
 
 import android.Manifest;
 import android.content.Context;
@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
+import com.vkochenkov.weatherfromopenapis.App;
+import com.vkochenkov.weatherfromopenapis.R;
 import com.vkochenkov.weatherfromopenapis.retrofit.dto.MainResponseObject;
 
 import retrofit2.Call;
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     //основной метод отправки запроса и приема ответа
     public void getWeatherFromApi() {
-        App.getRequest()
+        App.Companion.getInstance().apiService
            .getWeather(LATITUDE, LONGITUDE, UNITS)
            .enqueue(new Callback<MainResponseObject>() {
                @Override

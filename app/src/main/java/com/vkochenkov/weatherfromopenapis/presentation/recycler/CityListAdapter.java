@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.recycler;
+package com.vkochenkov.weatherfromopenapis.presentation.recycler;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

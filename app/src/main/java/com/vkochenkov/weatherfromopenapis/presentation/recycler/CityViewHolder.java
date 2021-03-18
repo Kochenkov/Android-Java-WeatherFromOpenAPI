@@ -1,5 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.recycler;
-
+package com.vkochenkov.weatherfromopenapis.presentation.recycler;
 
 import android.view.View;
 import android.widget.TextView;
