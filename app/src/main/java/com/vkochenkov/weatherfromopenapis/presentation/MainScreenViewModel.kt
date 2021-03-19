@@ -1,13 +1,10 @@
 package com.vkochenkov.weatherfromopenapis.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vkochenkov.weatherfromopenapis.App
-import com.vkochenkov.weatherfromopenapis.data.db.entities.Coordinates
 import com.vkochenkov.weatherfromopenapis.data.weather_api.entities.MainResponseObject
-import com.vkochenkov.weatherfromopenapis.domain.ApiResult
 import com.vkochenkov.weatherfromopenapis.domain.Repository
 
 class MainScreenViewModel: ViewModel() {

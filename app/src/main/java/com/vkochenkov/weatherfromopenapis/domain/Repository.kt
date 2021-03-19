@@ -13,6 +13,10 @@ class Repository {
     private val dao by lazy { App.instance!!.database.citiesDao() }
     private val api by lazy { App.instance?.apiService!! }
 
+    fun insertCityToDb(city: City) {
+        dao.insertCity(city)
+    }
+
     fun getAllCitiesFromDb(): List<City> {
         return dao.getAllCities()
     }
@@ -34,7 +38,6 @@ class Repository {
                         callback.onFailure("Response error code: ${response.code()}")
                     }
                 }
-
             })
     }
 

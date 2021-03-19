@@ -23,7 +23,7 @@ import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.data.weather_api.entities.MainResponseObject
 import com.vkochenkov.weatherfromopenapis.presentation.MainScreenViewModel
 
-class MainActivity : AppCompatActivity(), LifecycleOwner {
+class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainScreenViewModel by lazy {
         ViewModelProvider(this).get(MainScreenViewModel::class.java)

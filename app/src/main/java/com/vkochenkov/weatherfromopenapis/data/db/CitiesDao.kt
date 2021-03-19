@@ -11,4 +11,10 @@ interface CitiesDao {
 
     @Query("SELECT * FROM Cities")
     fun getAllCities() : List<City>
+
+    @Insert
+    fun insertCities(cities: List<City>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCity(city: City)
 }

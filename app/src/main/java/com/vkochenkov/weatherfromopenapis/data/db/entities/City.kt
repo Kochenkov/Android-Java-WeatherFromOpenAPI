@@ -8,6 +8,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Cities")
 data class City(
     @PrimaryKey val name: String,
-    @ColumnInfo(name = "latitude") val latitude: Long,
-    @ColumnInfo(name = "longitude") val longitude: Long
+    @ColumnInfo(name = "latitude") val latitude: String,
+    @ColumnInfo(name = "longitude") val longitude: String
 ) 
