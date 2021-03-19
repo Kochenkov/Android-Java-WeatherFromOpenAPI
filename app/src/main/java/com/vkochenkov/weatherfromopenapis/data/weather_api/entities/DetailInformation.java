@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.data.weather_api.dto;
+package com.vkochenkov.weatherfromopenapis.data.weather_api.entities;
 
 
 public class DetailInformation {

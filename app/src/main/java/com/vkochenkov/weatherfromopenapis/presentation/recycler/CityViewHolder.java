@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vkochenkov.weatherfromopenapis.R;
-import com.vkochenkov.weatherfromopenapis.data.City;
+import com.vkochenkov.weatherfromopenapis.data.db.entities.City;
 
 public class CityViewHolder extends RecyclerView.ViewHolder {
 

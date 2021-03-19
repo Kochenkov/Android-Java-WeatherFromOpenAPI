@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.vkochenkov.weatherfromopenapis.R;
 import com.vkochenkov.weatherfromopenapis.data.db.DBHelper;
-import com.vkochenkov.weatherfromopenapis.data.City;
+import com.vkochenkov.weatherfromopenapis.data.db.entities.City;
 import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityListAdapter;
 
 public class CityDeleteDialog extends Dialog {

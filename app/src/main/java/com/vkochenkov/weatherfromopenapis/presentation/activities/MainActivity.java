@@ -22,16 +22,17 @@ import androidx.core.app.ActivityCompat;
 
 import com.vkochenkov.weatherfromopenapis.App;
 import com.vkochenkov.weatherfromopenapis.R;
-import com.vkochenkov.weatherfromopenapis.data.weather_api.dto.MainResponseObject;
+import com.vkochenkov.weatherfromopenapis.data.weather_api.entities.MainResponseObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.vkochenkov.weatherfromopenapis.data.weather_api.WeatherApiService.UNITS;
+
 public class MainActivity extends AppCompatActivity {
 
     //параметры, проставляемые в урл
-    private static final String UNITS = "si"; //параметр для получения данных в системе СИ
     private String LATITUDE = "1"; //широта
     private String LONGITUDE = "1"; //долгота
 
