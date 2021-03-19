@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vkochenkov.weatherfromopenapis.R;
-import com.vkochenkov.weatherfromopenapis.data.db.DBHelper;
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City;
 
 import org.jetbrains.annotations.NotNull;
@@ -48,25 +47,25 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
     public void updateDataListFromDb() {
         cityList = new ArrayList<>();
 
-        Cursor cursor = database.query(DBHelper.CITIES_TABLE,
-                                       null,
-                                       null,
-                                       null,
-                                       null,
-                                       null,
-                                       null);
+     //   Cursor cursor = database.query(DBHelper.CITIES_TABLE,
+//                                       null,
+//                                       null,
+//                                       null,
+//                                       null,
+//                                       null,
+//                                       null);
 
-        if (cursor.moveToFirst()) {
-            int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
-            int latitudeIndex = cursor.getColumnIndex(DBHelper.KEY_LATITUDE);
-            int longitudeIndex = cursor.getColumnIndex(DBHelper.KEY_LONGITUDE);
-
-            do {
-                cityList.add(new City(cursor.getString(nameIndex), cursor.getString(latitudeIndex), cursor.getString(longitudeIndex)));
-            } while (cursor.moveToNext());
-
-        }
-        cursor.close();
+//        if (cursor.moveToFirst()) {
+//            int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
+//            int latitudeIndex = cursor.getColumnIndex(DBHelper.KEY_LATITUDE);
+//            int longitudeIndex = cursor.getColumnIndex(DBHelper.KEY_LONGITUDE);
+//
+//            do {
+//                cityList.add(new City(cursor.getString(nameIndex), cursor.getString(latitudeIndex), cursor.getString(longitudeIndex)));
+//            } while (cursor.moveToNext());
+//
+//        }
+//        cursor.close();
     }
 
     public void findAndShowCityItems(String str) {

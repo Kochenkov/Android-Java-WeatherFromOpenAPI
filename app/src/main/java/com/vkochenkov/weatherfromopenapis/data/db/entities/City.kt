@@ -1,11 +1,13 @@
 package com.vkochenkov.weatherfromopenapis.data.db.entities
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "Cities")
 data class City(
     @PrimaryKey val name: String,
-    @ColumnInfo(name = "coordinates") val coordinates: Coordinates
+    @ColumnInfo(name = "latitude") val latitude: Long,
+    @ColumnInfo(name = "longitude") val longitude: Long
 ) 

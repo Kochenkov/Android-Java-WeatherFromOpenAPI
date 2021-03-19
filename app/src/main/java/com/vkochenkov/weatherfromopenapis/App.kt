@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.vkochenkov.weatherfromopenapis.data.db.CitiesDb
 import com.vkochenkov.weatherfromopenapis.data.weather_api.WeatherApiService
 import com.vkochenkov.weatherfromopenapis.data.weather_api.WeatherApiService.Companion.BASE_URL
+import com.vkochenkov.weatherfromopenapis.domain.Repository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -12,6 +13,7 @@ class App : Application() {
 
     lateinit var apiService: WeatherApiService
     lateinit var database: CitiesDb
+    val repository: Repository = Repository()
 
     companion object {
         var instance: App? = null

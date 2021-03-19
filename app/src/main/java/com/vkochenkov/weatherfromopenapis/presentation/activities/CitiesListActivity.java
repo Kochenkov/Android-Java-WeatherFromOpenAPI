@@ -18,9 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vkochenkov.weatherfromopenapis.R;
-import com.vkochenkov.weatherfromopenapis.data.db.DBHelper;
 import com.vkochenkov.weatherfromopenapis.presentation.dialogs.CityAddDialog;
-import com.vkochenkov.weatherfromopenapis.presentation.dialogs.CityDeleteDialog;
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City;
 import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityClickListener;
 import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityListAdapter;
@@ -32,7 +30,7 @@ public class CitiesListActivity extends AppCompatActivity {
     private RecyclerView cityListView;
     private Button addCityBtn;
 
-    private DBHelper dbHelper;
+   // private DBHelper dbHelper;
     private SQLiteDatabase database;
 
     @Override
@@ -68,8 +66,8 @@ public class CitiesListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent();
-                        intent.putExtra("latitude", city.getLatitude());
-                        intent.putExtra("longitude", city.getLongitude());
+                   //     intent.putExtra("latitude", city.getLatitude());
+                   //     intent.putExtra("longitude", city.getLongitude());
                         setResult(RESULT_OK, intent);
                         finish();
                     }
@@ -83,8 +81,8 @@ public class CitiesListActivity extends AppCompatActivity {
                     @Override
                     public boolean onLongClick(View view) {
 
-                        Dialog dialog = new CityDeleteDialog(CitiesListActivity.this, dbHelper, cityListView, city);
-                        dialog.show();
+                   //     Dialog dialog = new CityDeleteDialog(CitiesListActivity.this, dbHelper, cityListView, city);
+                   //     dialog.show();
 
                         return true;
                     }
@@ -105,16 +103,16 @@ public class CitiesListActivity extends AppCompatActivity {
         cityListView = findViewById(R.id.recycler_city_list);
         addCityBtn = findViewById(R.id.add_city_btn);
 
-        dbHelper = new DBHelper(this);
-        database = dbHelper.getWritableDatabase();
+      //  dbHelper = new DBHelper(this);
+      //  database = dbHelper.getWritableDatabase();
     }
 
     private void setAddCityBtnClickListener() {
         addCityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialog = new CityAddDialog(CitiesListActivity.this, dbHelper, cityListView);
-                dialog.show();
+              //  Dialog dialog = new CityAddDialog(CitiesListActivity.this, dbHelper, cityListView);
+                //dialog.show();
             }
         });
     }

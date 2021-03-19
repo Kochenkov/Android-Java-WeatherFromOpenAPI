@@ -18,5 +18,5 @@ interface WeatherApiService {
         @Path("latitude") latitude: String?,
         @Path("longitude") longitude: String?,
         @Query("units") units: String?
-    ): Call<MainResponseObject?>?
+    ): Call<MainResponseObject>
 }

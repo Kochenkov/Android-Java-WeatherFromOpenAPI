@@ -11,22 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vkochenkov.weatherfromopenapis.R;
-import com.vkochenkov.weatherfromopenapis.data.db.DBHelper;
 import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityListAdapter;
 
 public class CityAddDialog extends Dialog {
 
-    private DBHelper dbHelper;
+//    private DBHelper dbHelper;
     private RecyclerView cityListView;
 
     private EditText cityNameEdt;
     private EditText latitudeEdt;
     private EditText longitudeEdt;
 
-    public CityAddDialog(@NonNull Context context, DBHelper dbHelper, RecyclerView cityListView) {
+    public CityAddDialog(@NonNull Context context, RecyclerView cityListView) {
         super(context);
         this.cityListView = cityListView;
-        this.dbHelper = dbHelper;
+      //  this.dbHelper = dbHelper;
     }
 
     @Override
@@ -41,11 +40,11 @@ public class CityAddDialog extends Dialog {
             public void onClick(View view) {
                 ContentValues contentValues = new ContentValues();
 
-                contentValues.put(DBHelper.KEY_NAME, cityNameEdt.getText().toString());
-                contentValues.put(DBHelper.KEY_LATITUDE, latitudeEdt.getText().toString());
-                contentValues.put(DBHelper.KEY_LONGITUDE, longitudeEdt.getText().toString());
+             //   contentValues.put(DBHelper.KEY_NAME, cityNameEdt.getText().toString());
+             //   contentValues.put(DBHelper.KEY_LATITUDE, latitudeEdt.getText().toString());
+             //   contentValues.put(DBHelper.KEY_LONGITUDE, longitudeEdt.getText().toString());
 
-                dbHelper.getWritableDatabase().replace(DBHelper.CITIES_TABLE, null, contentValues);
+              //  dbHelper.getWritableDatabase().replace(DBHelper.CITIES_TABLE, null, contentValues);
 
                 if (cityListView.getAdapter()!=null) {
                     CityListAdapter adapter = (CityListAdapter) cityListView.getAdapter();
