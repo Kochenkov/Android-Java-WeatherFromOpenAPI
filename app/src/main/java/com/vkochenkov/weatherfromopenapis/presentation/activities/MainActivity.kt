@@ -8,6 +8,8 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -17,7 +19,6 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.vkochenkov.weatherfromopenapis.R
-import com.vkochenkov.weatherfromopenapis.data.weather_api.entities.MainResponseObject
 import com.vkochenkov.weatherfromopenapis.presentation.MainScreenViewModel
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -26,24 +27,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         ViewModelProvider(this).get(MainScreenViewModel::class.java)
     }
 
-    private var LATITUDE = "1" //широта
-    private var LONGITUDE = "1" //долгота
+    //широта
+    private var latitude = "1"
+    //долгота
+    private var longitude = "1"
 
     //вьюхи
     private lateinit var latitudeField: EditText
     private lateinit var longitudeField: EditText
     private lateinit var toolbar: Toolbar
     private lateinit var progressBar: ProgressBar
-
     private lateinit var btnSelectCity: Button
     private lateinit var btnGetCoorginates: Button
     private lateinit var btnClearFields: Button
     private lateinit var btnGetWeather: Button
     private lateinit var btnInfo: ImageButton
-
-
-    //сообщения, отображаемое на экране
-    private val message = ""
 
     //прочие сущности
     private var alertMessage: String? = null
@@ -51,17 +49,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var alertTitle: String? = null
     private var alertIcon = 0
 
-    //главный объект, куда подставятся данные ответа от апишки
-    var mainResponseObject: MainResponseObject? = null
-
-    //локальные переменные для параметров
-    private val temperatureCel: String? = null
-    private val pressure: String? = null
-    private val humidity: String? = null
-    private val icon: String? = null
-    private val humidityPercent: Double? = null
-    private val pressurePa: Double? = null
-    private val pressureMm: Double? = null
 
     //менеджер геолокации
     private var locationManager: LocationManager? = null
@@ -72,6 +59,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setSupportActionBar(toolbar)
         setOnClickListeners()
         initObserveForViewModel()
+        setTextWatcherForCoordinatesFields()
     }
 
     private fun initObserveForViewModel() {
@@ -104,7 +92,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             alertIcon = setIcon(icon);
             showAlert(alertTitle, alertMessage, alertButtonText, alertIcon)
 
-            progressBar?.visibility = View.GONE
+            progressBar.visibility = View.GONE
         })
 
         viewModel.errorLiveData.observe(this, Observer {
@@ -114,7 +102,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             alertIcon = R.drawable.eclipse;
             showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
 
-            progressBar?.visibility = View.GONE
+            progressBar.visibility = View.GONE
         })
     }
 
@@ -125,21 +113,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     ) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data != null) {
-            latitudeField!!.setText(data.extras!!.getString("latitude"))
-            longitudeField!!.setText(data.extras!!.getString("longitude"))
+            latitudeField.setText(data.extras!!.getString("latitude"))
+            longitudeField.setText(data.extras!!.getString("longitude"))
         }
     }
 
     val paramsFromFields: Unit
         get() {
-            LATITUDE = latitudeField!!.text.toString()
-            LONGITUDE = longitudeField!!.text.toString()
+            latitude = latitudeField.text.toString()
+            longitude = longitudeField.text.toString()
         }
 
     private fun getWeather() {
         paramsFromFields
-        progressBar?.visibility = View.VISIBLE
-        viewModel!!.getWeatherFromApi(LATITUDE, LONGITUDE)
+        progressBar.visibility = View.VISIBLE
+        viewModel.getWeatherFromApi(latitude, longitude)
 
         //validationFieldsAndGetWeatherFromApi();
     }
@@ -193,8 +181,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         override fun onLocationChanged(location: Location) {
             if (location != null) {
                 //попадаем сюда, когда получаем ответ о местоположении
-                latitudeField!!.setText(location.latitude.toString())
-                longitudeField!!.setText(location.longitude.toString())
+                latitudeField.setText(location.latitude.toString())
+                longitudeField.setText(location.longitude.toString())
                 Toast.makeText(
                     applicationContext,
                     "Координаты девайса получены",
@@ -292,5 +280,38 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_get_weather -> getWeather()
             R.id.info_image_btn -> showProgramInfo()
         }
+    }
+
+    private fun setTextWatcherForCoordinatesFields() {
+        val textWatcher = object : TextWatcher {
+            override fun onTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+                //todo нужно сделать обработку для двух полей, что бы они зависили друг от друга
+                if (charSequence.isNotEmpty()){
+                    btnClearFields.visibility = View.VISIBLE
+                    btnGetWeather.visibility = View.VISIBLE
+                } else {
+                    btnClearFields.visibility = View.GONE
+                    btnGetWeather.visibility = View.GONE
+                }
+            }
+
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+            }
+
+            override fun afterTextChanged(editable: Editable) {}
+        }
+
+        latitudeField.addTextChangedListener(textWatcher)
+        longitudeField.addTextChangedListener(textWatcher)
     }
 }

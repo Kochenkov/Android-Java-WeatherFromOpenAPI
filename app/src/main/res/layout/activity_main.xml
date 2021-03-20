@@ -26,42 +26,44 @@
 
             <LinearLayout
                 android:id="@+id/leaner_inner_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_margin="@dimen/main_margin"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_select_city"
-                    android:layout_width="140dp"
-                    android:layout_height="94dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
                     android:text="@string/select_city_btn_str"
                     android:textColor="#000000"
-                    app:backgroundTint="@color/colorPrimaryDark"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_longitude"
-                    app:layout_constraintVertical_bias="0.0" />
+                    android:textSize="12sp"
+                    app:backgroundTint="@color/colorPrimaryDark" />
 
                 <Button
                     android:id="@+id/btn_get_location"
-                    android:layout_width="140dp"
-                    android:layout_height="94dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
                     android:text="@string/get_coordinates_btn_str"
                     android:textColor="#000000"
-                    app:backgroundTint="@color/colorPrimaryDark"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    android:textSize="12sp"
+                    app:backgroundTint="@color/colorPrimaryDark" />
+
+                <Button
+                    android:id="@+id/btn_open_map"
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/open_map_btn_str"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    app:backgroundTint="@color/colorPrimaryDark" />
             </LinearLayout>
 
             <EditText
@@ -69,69 +71,53 @@
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
+                android:layout_margin="@dimen/half_main_margin"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:digits="1234567890.-"
                 android:ems="10"
-                android:hint="@string/latitude_hint_str"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:hint="@string/latitude_hint_str" />
 
             <EditText
                 android:id="@+id/edt_longitude"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_margin="@dimen/half_main_margin"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:digits="1234567890.-"
                 android:ems="10"
-                android:hint="@string/longitude_hint_str"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edt_latitude" />
+                android:hint="@string/longitude_hint_str" />
 
             <Button
                 android:id="@+id/btn_clean_fields"
-                android:layout_width="271dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_margin="@dimen/half_main_margin"
                 android:text="@string/clear_coordinates_btn_str"
                 android:textColor="#000000"
-                app:backgroundTint="#ff6347"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_get_location" />
+                android:visibility="gone"
+                app:backgroundTint="@color/lightRed"
+                tools:visibility="visible" />
 
             <Button
                 android:id="@+id/btn_get_weather"
-                android:layout_width="271dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_margin="@dimen/half_main_margin"
                 android:text="@string/get_weather_btn_str"
                 android:textColor="#000000"
-                app:backgroundTint="#0bda51"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_get_location" />
+                android:visibility="gone"
+                app:backgroundTint="@color/lightGreen"
+                tools:visibility="visible" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
-                android:layout_margin="16dp"
+                android:layout_margin="@dimen/main_margin"
                 android:visibility="gone"
                 tools:visibility="visible" />
 

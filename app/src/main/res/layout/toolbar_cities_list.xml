@@ -26,7 +26,7 @@
             android:id="@+id/add_city_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_city_btn_str"
+            android:text="@string/add_btn_str"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

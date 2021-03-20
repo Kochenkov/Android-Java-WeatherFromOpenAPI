@@ -31,15 +31,4 @@ class CityListAdapter(var cityClickListener: CityClickListener) : RecyclerView.A
         this.cityList = cityList
         notifyDataSetChanged()
     }
-
-    fun findAndShowCityItems(str: String) {
-//        val newCityList: MutableList<City> = ArrayList()
-//        for (i in cityList.indices) {
-//            if (cityList[i].name.toLowerCase().contains(str.toLowerCase())) {
-//                newCityList.add(cityList[i])
-//            }
-//        }
-//        cityList = newCityList
-        notifyDataSetChanged()
-    }
 }
