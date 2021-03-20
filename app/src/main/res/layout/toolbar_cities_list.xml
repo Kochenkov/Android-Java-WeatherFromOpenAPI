@@ -11,25 +11,25 @@
         android:layout_height="wrap_content">
 
         <EditText
-                android:id="@+id/edt_city_search_field"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/colorPrimary"
-                android:hint="Поиск по городам"
-                android:inputType="text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/edt_city_search_field"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/colorPrimary"
+            android:hint="@string/city_search_field_hint_str"
+            android:inputType="text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-                android:id="@+id/add_city_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="add city"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/add_city_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_city_btn_str"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

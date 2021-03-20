@@ -9,21 +9,18 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.data.weather_api.entities.MainResponseObject
 import com.vkochenkov.weatherfromopenapis.presentation.MainScreenViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val viewModel: MainScreenViewModel by lazy {
         ViewModelProvider(this).get(MainScreenViewModel::class.java)
@@ -33,10 +30,17 @@ class MainActivity : AppCompatActivity() {
     private var LONGITUDE = "1" //долгота
 
     //вьюхи
-    var latitudeField: EditText? = null
-    var longitudeField: EditText? = null
-    private var toolbar: Toolbar? = null
-    private var progressBar: ProgressBar? = null
+    private lateinit var latitudeField: EditText
+    private lateinit var longitudeField: EditText
+    private lateinit var toolbar: Toolbar
+    private lateinit var progressBar: ProgressBar
+
+    private lateinit var btnSelectCity: Button
+    private lateinit var btnGetCoorginates: Button
+    private lateinit var btnClearFields: Button
+    private lateinit var btnGetWeather: Button
+    private lateinit var btnInfo: ImageButton
+
 
     //сообщения, отображаемое на экране
     private val message = ""
@@ -66,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initFields()
         setSupportActionBar(toolbar)
-
+        setOnClickListeners()
         initObserveForViewModel()
     }
 
@@ -132,7 +136,7 @@ class MainActivity : AppCompatActivity() {
             LONGITUDE = longitudeField!!.text.toString()
         }
 
-    fun getWeather(view: View?) {
+    private fun getWeather() {
         paramsFromFields
         progressBar?.visibility = View.VISIBLE
         viewModel!!.getWeatherFromApi(LATITUDE, LONGITUDE)
@@ -140,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         //validationFieldsAndGetWeatherFromApi();
     }
 
-    fun setIcon(icon: String?): Int {
+    private fun setIcon(icon: String?): Int {
         return when (icon) {
             "clear-day" -> R.drawable.clear_day
             "clear-night" -> R.drawable.clear_night
@@ -157,7 +161,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //запрос на получение локации
-    fun setDeviceLocation(view: View?) {
+    private fun getDeviceLocation() {
         locationManager =
             getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
@@ -219,7 +223,7 @@ class MainActivity : AppCompatActivity() {
         override fun onProviderDisabled(provider: String) {}
     }
 
-    fun showProgramInfo(view: View?) {
+    private fun showProgramInfo() {
         alertTitle = "О программе"
         alertMessage =
             """Программа позволяет получить текущую погоду для любого места, нужно только указать координаты широты и долготы. Это можно сделать одним из трёх способов: 
@@ -231,7 +235,7 @@ class MainActivity : AppCompatActivity() {
         showAlert(alertTitle, alertMessage, alertButtonText, alertIcon)
     }
 
-    fun showAlert(
+    private fun showAlert(
         alertTitle: String?,
         alertMessage: String?,
         alertButtonText: String?,
@@ -250,12 +254,12 @@ class MainActivity : AppCompatActivity() {
         alert.show()
     }
 
-    fun cleanFields(view: View?) {
-        latitudeField!!.setText("")
-        longitudeField!!.setText("")
+    private fun cleanFields() {
+        latitudeField.setText("")
+        longitudeField.setText("")
     }
 
-    fun openCitiesListActivity(view: View?) {
+    private fun openCitiesListActivity() {
         val intent = Intent(this@MainActivity, CitiesListActivity::class.java)
         startActivityForResult(intent, 100)
     }
@@ -265,5 +269,28 @@ class MainActivity : AppCompatActivity() {
         latitudeField = findViewById(R.id.edt_latitude)
         progressBar = findViewById(R.id.progress_bar)
         toolbar = findViewById(R.id.toolbar_main)
+        btnSelectCity = findViewById(R.id.btn_select_city)
+        btnGetCoorginates = findViewById(R.id.btn_get_location)
+        btnClearFields = findViewById(R.id.btn_clean_fields)
+        btnGetWeather = findViewById(R.id.btn_get_weather)
+        btnInfo = findViewById(R.id.info_image_btn)
+    }
+
+    private fun setOnClickListeners() {
+        btnSelectCity.setOnClickListener(this)
+        btnGetCoorginates.setOnClickListener(this)
+        btnClearFields.setOnClickListener(this)
+        btnGetWeather.setOnClickListener(this)
+        btnInfo.setOnClickListener(this)
+    }
+
+    override fun onClick(view: View?) {
+        when (view?.id) {
+            R.id.btn_select_city -> openCitiesListActivity()
+            R.id.btn_get_location -> getDeviceLocation()
+            R.id.btn_clean_fields -> cleanFields()
+            R.id.btn_get_weather -> getWeather()
+            R.id.info_image_btn -> showProgramInfo()
+        }
     }
 }
