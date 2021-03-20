@@ -1,4 +1,6 @@
-package com.vkochenkov.weatherfromopenapis.entities;
+package com.vkochenkov.weatherfromopenapis.data;
+
+import com.vkochenkov.weatherfromopenapis.data.db.entities.City;
 
 import java.util.ArrayList;
 
