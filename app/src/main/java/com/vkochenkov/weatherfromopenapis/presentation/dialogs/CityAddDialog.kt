@@ -5,14 +5,15 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import com.vkochenkov.weatherfromopenapis.App
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City
-import com.vkochenkov.weatherfromopenapis.domain.Repository
+import com.vkochenkov.weatherfromopenapis.presentation.CitiesListViewModel
 
-class CityAddDialog(context: Context) : Dialog(context) {
-
-    private var repository: Repository = App.instance!!.repository
+class CityAddDialog(
+    context: Context,
+    private val viewModel: CitiesListViewModel
+) :
+    Dialog(context) {
 
     private var cityNameEdt: EditText? = null
     private var latitudeEdt: EditText? = null
@@ -30,12 +31,12 @@ class CityAddDialog(context: Context) : Dialog(context) {
                 longitudeEdt?.getText().toString()
             )
 
-            //todo нужно реализовать через вью-модель
-            repository.insertCityToDb(city)
+            viewModel.insertCityToDb(city)
             onBackPressed()
         }
         findViewById<View>(R.id.cancel_add_city_btn).setOnClickListener {
-            onBackPressed() }
+            onBackPressed()
+        }
     }
 
     private fun initFields() {

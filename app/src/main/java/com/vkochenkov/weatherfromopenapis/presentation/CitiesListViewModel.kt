@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vkochenkov.weatherfromopenapis.App
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City
-import com.vkochenkov.weatherfromopenapis.data.weather_api.entities.MainResponseObject
 import com.vkochenkov.weatherfromopenapis.domain.Repository
 
 class CitiesListViewModel: ViewModel() {
@@ -16,7 +15,17 @@ class CitiesListViewModel: ViewModel() {
     val citiesLiveData: LiveData<List<City>>
         get()  = citiesMutableLiveData
 
-    fun getAllCities() {
+    fun getAllCitiesFromDb() {
         citiesMutableLiveData.postValue(repository.getAllCitiesFromDb())
+    }
+
+    fun insertCityToDb(city: City) {
+        repository.insertCityToDb(city)
+        getAllCitiesFromDb()
+    }
+
+    fun deleteCityFromDb(city: City) {
+        repository.deleteCity(city)
+        getAllCitiesFromDb()
     }
 }

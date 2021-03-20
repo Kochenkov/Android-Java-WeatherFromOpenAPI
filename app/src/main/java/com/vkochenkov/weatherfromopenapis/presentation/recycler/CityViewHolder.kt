@@ -8,7 +8,7 @@ import com.vkochenkov.weatherfromopenapis.data.db.entities.City
 
 class CityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    private lateinit var cityName: TextView
+    private var cityName: TextView
 
     fun bind(
         itemView: View,

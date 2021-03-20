@@ -1,9 +1,6 @@
 package com.vkochenkov.weatherfromopenapis.data.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City
 
 @Dao
@@ -17,4 +14,7 @@ interface CitiesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCity(city: City)
+
+    @Delete
+    fun deleteCity(city: City)
 }

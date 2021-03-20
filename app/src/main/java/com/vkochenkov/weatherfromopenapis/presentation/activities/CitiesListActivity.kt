@@ -1,13 +1,8 @@
 package com.vkochenkov.weatherfromopenapis.presentation.activities
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.View.OnLongClickListener
 import android.widget.Button
@@ -22,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City
 import com.vkochenkov.weatherfromopenapis.presentation.CitiesListViewModel
-import com.vkochenkov.weatherfromopenapis.presentation.MainScreenViewModel
 import com.vkochenkov.weatherfromopenapis.presentation.dialogs.CityAddDialog
 import com.vkochenkov.weatherfromopenapis.presentation.dialogs.CityDeleteDialog
 import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityClickListener
@@ -47,8 +41,8 @@ class CitiesListActivity : AppCompatActivity() {
         initRecycler()
         setAddCityBtnClickListener()
         initObserveForViewModel()
-        viewModel.getAllCities()
-       // setTextWatcherForSearchCity()
+        viewModel.getAllCitiesFromDb()
+        // setTextWatcherForSearchCity()
         toolbar!!.setNavigationOnClickListener { onBackPressed() }
     }
 
@@ -61,23 +55,21 @@ class CitiesListActivity : AppCompatActivity() {
     private fun initRecycler() {
         cityListView!!.layoutManager = LinearLayoutManager(this)
         val cityClickListener: CityClickListener = object : CityClickListener {
-            override fun onCityClickListener(city: City?): View.OnClickListener {
+
+            override fun onCityClickListener(city: City): View.OnClickListener {
                 return View.OnClickListener {
                     val intent = Intent()
-                         intent.putExtra("latitude", city?.latitude);
-                         intent.putExtra("longitude", city?.longitude);
+                    intent.putExtra("latitude", city.latitude);
+                    intent.putExtra("longitude", city.longitude);
                     setResult(Activity.RESULT_OK, intent)
                     finish()
                 }
             }
 
-            override fun onCityLongClickListener(
-                position: Int,
-                city: City?
-            ): OnLongClickListener {
+            override fun onCityLongClickListener(position: Int, city: City): OnLongClickListener {
                 return OnLongClickListener {
-                        // var dialog = CityDeleteDialog(CitiesListActivity.this, cityListView, city)
-                       //  dialog.show();
+                    var dialog = CityDeleteDialog(this@CitiesListActivity, viewModel, city)
+                    dialog.show()
                     true
                 }
             }
@@ -99,14 +91,7 @@ class CitiesListActivity : AppCompatActivity() {
 
     private fun setAddCityBtnClickListener() {
         addCityBtn!!.setOnClickListener {
-            val dialog = CityAddDialog(this@CitiesListActivity)
-//                object : CityAddDialog.AddCityCallback {
-//                override fun added(flag: Boolean) {
-//                    if (flag) {
-//                        cityListView!!.adapter?.notifyDataSetChanged()
-//                    }
-//                }
-//            })
+            val dialog = CityAddDialog(this@CitiesListActivity, viewModel)
             dialog.show()
         }
     }

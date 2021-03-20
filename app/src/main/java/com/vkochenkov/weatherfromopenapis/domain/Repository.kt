@@ -21,6 +21,10 @@ class Repository {
         return dao.getAllCities()
     }
 
+    fun deleteCity(city: City) {
+        dao.deleteCity(city)
+    }
+
     fun getWeatherFromApi(latitude: String, longitude: String, callback: GetWeatherFromApiCallback) {
         api.getWeather(latitude, longitude, UNITS)
             .enqueue(object : Callback<MainResponseObject> {
