@@ -19,13 +19,17 @@ class CitiesListViewModel: ViewModel() {
         citiesMutableLiveData.postValue(repository.getAllCitiesFromDb())
     }
 
+    fun getSameNameCitiesFromDb(str: String) {
+        citiesMutableLiveData.postValue(repository.getSameNameCitiesFromDb(str))
+    }
+
     fun insertCityToDb(city: City) {
         repository.insertCityToDb(city)
         getAllCitiesFromDb()
     }
 
     fun deleteCityFromDb(city: City) {
-        repository.deleteCity(city)
+        repository.deleteCityFromDb(city)
         getAllCitiesFromDb()
     }
 }

@@ -3,6 +3,8 @@ package com.vkochenkov.weatherfromopenapis.presentation.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.View.OnLongClickListener
 import android.widget.Button
@@ -33,7 +35,6 @@ class CitiesListActivity : AppCompatActivity() {
     private var cityListView: RecyclerView? = null
     private var addCityBtn: Button? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cities_list)
@@ -41,8 +42,9 @@ class CitiesListActivity : AppCompatActivity() {
         initRecycler()
         setAddCityBtnClickListener()
         initObserveForViewModel()
+
         viewModel.getAllCitiesFromDb()
-        // setTextWatcherForSearchCity()
+        setTextWatcherForSearchCity()
         toolbar!!.setNavigationOnClickListener { onBackPressed() }
     }
 
@@ -96,27 +98,26 @@ class CitiesListActivity : AppCompatActivity() {
         }
     }
 
-//    private fun setTextWatcherForSearchCity() {
-//        citiesSearchField!!.addTextChangedListener(object : TextWatcher {
-//            override fun onTextChanged(
-//                charSequence: CharSequence,
-//                i: Int,
-//                i1: Int,
-//                i2: Int
-//            ) {
-//                val adapter = cityListView!!.adapter as CityListAdapter?
-//                adapter?.findAndShowCityItems(charSequence.toString())
-//            }
-//
-//            override fun beforeTextChanged(
-//                charSequence: CharSequence,
-//                i: Int,
-//                i1: Int,
-//                i2: Int
-//            ) {
-//            }
-//
-//            override fun afterTextChanged(editable: Editable) {}
-//        })
-//    }
+    private fun setTextWatcherForSearchCity() {
+        citiesSearchField!!.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+                viewModel.getSameNameCitiesFromDb(charSequence.toString())
+            }
+
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+            }
+
+            override fun afterTextChanged(editable: Editable) {}
+        })
+    }
 }

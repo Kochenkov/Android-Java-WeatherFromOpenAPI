@@ -9,6 +9,9 @@ interface CitiesDao {
     @Query("SELECT * FROM Cities")
     fun getAllCities() : List<City>
 
+    @Query("SELECT * FROM Cities WHERE name LIKE :str")
+    fun getSameNameCities(str: String) : List<City>
+
     @Insert
     fun insertCities(cities: List<City>)
 

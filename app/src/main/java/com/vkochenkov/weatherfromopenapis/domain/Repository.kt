@@ -21,7 +21,12 @@ class Repository {
         return dao.getAllCities()
     }
 
-    fun deleteCity(city: City) {
+    fun getSameNameCitiesFromDb(str: String): List<City> {
+        val queryContainStr = "%"+str+"%"
+        return dao.getSameNameCities(queryContainStr)
+    }
+
+    fun deleteCityFromDb(city: City) {
         dao.deleteCity(city)
     }
 

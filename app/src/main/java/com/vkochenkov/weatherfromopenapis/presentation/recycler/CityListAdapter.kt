@@ -1,6 +1,5 @@
 package com.vkochenkov.weatherfromopenapis.presentation.recycler
 
-import android.database.sqlite.SQLiteDatabase
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -34,13 +33,13 @@ class CityListAdapter(var cityClickListener: CityClickListener) : RecyclerView.A
     }
 
     fun findAndShowCityItems(str: String) {
-        val newCityList: MutableList<City> = ArrayList()
-        for (i in cityList.indices) {
-            if (cityList[i].name.toLowerCase().contains(str.toLowerCase())) {
-                newCityList.add(cityList[i])
-            }
-        }
-        cityList = newCityList
+//        val newCityList: MutableList<City> = ArrayList()
+//        for (i in cityList.indices) {
+//            if (cityList[i].name.toLowerCase().contains(str.toLowerCase())) {
+//                newCityList.add(cityList[i])
+//            }
+//        }
+//        cityList = newCityList
         notifyDataSetChanged()
     }
 }
