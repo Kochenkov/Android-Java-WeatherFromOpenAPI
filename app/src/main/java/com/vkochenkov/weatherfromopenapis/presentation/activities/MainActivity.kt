@@ -39,7 +39,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var progressBar: ProgressBar
     private lateinit var btnSelectCity: Button
     private lateinit var btnGetCoorginates: Button
-    private lateinit var btnClearFields: Button
+    private lateinit var btnClearLatitude: ImageButton
+    private lateinit var btnClearLongitude: ImageButton
     private lateinit var btnGetWeather: Button
     private lateinit var btnInfo: ImageButton
 
@@ -242,11 +243,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         alert.show()
     }
 
-    private fun cleanFields() {
-        latitudeField.setText("")
-        longitudeField.setText("")
-    }
-
     private fun openCitiesListActivity() {
         val intent = Intent(this@MainActivity, CitiesListActivity::class.java)
         startActivityForResult(intent, 100)
@@ -259,7 +255,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         toolbar = findViewById(R.id.toolbar_main)
         btnSelectCity = findViewById(R.id.btn_select_city)
         btnGetCoorginates = findViewById(R.id.btn_get_location)
-        btnClearFields = findViewById(R.id.btn_clean_fields)
+        btnClearLatitude = findViewById(R.id.btn_clear_latitude)
+        btnClearLongitude = findViewById(R.id.btn_clear_longitude)
         btnGetWeather = findViewById(R.id.btn_get_weather)
         btnInfo = findViewById(R.id.info_image_btn)
     }
@@ -267,7 +264,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun setOnClickListeners() {
         btnSelectCity.setOnClickListener(this)
         btnGetCoorginates.setOnClickListener(this)
-        btnClearFields.setOnClickListener(this)
+        btnClearLongitude.setOnClickListener(this)
+        btnClearLatitude.setOnClickListener(this)
         btnGetWeather.setOnClickListener(this)
         btnInfo.setOnClickListener(this)
     }
@@ -276,27 +274,26 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         when (view?.id) {
             R.id.btn_select_city -> openCitiesListActivity()
             R.id.btn_get_location -> getDeviceLocation()
-            R.id.btn_clean_fields -> cleanFields()
             R.id.btn_get_weather -> getWeather()
             R.id.info_image_btn -> showProgramInfo()
+            R.id.btn_clear_latitude -> latitudeField.setText("")
+            R.id.btn_clear_longitude -> longitudeField.setText("")
         }
     }
 
     private fun setTextWatcherForCoordinatesFields() {
-        val textWatcher = object : TextWatcher {
+
+        latitudeField.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(
                 charSequence: CharSequence,
                 i: Int,
                 i1: Int,
                 i2: Int
             ) {
-                //todo нужно сделать обработку для двух полей, что бы они зависили друг от друга
-                if (charSequence.isNotEmpty()){
-                    btnClearFields.visibility = View.VISIBLE
-                    btnGetWeather.visibility = View.VISIBLE
+                if (charSequence.isNotEmpty()) {
+                    btnClearLatitude.visibility = View.VISIBLE
                 } else {
-                    btnClearFields.visibility = View.GONE
-                    btnGetWeather.visibility = View.GONE
+                    btnClearLatitude.visibility = View.INVISIBLE
                 }
             }
 
@@ -309,9 +306,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun afterTextChanged(editable: Editable) {}
-        }
+        })
 
-        latitudeField.addTextChangedListener(textWatcher)
-        longitudeField.addTextChangedListener(textWatcher)
+        longitudeField.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+                if (charSequence.isNotEmpty()) {
+                    btnClearLongitude.visibility = View.VISIBLE
+                } else {
+                    btnClearLongitude.visibility = View.INVISIBLE
+                }
+            }
+
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+            }
+
+            override fun afterTextChanged(editable: Editable) {}
+        })
     }
 }

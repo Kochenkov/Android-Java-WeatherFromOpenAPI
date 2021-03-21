@@ -2,4 +2,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="half_main_margin">8dp</dimen>
     <dimen name="main_margin">16dp</dimen>
+    <dimen name="quarter_main_margin">4dp</dimen>
 </resources>
