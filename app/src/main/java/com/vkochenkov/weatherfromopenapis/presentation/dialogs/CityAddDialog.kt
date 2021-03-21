@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.EditText
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City
-import com.vkochenkov.weatherfromopenapis.presentation.CitiesListViewModel
+import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.CitiesListViewModel
 
 class CityAddDialog(
     context: Context,

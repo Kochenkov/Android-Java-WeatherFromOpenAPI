@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Погода по координатам</string>
     <string name="select_city_btn_str">Выбрать город из списка</string>
-    <string name="get_coordinates_btn_str">Получить координаты телефона</string>
+    <string name="get_coordinates_btn_str">Получить локацию телефона</string>
     <string name="clear_coordinates_btn_str">Сбросить координаты</string>
     <string name="get_weather_btn_str">Отправить запрос на получение погоды</string>
     <string name="city_search_field_hint_str">Поиск по городам</string>
@@ -15,4 +15,5 @@
     <string name="delete_dialog_text_str">Вы уверены, что хотите удалить выбранный элемент?</string>
     <string name="delete_btn_str">Удалить</string>
     <string name="open_map_btn_str">Выбрать на карте</string>
+    <string name="main_tv_str">Что бы узнать погоду в каком -либо месте, задайте координаты одним из способов, или введите их вручную</string>
 </resources>

@@ -15,7 +15,6 @@
         android:id="@+id/scroll_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/colorPrimary"
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
@@ -24,11 +23,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/main_margin"
+                android:layout_marginTop="@dimen/main_margin"
+                android:layout_marginEnd="@dimen/main_margin"
+                android:layout_marginBottom="@dimen/half_main_margin"
+                android:text="@string/main_tv_str"/>
+
             <LinearLayout
                 android:id="@+id/leaner_inner_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/main_margin"
+                android:layout_marginStart="@dimen/main_margin"
+                android:layout_marginEnd="@dimen/main_margin"
                 android:orientation="horizontal">
 
                 <Button
@@ -36,57 +46,66 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/half_main_margin"
                     android:layout_weight="1"
                     android:text="@string/select_city_btn_str"
-                    android:textColor="#000000"
-                    android:textSize="12sp"
-                    app:backgroundTint="@color/colorPrimaryDark" />
+                    android:textSize="12sp" />
 
                 <Button
                     android:id="@+id/btn_get_location"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/half_main_margin"
                     android:layout_weight="1"
                     android:text="@string/get_coordinates_btn_str"
-                    android:textColor="#000000"
-                    android:textSize="12sp"
-                    app:backgroundTint="@color/colorPrimaryDark" />
+                    android:textSize="12sp" />
 
                 <Button
                     android:id="@+id/btn_open_map"
-
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/half_main_margin"
                     android:layout_weight="1"
                     android:text="@string/open_map_btn_str"
-                    android:textColor="#000000"
-                    android:textSize="12sp"
-                    app:backgroundTint="@color/colorPrimaryDark" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/edt_latitude"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/half_main_margin"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:digits="1234567890.-"
-                android:ems="10"
-                android:hint="@string/latitude_hint_str" />
+                android:hint="@string/latitude_hint_str">
+
+                <EditText
+                    android:id="@+id/edt_latitude"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:digits="1234567890.-"
+                    android:ems="10"
+                    tools:text="90" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/half_main_margin"
+                android:hint="@string/longitude_hint_str">
 
             <EditText
                 android:id="@+id/edt_longitude"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/half_main_margin"
-                android:backgroundTint="@color/colorPrimaryDark"
                 android:digits="1234567890.-"
                 android:ems="10"
-                android:hint="@string/longitude_hint_str" />
+                 />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <Button
                 android:id="@+id/btn_clean_fields"
@@ -95,9 +114,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/half_main_margin"
                 android:text="@string/clear_coordinates_btn_str"
-                android:textColor="#000000"
                 android:visibility="gone"
-                app:backgroundTint="@color/lightRed"
                 tools:visibility="visible" />
 
             <Button
@@ -107,9 +124,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/half_main_margin"
                 android:text="@string/get_weather_btn_str"
-                android:textColor="#000000"
                 android:visibility="gone"
-                app:backgroundTint="@color/lightGreen"
                 tools:visibility="visible" />
 
             <ProgressBar

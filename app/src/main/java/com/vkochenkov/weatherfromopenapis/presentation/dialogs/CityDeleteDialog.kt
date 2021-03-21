@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City
-import com.vkochenkov.weatherfromopenapis.presentation.CitiesListViewModel
+import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.CitiesListViewModel
 
 class CityDeleteDialog(
     context: Context,

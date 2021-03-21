@@ -19,7 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.vkochenkov.weatherfromopenapis.R
-import com.vkochenkov.weatherfromopenapis.presentation.MainScreenViewModel
+import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.MainScreenViewModel
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 

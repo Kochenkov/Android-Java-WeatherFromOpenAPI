@@ -1,4 +1,4 @@
-package com.vkochenkov.weatherfromopenapis.presentation
+package com.vkochenkov.weatherfromopenapis.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
