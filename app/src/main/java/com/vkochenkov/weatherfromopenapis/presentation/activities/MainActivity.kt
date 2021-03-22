@@ -289,7 +289,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun openMap() {
-        TODO("Not yet implemented")
+        //todo
     }
 
     private fun setTextWatcherForCoordinatesFields() {
