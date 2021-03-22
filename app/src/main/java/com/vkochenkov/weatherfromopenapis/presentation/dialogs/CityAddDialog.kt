@@ -5,9 +5,10 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City
-import com.vkochenkov.weatherfromopenapis.presentation.CitiesListViewModel
+import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.CitiesListViewModel
 
 class CityAddDialog(
     context: Context,
@@ -15,28 +16,46 @@ class CityAddDialog(
 ) :
     Dialog(context) {
 
-    private var cityNameEdt: EditText? = null
-    private var latitudeEdt: EditText? = null
-    private var longitudeEdt: EditText? = null
+    private lateinit var cityNameEdt: EditText
+    private lateinit var latitudeEdt: EditText
+    private lateinit var longitudeEdt: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_add_city)
         initFields()
+
         findViewById<View>(R.id.apply_add_city_btn).setOnClickListener {
-
-            val city = City(
-                cityNameEdt?.getText().toString(),
-                latitudeEdt?.getText().toString(),
-                longitudeEdt?.getText().toString()
-            )
-
-            viewModel.insertCityToDb(city)
-            onBackPressed()
+            validateFieldsAndAddCity()
         }
+
         findViewById<View>(R.id.cancel_add_city_btn).setOnClickListener {
             onBackPressed()
         }
+    }
+
+    private fun validateFieldsAndAddCity() {
+        val name = cityNameEdt.getText().toString()
+        val latitude =  latitudeEdt.getText().toString()
+        val longitude = longitudeEdt.getText().toString()
+
+        var str: String
+
+        if (name!=""&& latitude!="" && longitude!= "") {
+            val city = City(
+                name,
+                latitude,
+                longitude
+            )
+
+            viewModel.insertCityToDb(city)
+            str = "${city.name} добавлен в список"
+            onBackPressed()
+
+        } else {
+            str = "Заполните все поля!"
+        }
+        Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
     }
 
     private fun initFields() {

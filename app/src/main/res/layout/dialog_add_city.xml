@@ -6,7 +6,7 @@
 
     <EditText
         android:id="@+id/add_city_name_edt"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="@string/add_city_name_hint_str"
@@ -17,25 +17,29 @@
 
     <EditText
         android:id="@+id/add_longitude_edt"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginTop="12dp"
         android:digits="1234567890.-"
         android:ems="10"
-        android:hint="@string/add_city_longitude_hint_str"
+        android:hint="@string/longitude_hint_str"
         android:inputType="textPersonName"
+        android:maxLength="8"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_latitude_edt" />
 
     <EditText
         android:id="@+id/add_latitude_edt"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:digits="1234567890.-"
+        android:maxLength="8"
         android:ems="10"
-        android:hint="@string/add_city_latitude_hint_str"
+        android:hint="@string/latitude_hint_str"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +62,7 @@
         android:layout_margin="16dp"
         android:text="@string/add_btn_str"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cancel_add_city_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_longitude_edt" />
 </androidx.constraintlayout.widget.ConstraintLayout>

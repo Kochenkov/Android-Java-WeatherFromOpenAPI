@@ -19,7 +19,8 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.vkochenkov.weatherfromopenapis.R
-import com.vkochenkov.weatherfromopenapis.presentation.MainScreenViewModel
+import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.MainScreenViewModel
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //широта
     private var latitude = "1"
+
     //долгота
     private var longitude = "1"
 
@@ -39,16 +41,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var progressBar: ProgressBar
     private lateinit var btnSelectCity: Button
     private lateinit var btnGetCoorginates: Button
-    private lateinit var btnClearFields: Button
+    private lateinit var btnClearLatitude: ImageButton
+    private lateinit var btnClearLongitude: ImageButton
     private lateinit var btnGetWeather: Button
     private lateinit var btnInfo: ImageButton
 
     //прочие сущности
-    private var alertMessage: String? = null
-    private var alertButtonText: String? = null
-    private var alertTitle: String? = null
+    private var alertMessage: String = ""
+    private var alertButtonText: String = ""
+    private var alertTitle: String = ""
     private var alertIcon = 0
-
 
     //менеджер геолокации
     private var locationManager: LocationManager? = null
@@ -64,29 +66,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initObserveForViewModel() {
         viewModel.weatherLiveData.observe(this, Observer {
-            var temperatureCel = it.getCurrently().getTemperature();
-            var humidity = it.getCurrently().getHumidity();
-            var humidityPercent = humidity.toDouble() * 100;
-            var pressure = it.getCurrently().getPressure();
+            var temperatureCel = it.getCurrently().getTemperature()
+            var humidity = it.getCurrently().getHumidity()
+            var humidityPercent = humidity.toDouble() * 100
+            var pressure = it.getCurrently().getPressure()
             var pressurePa =
                 pressure.toDouble() * 100 //переводим из строки и из гекто-Паскалей в Паскили
-            var pressureMm = Math.ceil(pressurePa / 133.3); //переводим в мм.рт.ст.
-            var icon = it.getCurrently().getIcon(); //для теста
+            var pressureMm = Math.ceil(pressurePa / 133.3) //переводим в мм.рт.ст.
+            var icon = it.getCurrently().getIcon()
 
             var message =
-                "Заданная область:" + "\n" +
-                        "широта: " + it.getLatitude() + "°;" + "\n" +
-                        "долгота: " + it.getLongitude() + "°;" + "\n" +
-                        "тайм-зона: " + it.getTimezone() + "." + "\n" +
+                "Широта: " + round(it.getLatitude().toFloat()) + "°;" + "\n" +
+                        "Долгота: " + round(it.getLongitude().toFloat()) + "°;" + "\n" +
+                        "Тайм-зона: " + it.getTimezone() + "." + "\n" +
                         "\n" +
-                        "Текущая погода в заданной области:" + "\n" +
-                        "температура: " + temperatureCel + "°C;" + "\n" +
-                        "влажность: " + humidityPercent + "%;" + "\n" +
-                        "давление: " + pressureMm + "  мм.рт.ст.;" + "\n" +
-                        "скорость ветра: " + it.getCurrently().getWindSpeed() + " м/с;" + "\n" +
-                        "общий прогноз: " + it.getCurrently().getSummary() + "." + "\n";
+                        "Температура: " + round(temperatureCel.toFloat()) + "°C;" + "\n" +
+                        "Влажность: " + round(humidityPercent.toFloat()) + "%;" + "\n" +
+                        "Давление: " + round(pressureMm.toFloat()) + " мм.рт.ст.;" + "\n" +
+                        "Скорость ветра: " + round(
+                    it.getCurrently().getWindSpeed().toFloat()
+                ) + " м/с;" +
+                        "\n" +
+                        "Общий прогноз: " + it.getCurrently().getSummary() + "." + "\n";
 
-            alertTitle = "Такие дела";
+            alertTitle = "Прогноз погоды";
             alertMessage = message;
             alertButtonText = "Понятно";
             alertIcon = setIcon(icon);
@@ -101,7 +104,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             alertButtonText = "Понятно";
             alertIcon = R.drawable.eclipse;
             showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
-
             progressBar.visibility = View.GONE
         })
     }
@@ -118,18 +120,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    val paramsFromFields: Unit
-        get() {
-            latitude = latitudeField.text.toString()
-            longitude = longitudeField.text.toString()
-        }
-
     private fun getWeather() {
-        paramsFromFields
-        progressBar.visibility = View.VISIBLE
-        viewModel.getWeatherFromApi(latitude, longitude)
+        latitude = latitudeField.text.toString()
+        longitude = longitudeField.text.toString()
+        validateFieldsAndGetWeatherFromApi()
+    }
 
-        //validationFieldsAndGetWeatherFromApi();
+    private fun validateFieldsAndGetWeatherFromApi() {
+        if (latitude == "" || longitude == "") {
+            Toast.makeText(
+                applicationContext,
+                "Заполните поля с координатами",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            progressBar.visibility = View.VISIBLE
+            viewModel.getWeatherFromApi(latitude, longitude)
+        }
     }
 
     private fun setIcon(icon: String?): Int {
@@ -148,15 +155,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    //запрос на получение локации
     private fun getDeviceLocation() {
-        locationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        //запускаем получение геолокации
+        //проверяем пермишен
         if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
+                this, Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             alertTitle = "Системное сообщение"
@@ -165,37 +169,37 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             alertButtonText = "Понятно"
             alertIcon = R.drawable.flag
             showAlert(alertTitle, alertMessage, alertButtonText, alertIcon)
-            return
+        } else {
+            progressBar.visibility = View.VISIBLE
+            //устанавливаем два requestLocationUpdates
+            locationManager!!.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER,
+                1000,
+                5f,
+                locationListener
+            )
+            locationManager!!.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                1000,
+                5f,
+                locationListener
+            )
         }
-        locationManager!!.requestLocationUpdates(
-            LocationManager.NETWORK_PROVIDER,
-            1000,
-            0f,
-            locationListener
-        )
     }
 
     //лисенер геолокации
     private val locationListener: LocationListener = object : LocationListener {
         //получили ответ о локации
         override fun onLocationChanged(location: Location) {
-            if (location != null) {
-                //попадаем сюда, когда получаем ответ о местоположении
-                latitudeField.setText(location.latitude.toString())
-                longitudeField.setText(location.longitude.toString())
-                Toast.makeText(
-                    applicationContext,
-                    "Координаты девайса получены",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                //попадаем сюда, когда приходит невалидный ответ
-                alertTitle = "Что-то пошло не так"
-                alertMessage = "Некорректный ответ от сервиса. Попробуйте пожалуйста позже."
-                alertButtonText = "Понятно"
-                alertIcon = R.drawable.eclipse
-                showAlert(alertTitle, alertMessage, alertButtonText, alertIcon)
-            }
+            //попадаем сюда, когда получаем ответ о местоположении
+            latitudeField.setText(location.latitude.toString())
+            longitudeField.setText(location.longitude.toString())
+            Toast.makeText(
+                applicationContext,
+                "Координаты девайса получены",
+                Toast.LENGTH_SHORT
+            ).show()
+            progressBar.visibility = View.INVISIBLE
             //останавливаем работу requestLocationUpdates
             locationManager!!.removeUpdates(this)
         }
@@ -242,11 +246,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         alert.show()
     }
 
-    private fun cleanFields() {
-        latitudeField.setText("")
-        longitudeField.setText("")
-    }
-
     private fun openCitiesListActivity() {
         val intent = Intent(this@MainActivity, CitiesListActivity::class.java)
         startActivityForResult(intent, 100)
@@ -259,7 +258,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         toolbar = findViewById(R.id.toolbar_main)
         btnSelectCity = findViewById(R.id.btn_select_city)
         btnGetCoorginates = findViewById(R.id.btn_get_location)
-        btnClearFields = findViewById(R.id.btn_clean_fields)
+        btnClearLatitude = findViewById(R.id.btn_clear_latitude)
+        btnClearLongitude = findViewById(R.id.btn_clear_longitude)
         btnGetWeather = findViewById(R.id.btn_get_weather)
         btnInfo = findViewById(R.id.info_image_btn)
     }
@@ -267,7 +267,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun setOnClickListeners() {
         btnSelectCity.setOnClickListener(this)
         btnGetCoorginates.setOnClickListener(this)
-        btnClearFields.setOnClickListener(this)
+        btnClearLongitude.setOnClickListener(this)
+        btnClearLatitude.setOnClickListener(this)
         btnGetWeather.setOnClickListener(this)
         btnInfo.setOnClickListener(this)
     }
@@ -276,27 +277,26 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         when (view?.id) {
             R.id.btn_select_city -> openCitiesListActivity()
             R.id.btn_get_location -> getDeviceLocation()
-            R.id.btn_clean_fields -> cleanFields()
             R.id.btn_get_weather -> getWeather()
             R.id.info_image_btn -> showProgramInfo()
+            R.id.btn_clear_latitude -> latitudeField.setText("")
+            R.id.btn_clear_longitude -> longitudeField.setText("")
         }
     }
 
     private fun setTextWatcherForCoordinatesFields() {
-        val textWatcher = object : TextWatcher {
+
+        latitudeField.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(
                 charSequence: CharSequence,
                 i: Int,
                 i1: Int,
                 i2: Int
             ) {
-                //todo нужно сделать обработку для двух полей, что бы они зависили друг от друга
-                if (charSequence.isNotEmpty()){
-                    btnClearFields.visibility = View.VISIBLE
-                    btnGetWeather.visibility = View.VISIBLE
+                if (charSequence.isNotEmpty()) {
+                    btnClearLatitude.visibility = View.VISIBLE
                 } else {
-                    btnClearFields.visibility = View.GONE
-                    btnGetWeather.visibility = View.GONE
+                    btnClearLatitude.visibility = View.INVISIBLE
                 }
             }
 
@@ -309,9 +309,36 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun afterTextChanged(editable: Editable) {}
-        }
+        })
 
-        latitudeField.addTextChangedListener(textWatcher)
-        longitudeField.addTextChangedListener(textWatcher)
+        longitudeField.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+                if (charSequence.isNotEmpty()) {
+                    btnClearLongitude.visibility = View.VISIBLE
+                } else {
+                    btnClearLongitude.visibility = View.INVISIBLE
+                }
+            }
+
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+            }
+
+            override fun afterTextChanged(editable: Editable) {}
+        })
+    }
+
+    private fun round(number: Float): Float {
+        val i = 1000
+        return (number * i).roundToInt().toFloat() / i
     }
 }
