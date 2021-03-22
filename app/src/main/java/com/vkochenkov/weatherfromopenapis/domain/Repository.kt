@@ -22,7 +22,7 @@ class Repository {
     }
 
     fun getSameNameCitiesFromDb(str: String): List<City> {
-        val queryContainStr = "%"+str+"%"
+        val queryContainStr = "%$str%"
         return dao.getSameNameCities(queryContainStr)
     }
 

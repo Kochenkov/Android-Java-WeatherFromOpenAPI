@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var btnClearLongitude: ImageButton
     private lateinit var btnGetWeather: Button
     private lateinit var btnInfo: ImageButton
+    private lateinit var btnOpenMap: Button
 
     //прочие сущности
     private var alertMessage: String = ""
@@ -262,6 +263,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnClearLongitude = findViewById(R.id.btn_clear_longitude)
         btnGetWeather = findViewById(R.id.btn_get_weather)
         btnInfo = findViewById(R.id.info_image_btn)
+        btnOpenMap = findViewById(R.id.btn_open_map)
     }
 
     private fun setOnClickListeners() {
@@ -271,6 +273,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnClearLatitude.setOnClickListener(this)
         btnGetWeather.setOnClickListener(this)
         btnInfo.setOnClickListener(this)
+        btnOpenMap.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -281,7 +284,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.info_image_btn -> showProgramInfo()
             R.id.btn_clear_latitude -> latitudeField.setText("")
             R.id.btn_clear_longitude -> longitudeField.setText("")
+            R.id.btn_open_map -> openMap()
         }
+    }
+
+    private fun openMap() {
+        //todo
     }
 
     private fun setTextWatcherForCoordinatesFields() {

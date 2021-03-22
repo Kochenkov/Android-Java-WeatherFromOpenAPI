@@ -97,7 +97,7 @@
                 android:layout_margin="@dimen/quarter_main_margin"
                 android:digits="1234567890.-"
                 android:maxLength="8"
-                android:ems="10"
+                android:inputType="date"
                 android:hint="@string/latitude_hint_str"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
@@ -128,7 +128,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_open_map"
                 tools:visibility="visible" />
 
-
             <EditText
                 android:id="@+id/edt_longitude"
                 android:layout_width="220dp"
@@ -136,7 +135,7 @@
                 android:layout_margin="@dimen/quarter_main_margin"
                 android:digits="1234567890.-"
                 android:maxLength="8"
-                android:ems="10"
+                android:inputType="date"
                 android:hint="@string/longitude_hint_str"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

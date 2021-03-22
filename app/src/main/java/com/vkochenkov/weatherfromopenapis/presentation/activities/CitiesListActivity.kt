@@ -67,7 +67,7 @@ class CitiesListActivity : AppCompatActivity() {
                     setResult(Activity.RESULT_OK, intent)
                     Toast.makeText(
                         getApplicationContext(),
-                        "${city.name}", Toast.LENGTH_SHORT
+                        city.name, Toast.LENGTH_SHORT
                     ).show()
                     finish()
                 }
@@ -81,12 +81,12 @@ class CitiesListActivity : AppCompatActivity() {
                 }
             }
         }
-        cityListView!!.adapter = CityListAdapter(cityClickListener)
+        cityListView.adapter = CityListAdapter(cityClickListener)
         val dividerItemDecoration = DividerItemDecoration(
             this,
             this.resources.configuration.orientation
         )
-        cityListView!!.addItemDecoration(dividerItemDecoration)
+        cityListView.addItemDecoration(dividerItemDecoration)
     }
 
     private fun initFields() {
