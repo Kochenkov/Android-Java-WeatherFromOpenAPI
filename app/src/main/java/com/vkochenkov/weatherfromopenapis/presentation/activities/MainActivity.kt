@@ -77,15 +77,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             var message =
                 "Широта: " + round(it.getLatitude().toFloat()) + "°;" + "\n" +
-                "Долгота: " + round(it.getLongitude().toFloat()) + "°;" + "\n" +
-                "Тайм-зона: " + it.getTimezone() + "." + "\n" +
-                "\n" +
-                "Температура: " + round(temperatureCel.toFloat()) + "°C;" + "\n" +
-                "Влажность: " + round(humidityPercent.toFloat()) + "%;" + "\n" +
-                "Давление: " + round(pressureMm.toFloat()) + "  мм.рт.ст.;" + "\n" +
-                "Скорость ветра: " + round(it.getCurrently().getWindSpeed().toFloat()) + " м/с;" +
-                "\n" +
-                "Общий прогноз: " + it.getCurrently().getSummary() + "." + "\n";
+                        "Долгота: " + round(it.getLongitude().toFloat()) + "°;" + "\n" +
+                        "Тайм-зона: " + it.getTimezone() + "." + "\n" +
+                        "\n" +
+                        "Температура: " + round(temperatureCel.toFloat()) + "°C;" + "\n" +
+                        "Влажность: " + round(humidityPercent.toFloat()) + "%;" + "\n" +
+                        "Давление: " + round(pressureMm.toFloat()) + "  мм.рт.ст.;" + "\n" +
+                        "Скорость ветра: " + round(
+                    it.getCurrently().getWindSpeed().toFloat()
+                ) + " м/с;" +
+                        "\n" +
+                        "Общий прогноз: " + it.getCurrently().getSummary() + "." + "\n";
 
             alertTitle = "Прогноз погоды";
             alertMessage = message;
@@ -102,7 +104,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             alertButtonText = "Понятно";
             alertIcon = R.drawable.eclipse;
             showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
-
             progressBar.visibility = View.GONE
         })
     }
@@ -119,17 +120,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    val paramsFromFields: Unit
-        get() {
-            latitude = latitudeField.text.toString()
-            longitude = longitudeField.text.toString()
-        }
-
     private fun getWeather() {
-        paramsFromFields
-        progressBar.visibility = View.VISIBLE
-        viewModel.getWeatherFromApi(latitude, longitude)
-        //validationFieldsAndGetWeatherFromApi();
+        latitude = latitudeField.text.toString()
+        longitude = longitudeField.text.toString()
+        validationFieldsAndGetWeatherFromApi()
+    }
+
+    private fun validationFieldsAndGetWeatherFromApi() {
+        if (latitude == "" || longitude == "") {
+            Toast.makeText(
+                applicationContext,
+                "Заполните поля с координатами",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            progressBar.visibility = View.VISIBLE
+            viewModel.getWeatherFromApi(latitude, longitude)
+        }
     }
 
     private fun setIcon(icon: String?): Int {
