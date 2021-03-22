@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         "\n" +
                         "Температура: " + round(temperatureCel.toFloat()) + "°C;" + "\n" +
                         "Влажность: " + round(humidityPercent.toFloat()) + "%;" + "\n" +
-                        "Давление: " + round(pressureMm.toFloat()) + "  мм.рт.ст.;" + "\n" +
+                        "Давление: " + round(pressureMm.toFloat()) + " мм.рт.ст.;" + "\n" +
                         "Скорость ветра: " + round(
                     it.getCurrently().getWindSpeed().toFloat()
                 ) + " м/с;" +
@@ -155,15 +155,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    //запрос на получение локации
     private fun getDeviceLocation() {
-        locationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        //запускаем получение геолокации
+        //проверяем пермишен
         if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
+                this, Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             alertTitle = "Системное сообщение"
@@ -172,37 +169,37 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             alertButtonText = "Понятно"
             alertIcon = R.drawable.flag
             showAlert(alertTitle, alertMessage, alertButtonText, alertIcon)
-            return
+        } else {
+            progressBar.visibility = View.VISIBLE
+            //устанавливаем два requestLocationUpdates
+            locationManager!!.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER,
+                1000,
+                5f,
+                locationListener
+            )
+            locationManager!!.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                1000,
+                5f,
+                locationListener
+            )
         }
-        locationManager!!.requestLocationUpdates(
-            LocationManager.NETWORK_PROVIDER,
-            1000,
-            0f,
-            locationListener
-        )
     }
 
     //лисенер геолокации
     private val locationListener: LocationListener = object : LocationListener {
         //получили ответ о локации
         override fun onLocationChanged(location: Location) {
-            if (location != null) {
-                //попадаем сюда, когда получаем ответ о местоположении
-                latitudeField.setText(location.latitude.toString())
-                longitudeField.setText(location.longitude.toString())
-                Toast.makeText(
-                    applicationContext,
-                    "Координаты девайса получены",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                //попадаем сюда, когда приходит невалидный ответ
-                alertTitle = "Что-то пошло не так"
-                alertMessage = "Некорректный ответ от сервиса. Попробуйте пожалуйста позже."
-                alertButtonText = "Понятно"
-                alertIcon = R.drawable.eclipse
-                showAlert(alertTitle, alertMessage, alertButtonText, alertIcon)
-            }
+            //попадаем сюда, когда получаем ответ о местоположении
+            latitudeField.setText(location.latitude.toString())
+            longitudeField.setText(location.longitude.toString())
+            Toast.makeText(
+                applicationContext,
+                "Координаты девайса получены",
+                Toast.LENGTH_SHORT
+            ).show()
+            progressBar.visibility = View.INVISIBLE
             //останавливаем работу requestLocationUpdates
             locationManager!!.removeUpdates(this)
         }
