@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City
 import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.CitiesListViewModel
@@ -30,10 +31,10 @@ class CitiesListActivity : AppCompatActivity() {
         ViewModelProvider(this).get(CitiesListViewModel::class.java)
     }
 
-    private var toolbar: Toolbar? = null
-    private var citiesSearchField: EditText? = null
-    private var cityListView: RecyclerView? = null
-    private var addCityBtn: Button? = null
+    private lateinit var toolbar: Toolbar
+    private lateinit var citiesSearchField: EditText
+    private lateinit var cityListView: RecyclerView
+    private lateinit var addCityBtn: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,17 +46,17 @@ class CitiesListActivity : AppCompatActivity() {
 
         viewModel.getAllCitiesFromDb()
         setTextWatcherForSearchCity()
-        toolbar!!.setNavigationOnClickListener { onBackPressed() }
+        toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
     private fun initObserveForViewModel() {
         viewModel.citiesLiveData.observe(this, Observer {
-            (cityListView!!.adapter as CityListAdapter).setData(it)
+            (cityListView.adapter as CityListAdapter).setData(it)
         })
     }
 
     private fun initRecycler() {
-        cityListView!!.layoutManager = LinearLayoutManager(this)
+        cityListView.layoutManager = LinearLayoutManager(this)
         val cityClickListener: CityClickListener = object : CityClickListener {
 
             override fun onCityClickListener(city: City): View.OnClickListener {
@@ -92,14 +93,14 @@ class CitiesListActivity : AppCompatActivity() {
     }
 
     private fun setAddCityBtnClickListener() {
-        addCityBtn!!.setOnClickListener {
+        addCityBtn.setOnClickListener {
             val dialog = CityAddDialog(this@CitiesListActivity, viewModel)
             dialog.show()
         }
     }
 
     private fun setTextWatcherForSearchCity() {
-        citiesSearchField!!.addTextChangedListener(object : TextWatcher {
+        citiesSearchField.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(
                 charSequence: CharSequence,
                 i: Int,

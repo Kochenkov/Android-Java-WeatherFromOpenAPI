@@ -48,8 +48,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/quarter_main_margin"
+                android:layout_marginTop="8dp"
+                android:drawableLeft="@drawable/ic_baseline_location_city_24"
                 android:text="@string/select_city_btn_str"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view1" />
 
@@ -59,8 +62,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/quarter_main_margin"
+                android:drawableLeft="@drawable/ic_baseline_location_on_24"
                 android:text="@string/get_coordinates_btn_str"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_select_city" />
@@ -71,8 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/quarter_main_margin"
+                android:drawableLeft="@drawable/ic_baseline_map_24"
                 android:text="@string/open_map_btn_str"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_get_location" />
@@ -88,7 +91,7 @@
 
             <EditText
                 android:id="@+id/edt_latitude"
-                android:layout_width="250dp"
+                android:layout_width="220dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/quarter_main_margin"
@@ -128,7 +131,7 @@
             <EditText
                 android:id="@+id/edt_longitude"
 
-                android:layout_width="250dp"
+                android:layout_width="220dp"
                 android:layout_height="50dp"
                 android:layout_margin="@dimen/quarter_main_margin"
                 android:digits="1234567890.-"

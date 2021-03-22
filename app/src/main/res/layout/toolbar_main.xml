@@ -12,11 +12,8 @@
 
         <TextView
             android:layout_margin="@dimen/main_margin"
-            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
             android:text="@string/app_name"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -27,7 +24,6 @@
             android:id="@+id/info_image_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_margin="@dimen/half_main_margin"
             android:background="@android:drawable/ic_menu_info_details"
             app:layout_constraintBottom_toBottomOf="parent"
