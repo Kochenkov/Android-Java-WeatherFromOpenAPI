@@ -32,7 +32,6 @@ class MainScreenViewModel : ViewModel() {
                 override fun onFailure(str: String) {
                     errorMutableLiveData.postValue(str)
                 }
-
             })
     }
 }
