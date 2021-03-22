@@ -22,12 +22,10 @@
         android:layout_margin="16dp"
         android:layout_marginTop="12dp"
         android:digits="1234567890.-"
-        android:ems="10"
         android:hint="@string/longitude_hint_str"
-        android:inputType="textPersonName"
+        android:inputType="date"
         android:maxLength="8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_latitude_edt" />
 
@@ -37,10 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:digits="1234567890.-"
-        android:maxLength="8"
-        android:ems="10"
         android:hint="@string/latitude_hint_str"
-        android:inputType="textPersonName"
+        android:inputType="date"
+        android:maxLength="8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_city_name_edt" />
