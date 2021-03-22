@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.MainScreenViewModel
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //широта
     private var latitude = "1"
+
     //долгота
     private var longitude = "1"
 
@@ -45,11 +47,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var btnInfo: ImageButton
 
     //прочие сущности
-    private var alertMessage: String? = null
-    private var alertButtonText: String? = null
-    private var alertTitle: String? = null
+    private var alertMessage: String = ""
+    private var alertButtonText: String = ""
+    private var alertTitle: String = ""
     private var alertIcon = 0
-
 
     //менеджер геолокации
     private var locationManager: LocationManager? = null
@@ -65,29 +66,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initObserveForViewModel() {
         viewModel.weatherLiveData.observe(this, Observer {
-            var temperatureCel = it.getCurrently().getTemperature();
-            var humidity = it.getCurrently().getHumidity();
-            var humidityPercent = humidity.toDouble() * 100;
-            var pressure = it.getCurrently().getPressure();
+            var temperatureCel = it.getCurrently().getTemperature()
+            var humidity = it.getCurrently().getHumidity()
+            var humidityPercent = humidity.toDouble() * 100
+            var pressure = it.getCurrently().getPressure()
             var pressurePa =
                 pressure.toDouble() * 100 //переводим из строки и из гекто-Паскалей в Паскили
-            var pressureMm = Math.ceil(pressurePa / 133.3); //переводим в мм.рт.ст.
-            var icon = it.getCurrently().getIcon(); //для теста
+            var pressureMm = Math.ceil(pressurePa / 133.3) //переводим в мм.рт.ст.
+            var icon = it.getCurrently().getIcon()
 
             var message =
-                "Заданная область:" + "\n" +
-                        "широта: " + it.getLatitude() + "°;" + "\n" +
-                        "долгота: " + it.getLongitude() + "°;" + "\n" +
-                        "тайм-зона: " + it.getTimezone() + "." + "\n" +
-                        "\n" +
-                        "Текущая погода в заданной области:" + "\n" +
-                        "температура: " + temperatureCel + "°C;" + "\n" +
-                        "влажность: " + humidityPercent + "%;" + "\n" +
-                        "давление: " + pressureMm + "  мм.рт.ст.;" + "\n" +
-                        "скорость ветра: " + it.getCurrently().getWindSpeed() + " м/с;" + "\n" +
-                        "общий прогноз: " + it.getCurrently().getSummary() + "." + "\n";
+                "Широта: " + round(it.getLatitude().toFloat()) + "°;" + "\n" +
+                "Долгота: " + round(it.getLongitude().toFloat()) + "°;" + "\n" +
+                "Тайм-зона: " + it.getTimezone() + "." + "\n" +
+                "\n" +
+                "Температура: " + round(temperatureCel.toFloat()) + "°C;" + "\n" +
+                "Влажность: " + round(humidityPercent.toFloat()) + "%;" + "\n" +
+                "Давление: " + round(pressureMm.toFloat()) + "  мм.рт.ст.;" + "\n" +
+                "Скорость ветра: " + round(it.getCurrently().getWindSpeed().toFloat()) + " м/с;" +
+                "\n" +
+                "Общий прогноз: " + it.getCurrently().getSummary() + "." + "\n";
 
-            alertTitle = "Такие дела";
+            alertTitle = "Прогноз погоды";
             alertMessage = message;
             alertButtonText = "Понятно";
             alertIcon = setIcon(icon);
@@ -129,7 +129,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         paramsFromFields
         progressBar.visibility = View.VISIBLE
         viewModel.getWeatherFromApi(latitude, longitude)
-
         //validationFieldsAndGetWeatherFromApi();
     }
 
@@ -332,5 +331,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun afterTextChanged(editable: Editable) {}
         })
+    }
+
+    private fun round(number: Float): Float {
+        val i = 1000
+        return (number * i).roundToInt().toFloat() / i
     }
 }
