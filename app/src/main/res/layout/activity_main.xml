@@ -96,6 +96,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/quarter_main_margin"
                 android:digits="1234567890.-"
+                android:maxLength="8"
                 android:ems="10"
                 android:hint="@string/latitude_hint_str"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -130,11 +131,11 @@
 
             <EditText
                 android:id="@+id/edt_longitude"
-
                 android:layout_width="220dp"
                 android:layout_height="50dp"
                 android:layout_margin="@dimen/quarter_main_margin"
                 android:digits="1234567890.-"
+                android:maxLength="8"
                 android:ems="10"
                 android:hint="@string/longitude_hint_str"
                 app:layout_constraintEnd_toEndOf="parent"

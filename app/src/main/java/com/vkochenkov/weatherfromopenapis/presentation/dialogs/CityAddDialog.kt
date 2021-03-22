@@ -16,9 +16,9 @@ class CityAddDialog(
 ) :
     Dialog(context) {
 
-    private var cityNameEdt: EditText? = null
-    private var latitudeEdt: EditText? = null
-    private var longitudeEdt: EditText? = null
+    private lateinit var cityNameEdt: EditText
+    private lateinit var latitudeEdt: EditText
+    private lateinit var longitudeEdt: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,26 +26,36 @@ class CityAddDialog(
         initFields()
 
         findViewById<View>(R.id.apply_add_city_btn).setOnClickListener {
-
-            val city = City(
-                cityNameEdt?.getText().toString(),
-                latitudeEdt?.getText().toString(),
-                longitudeEdt?.getText().toString()
-            )
-
-            viewModel.insertCityToDb(city)
-
-            Toast.makeText(
-                context,
-                "${city.name} добавлен в список", Toast.LENGTH_SHORT
-            ).show()
-
-            onBackPressed()
+            validateFieldsAndAddCity()
         }
 
         findViewById<View>(R.id.cancel_add_city_btn).setOnClickListener {
             onBackPressed()
         }
+    }
+
+    private fun validateFieldsAndAddCity() {
+        val name = cityNameEdt.getText().toString()
+        val latitude =  latitudeEdt.getText().toString()
+        val longitude = longitudeEdt.getText().toString()
+
+        var str: String
+
+        if (name!=""&& latitude!="" && longitude!= "") {
+            val city = City(
+                name,
+                latitude,
+                longitude
+            )
+
+            viewModel.insertCityToDb(city)
+            str = "${city.name} добавлен в список"
+            onBackPressed()
+
+        } else {
+            str = "Заполните все поля!"
+        }
+        Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
     }
 
     private fun initFields() {

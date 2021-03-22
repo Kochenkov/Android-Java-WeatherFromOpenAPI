@@ -123,10 +123,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun getWeather() {
         latitude = latitudeField.text.toString()
         longitude = longitudeField.text.toString()
-        validationFieldsAndGetWeatherFromApi()
+        validateFieldsAndGetWeatherFromApi()
     }
 
-    private fun validationFieldsAndGetWeatherFromApi() {
+    private fun validateFieldsAndGetWeatherFromApi() {
         if (latitude == "" || longitude == "") {
             Toast.makeText(
                 applicationContext,
