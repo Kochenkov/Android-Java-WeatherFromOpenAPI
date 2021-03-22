@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City
 import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.CitiesListViewModel
@@ -23,6 +24,7 @@ class CityAddDialog(
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_add_city)
         initFields()
+
         findViewById<View>(R.id.apply_add_city_btn).setOnClickListener {
 
             val city = City(
@@ -32,8 +34,15 @@ class CityAddDialog(
             )
 
             viewModel.insertCityToDb(city)
+
+            Toast.makeText(
+                context,
+                "${city.name} добавлен в список", Toast.LENGTH_SHORT
+            ).show()
+
             onBackPressed()
         }
+
         findViewById<View>(R.id.cancel_add_city_btn).setOnClickListener {
             onBackPressed()
         }

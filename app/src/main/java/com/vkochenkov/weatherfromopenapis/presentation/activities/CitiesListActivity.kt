@@ -7,8 +7,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.View.OnLongClickListener
-import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
@@ -19,11 +19,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City
-import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.CitiesListViewModel
 import com.vkochenkov.weatherfromopenapis.presentation.dialogs.CityAddDialog
 import com.vkochenkov.weatherfromopenapis.presentation.dialogs.CityDeleteDialog
 import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityClickListener
 import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityListAdapter
+import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.CitiesListViewModel
 
 class CitiesListActivity : AppCompatActivity() {
 
@@ -65,6 +65,10 @@ class CitiesListActivity : AppCompatActivity() {
                     intent.putExtra("latitude", city.latitude);
                     intent.putExtra("longitude", city.longitude);
                     setResult(Activity.RESULT_OK, intent)
+                    Toast.makeText(
+                        getApplicationContext(),
+                        "${city.name}", Toast.LENGTH_SHORT
+                    ).show()
                     finish()
                 }
             }
