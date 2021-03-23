@@ -15,5 +15,5 @@
     <string name="delete_dialog_text_str">Вы уверены, что хотите удалить выбранный элемент?</string>
     <string name="delete_btn_str">Удалить</string>
     <string name="open_map_btn_str">Выбрать на карте</string>
-    <string name="main_tv_str">Узнайте текущую погоду в любом месте планеты. Введите координаты вручную, либо выбирете один из способов ниже:</string>
+    <string name="main_tv_str">Узнайте текущую погоду в любом месте планеты. Введите координаты вручную, либо выберите один из способов ниже.</string>
 </resources>

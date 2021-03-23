@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //широта
     private var latitude = "1"
+
     //долгота
     private var longitude = "1"
 
@@ -98,8 +99,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             alertButtonText = "Понятно";
             alertIcon = setIcon(icon);
             showAlert(alertTitle, alertMessage, alertButtonText, alertIcon)
-
-            progressBar.visibility = View.GONE
+            progressBar.visibility = View.INVISIBLE
         })
 
         viewModel.errorLiveData.observe(this, Observer {
@@ -240,7 +240,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         builder.setTitle(alertTitle)
             .setMessage(alertMessage)
             .setIcon(alertIcon)
-            .setCancelable(false)
+            .setCancelable(true)
             .setNegativeButton(
                 alertButtonText
             ) { dialog, id -> dialog.cancel() }

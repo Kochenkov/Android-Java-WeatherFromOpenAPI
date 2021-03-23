@@ -9,9 +9,9 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@drawable/celsius"
+        android:icon="@drawable/ic_main"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/celsius"
+        android:roundIcon="@drawable/ic_main"
         android:supportsRtl="true"
         android:theme="@style/Theme.TestColors"
         tools:ignore="GoogleAppIndexingWarning">

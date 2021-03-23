@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.View.OnLongClickListener
 import android.widget.EditText
+import android.widget.LinearLayout.VERTICAL
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -84,7 +85,7 @@ class CitiesListActivity : AppCompatActivity() {
         cityListView.adapter = CityListAdapter(cityClickListener)
         val dividerItemDecoration = DividerItemDecoration(
             this,
-            this.resources.configuration.orientation
+            VERTICAL
         )
         cityListView.addItemDecoration(dividerItemDecoration)
     }
