@@ -1,6 +1,7 @@
 package com.vkochenkov.weatherfromopenapis.presentation.activities
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,6 +12,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -30,7 +32,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //широта
     private var latitude = "1"
-
     //долгота
     private var longitude = "1"
 
@@ -45,7 +46,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var btnClearLongitude: ImageButton
     private lateinit var btnGetWeather: Button
     private lateinit var btnInfo: ImageButton
-    private lateinit var btnOpenMap: Button
 
     //прочие сущности
     private var alertMessage: String = ""
@@ -54,7 +54,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var alertIcon = 0
 
     //менеджер геолокации
-    private var locationManager: LocationManager? = null
+    private lateinit var locationManager: LocationManager
+    private lateinit var inputMethodManager: InputMethodManager
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -131,7 +134,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (latitude == "" || longitude == "") {
             Toast.makeText(
                 applicationContext,
-                "Заполните поля с координатами",
+                "Заполните поля с координатами!",
                 Toast.LENGTH_SHORT
             ).show()
         } else {
@@ -157,8 +160,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun getDeviceLocation() {
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
         //проверяем пермишен
         if (ActivityCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION
@@ -176,13 +177,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             locationManager!!.requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER,
                 1000,
-                5f,
+                10f,
                 locationListener
             )
             locationManager!!.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 1000,
-                5f,
+                10f,
                 locationListener
             )
         }
@@ -253,6 +254,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initFields() {
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+
         longitudeField = findViewById(R.id.edt_longitude)
         latitudeField = findViewById(R.id.edt_latitude)
         progressBar = findViewById(R.id.progress_bar)
@@ -263,7 +267,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnClearLongitude = findViewById(R.id.btn_clear_longitude)
         btnGetWeather = findViewById(R.id.btn_get_weather)
         btnInfo = findViewById(R.id.info_image_btn)
-        btnOpenMap = findViewById(R.id.btn_open_map)
     }
 
     private fun setOnClickListeners() {
@@ -273,7 +276,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnClearLatitude.setOnClickListener(this)
         btnGetWeather.setOnClickListener(this)
         btnInfo.setOnClickListener(this)
-        btnOpenMap.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -284,12 +286,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.info_image_btn -> showProgramInfo()
             R.id.btn_clear_latitude -> latitudeField.setText("")
             R.id.btn_clear_longitude -> longitudeField.setText("")
-            R.id.btn_open_map -> openMap()
         }
-    }
-
-    private fun openMap() {
-        //todo
+        hideSoftKeyboard()
     }
 
     private fun setTextWatcherForCoordinatesFields() {
@@ -348,5 +346,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun round(number: Float): Float {
         val i = 1000
         return (number * i).roundToInt().toFloat() / i
+    }
+
+    private fun hideSoftKeyboard() {
+        inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 }

@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.data.db.entities.City
-import java.util.*
 
 class CityListAdapter(var cityClickListener: CityClickListener) : RecyclerView.Adapter<CityViewHolder>() {
 

@@ -43,9 +43,9 @@ class CitiesListActivity : AppCompatActivity() {
         initRecycler()
         setAddCityBtnClickListener()
         initObserveForViewModel()
+        setTextWatcherForSearchCity()
 
         viewModel.getAllCitiesFromDb()
-        setTextWatcherForSearchCity()
         toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
@@ -107,18 +107,18 @@ class CitiesListActivity : AppCompatActivity() {
         citiesSearchField.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(
                 charSequence: CharSequence,
-                i: Int,
-                i1: Int,
-                i2: Int
+                start: Int,
+                count: Int,
+                after: Int
             ) {
                 viewModel.getSameNameCitiesFromDb(charSequence.toString())
             }
 
             override fun beforeTextChanged(
                 charSequence: CharSequence,
-                i: Int,
-                i1: Int,
-                i2: Int
+                start: Int,
+                count: Int,
+                after: Int
             ) {
             }
 
