@@ -24,7 +24,6 @@ import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.MainScreenViewModel
 import kotlin.math.roundToInt
 
-
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val viewModel: MainScreenViewModel by lazy {
@@ -33,7 +32,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //широта
     private var latitude = "1"
-
     //долгота
     private var longitude = "1"
 
