@@ -41,14 +41,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-
             <Button
                 android:id="@+id/btn_select_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/quarter_main_margin"
-                android:layout_marginTop="8dp"
+                android:layout_marginLeft="@dimen/main_margin"
+                android:layout_marginTop="@dimen/quarter_main_margin"
+                android:layout_marginRight="@dimen/main_margin"
+                android:layout_marginBottom="@dimen/quarter_main_margin"
                 android:drawableLeft="@drawable/ic_baseline_location_city_24"
                 android:text="@string/select_city_btn_str"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -61,25 +62,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/quarter_main_margin"
+                android:layout_marginLeft="@dimen/main_margin"
+                android:layout_marginTop="@dimen/quarter_main_margin"
+                android:layout_marginRight="@dimen/main_margin"
+                android:layout_marginBottom="@dimen/quarter_main_margin"
                 android:drawableLeft="@drawable/ic_baseline_location_on_24"
                 android:text="@string/get_coordinates_btn_str"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_select_city" />
-
-            <Button
-                android:id="@+id/btn_open_map"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/quarter_main_margin"
-                android:drawableLeft="@drawable/ic_baseline_map_24"
-                android:text="@string/open_map_btn_str"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_get_location" />
-
 
             <View
                 android:id="@+id/view2"
@@ -87,7 +78,7 @@
                 android:layout_height="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_open_map" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_get_location" />
 
             <EditText
                 android:id="@+id/edt_latitude"
@@ -96,9 +87,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/quarter_main_margin"
                 android:digits="1234567890.-"
-                android:maxLength="8"
-                android:inputType="date"
                 android:hint="@string/latitude_hint_str"
+                android:inputType="date"
+                android:maxLength="8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
@@ -122,10 +113,10 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/main_margin"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/edt_longitude"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_open_map"
+                app:layout_constraintTop_toTopOf="@+id/edt_latitude"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_longitude"
                 tools:visibility="visible" />
 
             <EditText
@@ -134,9 +125,9 @@
                 android:layout_height="50dp"
                 android:layout_margin="@dimen/quarter_main_margin"
                 android:digits="1234567890.-"
-                android:maxLength="8"
-                android:inputType="date"
                 android:hint="@string/longitude_hint_str"
+                android:inputType="date"
+                android:maxLength="8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edt_latitude" />
@@ -160,13 +151,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edt_longitude" />
 
-
             <Button
                 android:id="@+id/btn_get_weather"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/quarter_main_margin"
+                android:layout_marginLeft="@dimen/main_margin"
+                android:layout_marginTop="@dimen/quarter_main_margin"
+                android:layout_marginRight="@dimen/main_margin"
+                android:layout_marginBottom="@dimen/quarter_main_margin"
                 android:backgroundTint="?attr/colorSecondaryVariant"
                 android:text="@string/get_weather_btn_str"
                 app:layout_constraintBottom_toBottomOf="parent"

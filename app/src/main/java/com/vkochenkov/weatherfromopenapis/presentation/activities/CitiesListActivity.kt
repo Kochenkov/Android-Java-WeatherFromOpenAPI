@@ -24,6 +24,7 @@ import com.vkochenkov.weatherfromopenapis.presentation.dialogs.CityDeleteDialog
 import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityClickListener
 import com.vkochenkov.weatherfromopenapis.presentation.recycler.CityListAdapter
 import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.CitiesListViewModel
+import java.util.concurrent.Executors
 
 class CitiesListActivity : AppCompatActivity() {
 
@@ -43,9 +44,9 @@ class CitiesListActivity : AppCompatActivity() {
         initRecycler()
         setAddCityBtnClickListener()
         initObserveForViewModel()
+        setTextWatcherForSearchCity()
 
         viewModel.getAllCitiesFromDb()
-        setTextWatcherForSearchCity()
         toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 

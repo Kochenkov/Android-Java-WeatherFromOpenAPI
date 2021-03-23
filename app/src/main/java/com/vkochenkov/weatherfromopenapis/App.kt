@@ -1,6 +1,7 @@
 package com.vkochenkov.weatherfromopenapis
 
 import android.app.Application
+import android.content.ContentValues
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -11,8 +12,6 @@ import com.vkochenkov.weatherfromopenapis.data.weather_api.WeatherApiService.Com
 import com.vkochenkov.weatherfromopenapis.domain.Repository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.Executors
-
 
 class App : Application() {
 
@@ -44,17 +43,18 @@ class App : Application() {
             .fallbackToDestructiveMigration()
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
-                    super.onCreate(db)
-                    //pre-populate data
-                    Executors.newSingleThreadExecutor().execute {
-                        instance?.let {
-                            it.database.citiesDao().insertCities(CitiesArrayData.getCitiesArrayList())
-                        }
+                    //при самом первом запуске, добавляем города в базу из списка
+                    for (i in 0 until CitiesArrayData.getCitiesArrayList().size) {
+                        val city = CitiesArrayData.getCitiesArrayList().get(i)
+                        val contentValues = ContentValues()
+                        contentValues.put("name", city.name);
+                        contentValues.put("latitude", city.latitude);
+                        contentValues.put("longitude", city.longitude);
+                        db.insert("Cities", 0, contentValues)
                     }
                 }
             })
             .allowMainThreadQueries()
             .build()
     }
-
 }
