@@ -15,15 +15,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_city_list"
-        android:layout_width="386dp"
-        android:layout_height="677dp"
-        android:layout_marginLeft="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/main_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/toolbar_cities_list"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_cities_list"
-        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/item_city" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
