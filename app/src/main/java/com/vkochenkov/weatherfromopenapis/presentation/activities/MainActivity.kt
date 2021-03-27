@@ -26,7 +26,6 @@ import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.MainScreenViewModel
 import kotlin.math.roundToInt
 
-
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val viewModel: MainScreenViewModel by lazy {
@@ -51,12 +50,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var btnGetWeather: Button
     private lateinit var btnInfo: ImageButton
 
-    //прочие сущности
-    private var alertMessage: String = ""
-    private var alertButtonText: String = ""
-    private var alertTitle: String = ""
-    private var alertIcon = 0
-
     //менеджер геолокации
     private lateinit var locationManager: LocationManager
     private lateinit var inputMethodManager: InputMethodManager
@@ -73,17 +66,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initObserveForViewModel() {
-        viewModel.weatherLiveData.observe(this, Observer {
-            var temperatureCel = it.getCurrently().getTemperature()
-            var humidity = it.getCurrently().getHumidity()
-            var humidityPercent = humidity.toDouble() * 100
-            var pressure = it.getCurrently().getPressure()
-            var pressurePa =
-                pressure.toDouble() * 100 //переводим из строки и из гекто-Паскалей в Паскили
-            var pressureMm = Math.ceil(pressurePa / 133.3) //переводим в мм.рт.ст.
-            var icon = it.getCurrently().getIcon()
 
-            var message =
+        viewModel.weatherLiveData.observe(this, Observer {
+            val temperatureCel = it.getCurrently().getTemperature()
+            val humidity = it.getCurrently().getHumidity()
+            val humidityPercent = humidity.toDouble() * 100
+            val pressure = it.getCurrently().getPressure()
+            val pressurePa =
+                pressure.toDouble() * 100 //переводим из строки и из гекто-Паскалей в Паскили
+            val pressureMm = Math.ceil(pressurePa / 133.3) //переводим в мм.рт.ст.
+            val icon = it.getCurrently().getIcon()
+
+            val message =
                 "Широта: " + round(it.getLatitude().toFloat()) + "°;" + "\n" +
                         "Долгота: " + round(it.getLongitude().toFloat()) + "°;" + "\n" +
                         "Тайм-зона: " + it.getTimezone() + "." + "\n" +
@@ -97,21 +91,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         "\n" +
                         "Общий прогноз: " + it.getCurrently().getSummary() + "." + "\n";
 
-            alertTitle = "Прогноз погоды";
-            alertMessage = message;
-            alertButtonText = "Понятно";
-            alertIcon = setIcon(icon);
-            showAlert(alertTitle, alertMessage, alertButtonText, alertIcon)
+
+            val alertBuilder = AlertDialog.Builder(this@MainActivity)
+            alertBuilder.setTitle("Прогноз погоды")
+                .setMessage(message)
+                .setIcon(choseIconFromString(icon))
+                .setCancelable(true)
+                .setNegativeButton("Понятно") { dialog, id -> dialog.cancel() }
+            val alert = alertBuilder.create()
+            alert.show()
+
             progressBar.visibility = View.INVISIBLE
         })
 
         viewModel.errorLiveData.observe(this, Observer {
-            alertTitle = "Похоже, что-то пошло не так";
-            alertMessage = it
-            alertButtonText = "Понятно";
-            alertIcon = R.drawable.eclipse;
-            showAlert(alertTitle, alertMessage, alertButtonText, alertIcon);
-            progressBar.visibility = View.GONE
+
+            val alertBuilder = AlertDialog.Builder(this@MainActivity)
+            alertBuilder.setTitle("Похоже, что-то пошло не так")
+                .setMessage(it)
+                .setIcon(R.drawable.eclipse)
+                .setCancelable(true)
+                .setNegativeButton("Понятно") { dialog, id -> dialog.cancel() }
+            val alert = alertBuilder.create()
+            alert.show()
+
+            progressBar.visibility = View.INVISIBLE
         })
     }
 
@@ -146,7 +150,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun setIcon(icon: String?): Int {
+    private fun choseIconFromString(icon: String?): Int {
         return when (icon) {
             "clear-day" -> R.drawable.clear_day
             "clear-night" -> R.drawable.clear_night
@@ -168,10 +172,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 this, Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            val message = "Пожалуйста, зайдите в настройки телефона, и включите разрешение геолокации для этого приложения."
 
             val alertBuilder = AlertDialog.Builder(this@MainActivity)
             alertBuilder.setTitle("Системное сообщение")
-                .setMessage("Пожалуйста, зайдите в настройки телефона, и включите разрешение геолокации для этого приложения.")
+                .setMessage(message)
                 .setIcon(R.drawable.flag)
                 .setCancelable(true)
                 .setNegativeButton("Понятно") { dialog, id -> dialog.cancel() }
@@ -235,33 +240,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showProgramInfo() {
-        alertTitle = "О программе"
-        alertMessage =
+        val message =
             """Программа позволяет получить текущую погоду для любого места, нужно только указать координаты широты и долготы. Это можно сделать одним из трёх способов: 
  - выбрать город из списка; 
  - получить текущие координаты телефона; 
  - прописать координаты вручную."""
-        alertButtonText = "Понятно"
-        alertIcon = R.drawable.clear_day
-        showAlert(alertTitle, alertMessage, alertButtonText, alertIcon)
-    }
 
-    private fun showAlert(
-        alertTitle: String?,
-        alertMessage: String?,
-        alertButtonText: String?,
-        alertIcon: Int
-    ) {
-        val builder =
-            AlertDialog.Builder(this@MainActivity)
-        builder.setTitle(alertTitle)
-            .setMessage(alertMessage)
-            .setIcon(alertIcon)
+        val alertBuilder = AlertDialog.Builder(this@MainActivity)
+        alertBuilder.setTitle("О программе")
+            .setMessage(message)
+            .setIcon(R.drawable.clear_day)
             .setCancelable(true)
-            .setNegativeButton(
-                alertButtonText
-            ) { dialog, id -> dialog.cancel() }
-        val alert = builder.create()
+            .setNegativeButton("Понятно") { dialog, id -> dialog.cancel() }
+        val alert = alertBuilder.create()
         alert.show()
     }
 
