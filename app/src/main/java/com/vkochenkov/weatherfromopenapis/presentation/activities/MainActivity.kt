@@ -8,7 +8,9 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -23,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.vkochenkov.weatherfromopenapis.R
 import com.vkochenkov.weatherfromopenapis.presentation.viewmodel.MainScreenViewModel
 import kotlin.math.roundToInt
+
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -165,12 +168,26 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 this, Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            alertTitle = "Системное сообщение"
-            alertMessage =
-                "Пожалуйста, зайдите в настройки телефона, и включите разрешение геолокации для этого приложения."
-            alertButtonText = "Понятно"
-            alertIcon = R.drawable.flag
-            showAlert(alertTitle, alertMessage, alertButtonText, alertIcon)
+
+            val alertBuilder = AlertDialog.Builder(this@MainActivity)
+            alertBuilder.setTitle("Системное сообщение")
+                .setMessage("Пожалуйста, зайдите в настройки телефона, и включите разрешение геолокации для этого приложения.")
+                .setIcon(R.drawable.flag)
+                .setCancelable(true)
+                .setNegativeButton("Понятно") { dialog, id -> dialog.cancel() }
+                .setPositiveButton("Настройки") { dialog, it ->
+                    val intent =
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    val uri =
+                        Uri.fromParts("package", packageName, null)
+                    intent.data = uri
+                    startActivity(intent)
+                    dialog.cancel()
+                }
+            val alert = alertBuilder.create()
+            alert.show()
+
         } else {
             progressBar.visibility = View.VISIBLE
             //устанавливаем два requestLocationUpdates
@@ -203,7 +220,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             ).show()
             progressBar.visibility = View.INVISIBLE
             //останавливаем работу requestLocationUpdates
-            locationManager!!.removeUpdates(this)
+            locationManager.removeUpdates(this)
         }
 
         override fun onStatusChanged(
