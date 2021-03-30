@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_main"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TestColors"
+        android:theme="@style/Theme.WeatherAppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".presentation.activities.CitiesListActivity"
